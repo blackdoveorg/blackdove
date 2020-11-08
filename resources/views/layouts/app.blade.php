@@ -13,16 +13,39 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
-        .map {
-            width: 100%;
-            height:400px;
-        }
+            .map {
+                width: 100%;
+                height:400px;
+            }
+            #marker {
+                width: 20px;
+                height: 20px;
+                border: 1px solid #088;
+                border-radius: 10px;
+                background-color: #0FF;
+                opacity: 0.5;
+            }
+            #vienna {
+                text-decoration: none;
+                color: white;
+                font-size: 11pt;
+                font-weight: bold;
+                text-shadow: black 0.1em 0.1em 0.2em;
+            }
+            .popover-body {
+                min-width: 276px;
+            }
         </style>
         @livewireStyles
 
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
-        
+        <script src="https://unpkg.com/elm-pep"></script>
+        <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+        <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -44,6 +67,6 @@
         @stack('modals')
 
         @livewireScripts
-        <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
     </body>
+    <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
 </html>

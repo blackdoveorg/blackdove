@@ -1,6 +1,6 @@
 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
     <div class="mt-8 text-2xl">
-        We hear you here.
+        We hear you.
     </div>
     <div class="mt-8 text-xl">
         Use these tools to exercise your political influence.
@@ -10,11 +10,21 @@
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         <div id="map" class="map"></div>
+        <div style="display: none;">
+            <div id="marker" title="Marker"></div>
+            <!-- Popup -->
+            <div id="popup" title="Welcome to OpenLayers"></div>
+        </div>
     </div>
 
     <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l">
         <div class="flex items-center">
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">If you could protest anywhere, where would it be and what would it be about?</div>
+            <form method="POST" action="/profile">
+            {{ Form::open(array('url' => '')) }}
+            {{ Form::text('username') }}
+            {{ Form::close() }}
+            </form>
         </div>
 
         <div class="ml-4">
