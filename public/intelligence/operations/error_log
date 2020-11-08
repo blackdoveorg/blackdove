@@ -1,0 +1,13 @@
+[10-May-2020 01:49:38 America/Chicago] PHP Fatal error:  Class 'DaveChild\TextStatistics\TextStatistics' not found in /home2/mdciubal/blackdove.org/intelligence/planning/index.php on line 8
+[10-May-2020 01:53:31 America/Chicago] PHP Fatal error:  Class 'DaveChild\TextStatistics\TextStatistics' not found in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 8
+[10-May-2020 01:53:49 America/Chicago] PHP Fatal error:  Call to a member function fleschKincaidReadingEase() on null in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 51
+[10-May-2020 01:55:00 America/Chicago] PHP Fatal error:  Call to a member function fleschKincaidReadingEase() on null in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 51
+[10-May-2020 03:31:03 America/Chicago] PHP Warning:  require(connect.php): failed to open stream: No such file or directory in /home2/mdciubal/blackdove.org/intelligence/operations/protest.php on line 2
+[10-May-2020 03:31:03 America/Chicago] PHP Warning:  require(connect.php): failed to open stream: No such file or directory in /home2/mdciubal/blackdove.org/intelligence/operations/protest.php on line 2
+[10-May-2020 03:31:03 America/Chicago] PHP Fatal error:  require(): Failed opening required 'connect.php' (include_path='.:/opt/php56/lib/php') in /home2/mdciubal/blackdove.org/intelligence/operations/protest.php on line 2
+[10-May-2020 03:31:39 America/Chicago] PHP Warning:  include(/home2/mdciubal/blackdove.org/intelligence/operations/vendor/autoload.php): failed to open stream: No such file or directory in /home2/mdciubal/blackdove.org/intelligence/operations/protest.php on line 3
+[10-May-2020 03:31:39 America/Chicago] PHP Warning:  include(): Failed opening '/home2/mdciubal/blackdove.org/intelligence/operations/vendor/autoload.php' for inclusion (include_path='.:/opt/php56/lib/php') in /home2/mdciubal/blackdove.org/intelligence/operations/protest.php on line 3
+[10-May-2020 11:54:16 America/Chicago] PHP Parse error:  syntax error, unexpected '=', expecting ',' or ';' in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 57
+[10-May-2020 13:13:21 America/Chicago] PHP Warning:  Illegal string offset 'id' in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 48
+[10-May-2020 13:13:21 America/Chicago] PHP Warning:  Illegal string offset 'id' in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 48
+[10-May-2020 13:13:21 America/Chicago] PHP Warning:  Illegal string offset 'id' in /home2/mdciubal/blackdove.org/intelligence/operations/index.php on line 48

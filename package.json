@@ -19,5 +19,8 @@
         "resolve-url-loader": "^3.1.0",
         "tailwindcss": "^1.9.6",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "ol": "^6.4.3"
     }
 }
