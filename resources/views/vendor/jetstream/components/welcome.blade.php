@@ -17,9 +17,9 @@
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">If you could protest anywhere, where would it be and what would it be about?</div>
         </div>
 
-        <div class="ml-12">
+        <div class="ml-4">
             <div class="mt-2 text-sm text-gray-500">
-                
+                Use this to signal the most important political topic for you.
             </div>
         </div>
     </div>
