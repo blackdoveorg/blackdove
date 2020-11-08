@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Black Dove</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -16,7 +16,7 @@
 
         <style>
             body {
-                font-family: 'Nunito';
+                font-family: 'Open Sans', sans-serif;
             }
         </style>
     </head>
@@ -41,6 +41,7 @@
                     <div class="md:flex-shrink-0">
                         <center><img class="md:w-56" src="{{ asset('img/blackdove.svg') }}" width="250" alt="Black Dove"></center>
                     </div>
+                    <p class="text-6xl">On Earth, as it is in Heaven.</p>
                 </div>
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
