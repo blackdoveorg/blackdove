@@ -47517,6 +47517,9 @@ map.on("pointermove", function (evt) {
   this.getTargetElement().style.cursor = 'pointer';
 });
 map.on('click', function (evt) {
+  var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_10__["toLonLat"])(evt.coordinate);
+  var latitude = coordinates[1];
+  var longitude = coordinates[0];
   map.getLayers().forEach(function (layer) {
     if (layer && layer.get('name') === 'establishment') {
       map.removeLayer(layer);
@@ -47530,6 +47533,8 @@ map.on('click', function (evt) {
       })]
     })
   });
+  $('#latitude').val(latitude);
+  $('#longitude').val(longitude);
   map.addLayer(establishment);
 });
 

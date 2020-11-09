@@ -10,9 +10,11 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Overpass', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                'olive': '#808000',
             }
-            
         }
     },
 

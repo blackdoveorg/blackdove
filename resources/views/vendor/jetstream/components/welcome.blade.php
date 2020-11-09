@@ -5,19 +5,19 @@
 </div>
 
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
-    <div class="p-6">
-        <div id="map" class="map"></div>
+    <div class="flex p-6">
+        <div id="map" class="map self-center"></div>
     </div>
 
     <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l">
         <div class="flex items-center">
-            <div class="text-lg text-gray-600 leading-7 font-semibold">An <term>establishment</term> signals the most critical issue for you.<br/>If you could protest anywhere, where would it be and what would it be about?</div>
+            <div class="text-lg text-gray-600 leading-7 font-semibold"><term>Establishment</term> signals your defining issue.</div>
         </div>
         <div class="flex items-center">
-            <div class="text-MD text-gray-600 leading-7 font-semibold">Think of an area where the homeless need attention, or a factory that is polluting the area nearby.</div>
+            <div class="text-md text-gray-600 leading-7 font-semibold">Click on the map where there are issues that are important to you.</div>
         </div>
         <div class="flex items-center">
-            <div class="text-sm text-gray-600 leading-7 font-semibold">Use the map, and click an area to set the location of your issue.</div>
+            <div class="text-md text-gray-600 leading-7 font-semibold">For the greatest impact, it's best to establish daily. Only establishments within 24 hours are visible to other users.</div>
         </div>
         <div class="">
             <div class="text-lg text-gray-500">

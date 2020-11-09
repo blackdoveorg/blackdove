@@ -15,7 +15,7 @@
         <style>
             .map {
                 width: 100%;
-                height: 500px;
+                height: 300px;
             }
             #marker {
                 width: 20px;
@@ -59,4 +59,5 @@
         @livewireScripts
     </body>
     <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/establishment.js') }}"></script>
 </html>

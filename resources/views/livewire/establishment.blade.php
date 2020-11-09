@@ -1,17 +1,9 @@
 <form class="w-full max-w-lg" wire:submit.prevent="submit">
-    <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label for="latitude">
-                Latitude
-            </label>
-            <input class="form-control" id="latitude"  readonly wire:model="latitude">
-        </div>
-        <div class="w-full md:w-1/2 px-3">
-            <label for="longitude">
-                Longitude
-            </label>
-            <input class="form-control" id="longitude" readonly wire:model="longitude">
-        </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="latitude" hidden=true wire:model="latitude">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="longitude" hidden=true wire:model="longitude">
     </div>
     <div class="form-group">
         <input type="text" class="form-control" id="north_latitude" hidden=true wire:model="north_latitude">
@@ -35,5 +27,5 @@
         @error('body') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
   
-    <button type="submit" class="btn btn-primary">Protest</button>
+    <button type="submit" class="bg-olive text-white py-2 px-4 rounded" id="establish">Establish</button>
 </form>
