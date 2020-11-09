@@ -4,15 +4,19 @@ import OSM from 'ol/source/OSM';
 import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
 import View from 'ol/View';
+import Feature from 'ol/Feature'
+import SourceVector from 'ol/source/Vector'
+import LayerVector from 'ol/layer/Vector'
+import Point from 'ol/geom/Point'
 import {fromLonLat, toLonLat} from 'ol/proj';
 import {toStringHDMS} from 'ol/coordinate';
 
-var layer = new TileLayer({
+var tLayer = new TileLayer({
     source: new OSM(),
 });
 
 var map = new Map({
-    layers: [layer],
+    layers: [tLayer],
     target: 'map',
     view: new View({
         center: [0, 0],
@@ -20,44 +24,25 @@ var map = new Map({
     }),
 });
 
-var pos = fromLonLat([16.3725, 48.208889]);
-
-// Popup showing the position the user clicked
-var popup = new Overlay({
-    element: document.getElementById('popup'),
+map.on("pointermove", function (evt) {
+    this.getTargetElement().style.cursor = 'pointer';
 });
-
-map.addOverlay(popup);
-
-// Vienna marker
-var marker = new Overlay({
-    position: pos,
-    positioning: 'center-center',
-    element: document.getElementById('marker'),
-    stopEvent: false,
-});
-
-map.addOverlay(marker);
 
 map.on('click', function (evt) {
-    var element = popup.getElement();
-    var coordinate = evt.coordinate;
-    var hdms = toStringHDMS(toLonLat(coordinate));
-
-    var coordinates = toLonLat(evt.coordinate);
-    var latitude = coordinates[1];
-    var longitude = coordinates[0];
-
-
-
-    $(element).popover('dispose');
-    popup.setPosition(coordinate);
-    $(element).popover({
-        container: element,
-        placement: 'top',
-        animation: false,
-        html: true,
-        content: '<p>The location you clicked was:</p><code>' + latitude + ", " + longitude + '</code>',
+    map.getLayers().forEach(layer => {
+        if (layer && layer.get('name') === 'establishment') {
+          map.removeLayer(layer);
+        }
+      });
+    var establishment = new LayerVector({
+        name: 'establishment',
+        source: new SourceVector({
+            features: [
+                new Feature({
+                    geometry: new Point(evt.coordinate)
+                })
+            ]
+        })
     });
-    $(element).popover('show');
+    map.addLayer(establishment);
 });

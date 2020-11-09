@@ -11,10 +11,6 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <!-- Styles -->
         <style>
-            html {
-                background-color: #f5f5f5 !important;
-                font-family: 'Overpass', sans-serif;
-            }
             .logo
             {
                 width: 200px;

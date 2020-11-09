@@ -47484,8 +47484,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
 /* harmony import */ var ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/layer/Tile */ "./node_modules/ol/layer/Tile.js");
 /* harmony import */ var ol_View__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/View */ "./node_modules/ol/View.js");
-/* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
-/* harmony import */ var ol_coordinate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/coordinate */ "./node_modules/ol/coordinate.js");
+/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
+/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
+/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
+/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
+/* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
+/* harmony import */ var ol_coordinate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/coordinate */ "./node_modules/ol/coordinate.js");
 
 
 
@@ -47494,48 +47498,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var layer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__["default"]({
+
+
+
+
+var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__["default"]({
   source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_2__["default"]()
 });
 var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  layers: [layer],
+  layers: [tLayer],
   target: 'map',
   view: new ol_View__WEBPACK_IMPORTED_MODULE_5__["default"]({
     center: [0, 0],
     zoom: 2
   })
 });
-var pos = Object(ol_proj__WEBPACK_IMPORTED_MODULE_6__["fromLonLat"])([16.3725, 48.208889]); // Popup showing the position the user clicked
-
-var popup = new ol_Overlay__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  element: document.getElementById('popup')
+map.on("pointermove", function (evt) {
+  this.getTargetElement().style.cursor = 'pointer';
 });
-map.addOverlay(popup); // Vienna marker
-
-var marker = new ol_Overlay__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  position: pos,
-  positioning: 'center-center',
-  element: document.getElementById('marker'),
-  stopEvent: false
-});
-map.addOverlay(marker);
 map.on('click', function (evt) {
-  var element = popup.getElement();
-  var coordinate = evt.coordinate;
-  var hdms = Object(ol_coordinate__WEBPACK_IMPORTED_MODULE_7__["toStringHDMS"])(Object(ol_proj__WEBPACK_IMPORTED_MODULE_6__["toLonLat"])(coordinate));
-  var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_6__["toLonLat"])(evt.coordinate);
-  var latitude = coordinates[1];
-  var longitude = coordinates[0];
-  $(element).popover('dispose');
-  popup.setPosition(coordinate);
-  $(element).popover({
-    container: element,
-    placement: 'top',
-    animation: false,
-    html: true,
-    content: '<p>The location you clicked was:</p><code>' + latitude + ", " + longitude + '</code>'
+  map.getLayers().forEach(function (layer) {
+    if (layer && layer.get('name') === 'establishment') {
+      map.removeLayer(layer);
+    }
   });
-  $(element).popover('show');
+  var establishment = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__["default"]({
+    name: 'establishment',
+    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
+      features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_6__["default"]({
+        geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_9__["default"](evt.coordinate)
+      })]
+    })
+  });
+  map.addLayer(establishment);
 });
 
 /***/ }),
