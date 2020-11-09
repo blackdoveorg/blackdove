@@ -47489,8 +47489,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
 /* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
 /* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
-/* harmony import */ var ol_coordinate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/coordinate */ "./node_modules/ol/coordinate.js");
-
 
 
 
@@ -47505,24 +47503,25 @@ __webpack_require__.r(__webpack_exports__);
 var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__["default"]({
   source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_2__["default"]()
 });
-var map = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var view = new ol_View__WEBPACK_IMPORTED_MODULE_5__["default"]({
+  center: [0, 0],
+  zoom: 1
+});
+var establishmentMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
   layers: [tLayer],
   target: 'map',
-  view: new ol_View__WEBPACK_IMPORTED_MODULE_5__["default"]({
-    center: [0, 0],
-    zoom: 2
-  })
+  view: view
 });
-map.on("pointermove", function (evt) {
+establishmentMap.on("pointermove", function (evt) {
   this.getTargetElement().style.cursor = 'pointer';
 });
-map.on('click', function (evt) {
+establishmentMap.on('click', function (evt) {
   var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_10__["toLonLat"])(evt.coordinate);
   var latitude = coordinates[1];
   var longitude = coordinates[0];
-  map.getLayers().forEach(function (layer) {
+  establishmentMap.getLayers().forEach(function (layer) {
     if (layer && layer.get('name') === 'establishment') {
-      map.removeLayer(layer);
+      establishmentMap.removeLayer(layer);
     }
   });
   var establishment = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__["default"]({
@@ -47535,7 +47534,7 @@ map.on('click', function (evt) {
   });
   $('#latitude').val(latitude);
   $('#longitude').val(longitude);
-  map.addLayer(establishment);
+  establishmentMap.addLayer(establishment);
 });
 
 /***/ }),

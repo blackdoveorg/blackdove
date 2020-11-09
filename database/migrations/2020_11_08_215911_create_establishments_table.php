@@ -24,8 +24,8 @@ class CreateEstablishmentsTable extends Migration
             $table->decimal('east_longitude', 10, 8);
             $table->decimal('west_longitude', 10, 8);
             $table->decimal('cross_distance', 10, 8);
-            $table->text('issue');
-            $table->text('solution');
+            $table->char('issue', 255);
+            $table->char('solution', 255);
         });
     }
 

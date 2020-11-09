@@ -15,7 +15,7 @@
         <style>
             .map {
                 width: 100%;
-                height: 300px;
+                height: 350px;
             }
             #marker {
                 width: 20px;
@@ -58,6 +58,10 @@
 
         @livewireScripts
     </body>
+    <script>
+        var ip_latitude = {{ geoip()->getLocation()->lat }};
+        var ip_longitude = {{ geoip()->getLocation()->lon }};
+    </script>
     <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/establishment.js') }}"></script>
 </html>

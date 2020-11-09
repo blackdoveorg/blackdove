@@ -8,34 +8,35 @@ import Feature from 'ol/Feature'
 import SourceVector from 'ol/source/Vector'
 import LayerVector from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
-import {fromLonLat, toLonLat} from 'ol/proj';
-import {toStringHDMS} from 'ol/coordinate';
+import {toLonLat} from 'ol/proj';
 
 var tLayer = new TileLayer({
     source: new OSM(),
 });
 
-var map = new Map({
-    layers: [tLayer],
-    target: 'map',
-    view: new View({
-        center: [0, 0],
-        zoom: 2,
-    }),
+var view = new View({
+    center: [0, 0],
+    zoom: 1,
 });
 
-map.on("pointermove", function (evt) {
+var establishmentMap = new Map({
+    layers: [tLayer],
+    target: 'map',
+    view: view,
+});
+
+establishmentMap.on("pointermove", function (evt) {
     this.getTargetElement().style.cursor = 'pointer';
 });
 
-map.on('click', function (evt) {
+establishmentMap.on('click', function (evt) {
     var coordinates = toLonLat(evt.coordinate);
     var latitude = coordinates[1];
     var longitude = coordinates[0];
 
-    map.getLayers().forEach(layer => {
+    establishmentMap.getLayers().forEach(layer => {
         if (layer && layer.get('name') === 'establishment') {
-            map.removeLayer(layer);
+            establishmentMap.removeLayer(layer);
         }
     });
     var establishment = new LayerVector({
@@ -50,5 +51,5 @@ map.on('click', function (evt) {
     });
     $('#latitude').val(latitude);
     $('#longitude').val(longitude);
-    map.addLayer(establishment);
+    establishmentMap.addLayer(establishment);
 });

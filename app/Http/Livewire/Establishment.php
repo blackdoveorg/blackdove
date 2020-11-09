@@ -21,12 +21,14 @@ class Establishment extends Component
         $validatedData = $this->validate([
             'latitude' => 'required|between:-90,90',
             'longitude' => 'required|between:-180,180',
+            'ip_latitude' => 'required|between:-90,90',
+            'ip_longitude' => 'required|between:-180,180',
             'north_latitude' => 'required|between:-90,90',
             'south_latitude' => 'required|between:-90,90',
             'east_longitude' => 'required|between:-180,180',
             'west_longitude' => 'required|between:-180,180',
-            'issue' => 'required|max:65535',
-            'solution' => 'required|max:65535',
+            'issue' => 'required|max:255',
+            'solution' => 'required|max:255',
         ]);
   
         Establishent::create($validatedData);
