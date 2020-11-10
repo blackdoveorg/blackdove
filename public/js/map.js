@@ -47480,15 +47480,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ol_ol_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/ol.css */ "./node_modules/ol/ol.css");
 /* harmony import */ var ol_ol_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ol_ol_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var ol_Map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/Map */ "./node_modules/ol/Map.js");
-/* harmony import */ var ol_source_OSM__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/source/OSM */ "./node_modules/ol/source/OSM.js");
-/* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
-/* harmony import */ var ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/layer/Tile */ "./node_modules/ol/layer/Tile.js");
-/* harmony import */ var ol_View__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/View */ "./node_modules/ol/View.js");
-/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
-/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
-/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
-/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
-/* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
+/* harmony import */ var ol_Overlay__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/Overlay */ "./node_modules/ol/Overlay.js");
+/* harmony import */ var ol_source_OSM__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/source/OSM */ "./node_modules/ol/source/OSM.js");
+/* harmony import */ var ol_proj__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/proj */ "./node_modules/ol/proj.js");
+/* harmony import */ var ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/layer/Tile */ "./node_modules/ol/layer/Tile.js");
+/* harmony import */ var ol_View__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/View */ "./node_modules/ol/View.js");
+/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
+/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
+/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
+/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
+/* harmony import */ var ol_style__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style */ "./node_modules/ol/style.js");
 
 
 
@@ -47500,23 +47501,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_4__["default"]({
-  source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_2__["default"]()
+
+
+var establishFill = new ol_style__WEBPACK_IMPORTED_MODULE_11__["Fill"]({
+  color: 'rgba(0,0,0,0.5)'
 });
-var view = new ol_View__WEBPACK_IMPORTED_MODULE_5__["default"]({
-  center: [0, 0],
-  zoom: 1
+var establishStroke = new ol_style__WEBPACK_IMPORTED_MODULE_11__["Stroke"]({
+  color: 'olive',
+  width: 1.25
+});
+var styles = [new ol_style__WEBPACK_IMPORTED_MODULE_11__["Style"]({
+  image: new ol_style__WEBPACK_IMPORTED_MODULE_11__["Circle"]({
+    radius: 12,
+    fill: establishFill,
+    stroke: establishStroke
+  })
+})];
+var ip_latitude = $('#ip_latitude').val();
+var ip_longitude = $('#ip_longitude').val();
+var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__["default"]({
+  source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_3__["default"]()
+});
+var establishmentView = new ol_View__WEBPACK_IMPORTED_MODULE_6__["default"]({
+  center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
+  zoom: 10
 });
 var establishmentMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
   layers: [tLayer],
-  target: 'map',
-  view: view
+  target: 'establishmentMap',
+  view: establishmentView
 });
 establishmentMap.on("pointermove", function (evt) {
   this.getTargetElement().style.cursor = 'pointer';
 });
-establishmentMap.on('click', function (evt) {
-  var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_10__["toLonLat"])(evt.coordinate);
+establishmentMap.on('singleclick', function (evt) {
+  var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["toLonLat"])(evt.coordinate);
   var latitude = coordinates[1];
   var longitude = coordinates[0];
   establishmentMap.getLayers().forEach(function (layer) {
@@ -47524,11 +47543,12 @@ establishmentMap.on('click', function (evt) {
       establishmentMap.removeLayer(layer);
     }
   });
-  var establishment = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_8__["default"]({
+  var establishment = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
     name: 'establishment',
-    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
-      features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_6__["default"]({
-        geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_9__["default"](evt.coordinate)
+    style: styles,
+    source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_8__["default"]({
+      features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_7__["default"]({
+        geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_10__["default"](evt.coordinate)
       })]
     })
   });

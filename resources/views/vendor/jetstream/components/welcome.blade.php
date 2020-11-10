@@ -6,7 +6,7 @@
 
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="flex p-6">
-        <div id="map" class="map self-center"></div>
+        <div id="establishmentMap" class="map self-center"></div>
     </div>
 
     <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l">

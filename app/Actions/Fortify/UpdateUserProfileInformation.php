@@ -16,12 +16,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param  array  $input
      * @return void
      */
+
     public function update($user, array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'image', 'max:1024'],
+            'social_compass' => ['between:-10, 10'],
+            'economic_compass' => ['between:-10, 10'],
+            'compass_color' => ['string', 'max:6'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -32,9 +36,15 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
+            //$compass_color = getleanhex(asset('/img/2axis4color.png'), $input['social_compass'], $input['economic_compass']);
+            //$compass_color = '00ff00';
+            $compass_color = getleanhex($input['social_compass'], $input['economic_compass']);;
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'social_compass' => $input['social_compass'],
+                'economic_compass' => $input['economic_compass'],
+                'compass_color' => $compass_color,
             ])->save();
         }
     }

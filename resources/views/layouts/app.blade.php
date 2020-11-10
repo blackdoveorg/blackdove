@@ -17,20 +17,11 @@
                 width: 100%;
                 height: 350px;
             }
-            #marker {
-                width: 20px;
-                height: 20px;
-                border: 1px solid olive;
-                border-radius: 10px;
-                background-color: #f5f5f5;
-                opacity: 0.5;
-            }
         </style>
         @livewireStyles
 
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
-        <script src="https://unpkg.com/elm-pep"></script>
         <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -58,10 +49,6 @@
 
         @livewireScripts
     </body>
-    <script>
-        var ip_latitude = {{ geoip()->getLocation()->lat }};
-        var ip_longitude = {{ geoip()->getLocation()->lon }};
-    </script>
     <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/establishment.js') }}"></script>
 </html>
