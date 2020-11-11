@@ -9,6 +9,8 @@ class Establishment extends Component
 {
     public $latitude;
     public $longitude;
+    public $ip_latitude;
+    public $ip_longitude;
     public $north_latitude;
     public $south_latitude;
     public $east_longitude;

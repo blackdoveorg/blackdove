@@ -22,4 +22,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('establishment','EstablishmentCrudController');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/perch', function () {
+    return view('perch');
+})->name('dashboard-perch');

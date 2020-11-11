@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Perch extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'latitude',
+        'longitude',
+        'north_latitude',
+        'south_latitude',
+        'east_longitude',
+        'west_longitude',
+        'issue',
+        'solution',
+    ];
+}
