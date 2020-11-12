@@ -12,12 +12,16 @@ class Establishment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'latitude',
         'longitude',
+        'ip_latitude',
+        'ip_longitude',
         'north_latitude',
         'south_latitude',
         'east_longitude',
         'west_longitude',
+        'cross_distance',
         'issue',
         'solution',
     ];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Perch;
 
-use App\Models\Perch;
+use App\Models\PerchItem;
 use Livewire\Component;
 
 class Show extends Component
@@ -11,8 +11,7 @@ class Show extends Component
 
     public function render()
     {
-        $item = Perch::all();
-        return view('livewire.perch.show', [ 'perch' => $item ]);
+        return view('livewire.perch.show');
     }
 
     public function saved()
