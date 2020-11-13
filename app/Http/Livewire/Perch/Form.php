@@ -23,7 +23,7 @@ class Form extends Component
     public $solution;
 
     protected $listeners = [
-        'set:map-attributes' => 'setMapAttributes',
+        'set:map-attributes' => 'setMapAttributes'
     ];
 
     protected $rules = [
@@ -78,10 +78,7 @@ class Form extends Component
 
         $this->emit('saved');
     }
-    public function saved()
-    {
-        $this->render();
-    }
+
     public function render()
     {
 

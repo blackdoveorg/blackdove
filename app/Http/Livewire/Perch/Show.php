@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Actions\Fortify;
 namespace App\Http\Livewire\Perch;
 
 use App\Models\Perches;
@@ -7,7 +8,7 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    protected $listeners = ['saved' => 'saved'];
+    protected $listeners = ['saved'];
 
     public function render()
     {
