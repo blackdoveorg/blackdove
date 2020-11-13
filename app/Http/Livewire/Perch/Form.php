@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Perch;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\PerchItem;
+use App\Models\Perches;
 use Livewire\Component;
 
 class Form extends Component
@@ -22,8 +22,11 @@ class Form extends Component
     public $issue;
     public $solution;
 
+    protected $listeners = [
+        'set:map-attributes' => 'setMapAttributes',
+    ];
+
     protected $rules = [
-        'user_id' => 'required',
         'latitude' => 'required|between:-90, 90',
         'longitude' => 'required|between:-180, 180',
         'ip_latitude' => 'required|between:-90, 90',
@@ -38,50 +41,46 @@ class Form extends Component
         'solution' => 'required|max:255',
     ];
 
+    public function setMapAttributes($latitude, $longitude, $north_latitude, $south_latitude, $east_longitude, $west_longitude) 
+    {
+        $this->latitude = (float) $latitude;
+        $this->longitude = (float) $longitude;
+        $this->ip_latitude = geoip()->getLocation()->lat;
+        $this->ip_longitude = geoip()->getLocation()->lon;
+        $this->north_latitude = (float) $north_latitude;
+        $this->south_latitude = (float) $south_latitude;
+        $this->east_longitude = (float) $east_longitude;
+        $this->west_longitude = (float) $west_longitude;
+        $this->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
+        $this->ip_issue_distance = distance($this->latitude, $this->longitude, $this->ip_latitude, $this->ip_longitude, 'K');
+
+    }
+
     public function createPerch()
     {
         
-        // dd('tets');
-        // $this->validate();
-        dd($this);
-        $item = new PerchItem();
-        $item->user_id = Auth::id();
-        $item->latitude = 33;
-        $item->longitude = $this->longitude;
-        
-        $item->ip_latitude = geoip()->getLocation()->lat;
-        $item->ip_longitude = geoip()->getLocation()->lon;
-        
-        $item->north_latitude = $this->north_latitude;
-        $item->south_latitude = $this->south_latitude;
-        $item->east_longitude = $this->east_longitude;
-        $item->west_longitude = $this->west_longitude;
-        $item->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
-        $item->issue = $this->issue;
-        $item->solution = $this->solution;
-
         $this->validate();
-        
-        $item->save();
+        $perch = new Perches();
+        $perch->user_id = Auth::id();
+        $perch->latitude = $this->latitude;
+        $perch->longitude = $this->longitude;
+        $perch->ip_latitude = geoip()->getLocation()->lat;
+        $perch->ip_longitude = geoip()->getLocation()->lon;    
+        $perch->north_latitude = $this->north_latitude;
+        $perch->south_latitude = $this->south_latitude;
+        $perch->east_longitude = $this->east_longitude;
+        $perch->west_longitude = $this->west_longitude;
+        $perch->cross_distance = $this->cross_distance;
+        $perch->ip_issue_distance = $this->ip_issue_distance;
+        $perch->issue = $this->issue;
+        $perch->solution = $this->solution;
+        $perch->save();
 
         $this->emit('saved');
     }
-
-    public function mount()
+    public function saved()
     {
-        // $this->latitude = $latitude;
-        // $this->longitude = geoip()->getLocation()->lat;
-        $this->user_id = Auth::id();
-        $this->ip_latitude = geoip()->getLocation()->lat;
-        $this->ip_longitude = geoip()->getLocation()->lon;
-        // $this->north_latitude = geoip()->getLocation()->lat;
-        // $this->south_latitude = geoip()->getLocation()->lat;
-        // $this->east_longitude = geoip()->getLocation()->lat;
-        // $this->west_longitude = geoip()->getLocation()->lat;
-        $this->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
-        $this->ip_issue = distance($this->latitude, $this->longitude, $this->ip_latitude, $this->ip_longitude, 'K');
-        // $this->issue = geoip()->getLocation()->lat;
-        // $this->solution = geoip()->getLocation()->lat;
+        $this->render();
     }
     public function render()
     {

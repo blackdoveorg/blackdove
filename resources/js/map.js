@@ -48,54 +48,52 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
         target: 'establishmentMap',
         view: establishmentView,
     });
+$(function() {
+    establishmentMap.on("pointermove", function () {
+        this.getTargetElement().style.cursor = 'pointer';
+    });
 
-$(document).ready(function() {
-    window.livewire.components.registerHook('afterDomUpdate',  () => {
-        establishmentMap.on("pointermove", function () {
-            this.getTargetElement().style.cursor = 'pointer';
+    establishmentMap.on('singleclick', function (evt) {
+        
+        var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
+        var coordinates = toLonLat(evt.coordinate);
+        var latitude = coordinates[1];
+        var longitude = coordinates[0];
+
+        establishmentMap.getLayers().forEach(layer => {
+            if (layer && layer.get('name') === 'establishment') {
+                establishmentMap.removeLayer(layer);
+            }
         });
-
-        establishmentMap.on('singleclick', function (evt) {
+        var establishment = new VectorLayer({
+            name: 'establishment',
+            style: styles,
+            source: new VectorSource({
+                features: [
+                    new Feature({
+                        geometry: new Point(evt.coordinate)
+                    })
+                ]
+            }),
             
-            var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
-            var coordinates = toLonLat(evt.coordinate);
-            var latitude = coordinates[1];
-            var longitude = coordinates[0];
-
-            establishmentMap.getLayers().forEach(layer => {
-                if (layer && layer.get('name') === 'establishment') {
-                    establishmentMap.removeLayer(layer);
-                }
-            });
-            var establishment = new VectorLayer({
-                name: 'establishment',
-                style: styles,
-                source: new VectorSource({
-                    features: [
-                        new Feature({
-                            geometry: new Point(evt.coordinate)
-                        })
-                    ]
-                }),
-                
-            });
-            @this.set('latitude', $('#latitude').val());
-            // $('#latitude').val(latitude);
-            $('#longitude').val(longitude);
-            
-            $('#north_latitude').val(bounds[3]);
-            $('#south_latitude').val(bounds[1]);
-            $('#east_longitude').val(bounds[0]);
-            $('#west_longitude').val(bounds[2]);
-            establishmentMap.addLayer(establishment);
         });
+        
+        $('#latitude').val(latitude);
+        $('#longitude').val(longitude);
+        $('#north_latitude').val(bounds[3]);
+        $('#south_latitude').val(bounds[1]);
+        $('#east_longitude').val(bounds[0]);
+        $('#west_longitude').val(bounds[2]);
+        establishmentMap.addLayer(establishment);
+        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
+    });
 
-        establishmentMap.on('moveend', function () {
-            var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
-            $('#north_latitude').val(bounds[3]);
-            $('#south_latitude').val(bounds[1]);
-            $('#east_longitude').val(bounds[0]);
-            $('#west_longitude').val(bounds[2]);
-        });
+    establishmentMap.on('moveend', function () {
+        var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
+        $('#north_latitude').val(bounds[3]);
+        $('#south_latitude').val(bounds[1]);
+        $('#east_longitude').val(bounds[0]);
+        $('#west_longitude').val(bounds[2]);
+        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
 });

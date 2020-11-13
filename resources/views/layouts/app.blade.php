@@ -21,7 +21,7 @@
         @livewireStyles
 
         <!-- Scripts -->
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script>
         <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -50,5 +50,4 @@
         @livewireScripts
     </body>
     <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/establishment.js') }}"></script>
 </html>

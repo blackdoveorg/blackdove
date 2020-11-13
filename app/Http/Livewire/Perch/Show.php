@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Perch;
 
-use App\Models\PerchItem;
+use App\Models\Perches;
 use Livewire\Component;
 
 class Show extends Component
 {
-    protected $listeners = ['saved'];
+    protected $listeners = ['saved' => 'saved'];
 
     public function render()
     {

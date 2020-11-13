@@ -36,8 +36,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            //$compass_color = getleanhex(asset('/img/2axis4color.png'), $input['social_compass'], $input['economic_compass']);
-            //$compass_color = '00ff00';
             $compass_color = getleanhex($input['social_compass'], $input['economic_compass']);;
             $user->forceFill([
                 'name' => $input['name'],
