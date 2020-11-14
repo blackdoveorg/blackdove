@@ -53,13 +53,13 @@ class Form extends Component
         $this->west_longitude = (float) $west_longitude;
         $this->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
         $this->ip_issue_distance = distance($this->latitude, $this->longitude, $this->ip_latitude, $this->ip_longitude, 'K');
-
     }
 
     public function createPerch()
     {
         
         $this->validate();
+
         $perch = new Perches();
         $perch->user_id = Auth::id();
         $perch->latitude = $this->latitude;
@@ -74,14 +74,30 @@ class Form extends Component
         $perch->ip_issue_distance = $this->ip_issue_distance;
         $perch->issue = $this->issue;
         $perch->solution = $this->solution;
-        $perch->save();
 
+        $perch->save();
+        $this->clearPerch();
         $this->emit('saved');
+    }
+
+    public function clearPerch()
+    {
+        $this->latitude = '';
+        $this->longitude = '';
+        $this->ip_latitude = geoip()->getLocation()->lat;
+        $this->ip_longitude = geoip()->getLocation()->lon;    
+        $this->north_latitude = '';
+        $this->south_latitude = '';
+        $this->east_longitude = '';
+        $this->west_longitude = '';
+        $this->cross_distance = '';
+        $this->ip_issue_distance = '';
+        $this->issue = '';
+        $this->solution = '';
     }
 
     public function render()
     {
-
         return view('livewire.perch.form');
     }
 }

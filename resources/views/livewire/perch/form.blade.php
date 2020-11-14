@@ -4,32 +4,68 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('A Perch is an issue you believe you have a solution for. Think of it as being able to picket for an issue virtually.') }}
+        {{ __('Perch allows you to declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?') }}
     </x-slot>
 
     <x-slot name="form">
         <div class="col-span-6 sm:col-span-4">
-            <div id="establishmentMap" wire:ignore="establishmentMap" class="map self-center"></div>
+            <div id="perchMap" wire:ignore="perchMap" class="map self-center"></div>
         </div>
-        <!-- Hidden Fields !-->
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="latitude" name="latitude" wire:ignore="latitude" autocomplete="off"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="longitude" name="longitude" wire:ignore="longitude" autocomplete="off"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ geoip()->getLocation()->lat }}" wire:ignore="ip_latitude"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_longitude" value="{{ geoip()->getLocation()->lon }}" wire:ignore="ip_longitude"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="north_latitude" wire:ignore="north_latitude"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="south_latitude" wire:ignore="south_latitude"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="east_longitude" wire:ignore="east_longitude"/>
-        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="west_longitude" wire:ignore="west_longitude"/>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
-            <textarea id="issue" class="mt-1 block w-full form-input rounded-md shadow-sm" wire:model="issue"></textarea>
+            <textarea id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
-            <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" wire:model="solution"></textarea>
+            <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />
         </div>
+        <div class="col-span-4 grid grid-cols-2 gap-4">
+            <div>
+                <x-jet-label for="latitude" value="{{ __('Perch Latitude (North/South)') }}" />
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-sm shadow-sm" id="latitude" name="latitude" wire:model="latitude" autocomplete="off"/>
+            </div> 
+            <div>
+                <x-jet-label for="longitude" value="{{ __('Perch Longitude (East/West)') }}" />
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-md shadow-sm" id="longitude" name="longitude" wire:model="longitude" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="col-span-4 grid grid-cols-3 gap-4">
+            <div>
+            </div>
+            <div>
+                <x-jet-label for="issue" value="{{ __('North Latitude') }}" /> 
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-md shadow-sm" id="north_latitude" wire:model="north_latitude"/>
+            </div>
+            <div>
+            </div>
+        </div>
+        <div class="col-span-4 grid grid-cols-3 gap-4">
+            <div>
+                <x-jet-label for="issue" value="{{ __('East Longitude') }}" />
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-md shadow-sm" id="east_longitude" wire:model="east_longitude"/>
+            </div>
+            <div>
+            </div>
+            <div>
+                <x-jet-label for="issue" value="{{ __('West Longitude') }}" />
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-md shadow-sm" id="west_longitude" wire:model="west_longitude"/>
+            </div>
+        </div>
+        <div class="col-span-4 grid grid-cols-3 gap-4">
+            <div>
+            </div>
+            <div>
+                <x-jet-label for="issue" value="{{ __('South Latitude') }}" />
+                <x-jet-input readonly class="mt-1 block w-full form-input rounded-md shadow-sm" id="south_latitude" wire:model="south_latitude"/>
+            </div>
+            <div>
+            </div>
+        </div>
+        <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ geoip()->getLocation()->lat }}" wire:ignore="ip_latitude"/>
+        <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="{{ geoip()->getLocation()->lon }}" wire:ignore="ip_longitude"/>
+        <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag" wire:ignore="ip_longitude"/>
     </x-slot>
 
     <x-slot name="actions">

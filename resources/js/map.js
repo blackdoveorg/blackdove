@@ -38,35 +38,35 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
         source: new OSM(),
     });
 
-    var establishmentView = new View({
+    var perchView = new View({
         center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
         zoom: 10,
     });
 
-    var establishmentMap = new Map({
+    var perchMap = new Map({
         layers: [tLayer],
-        target: 'establishmentMap',
-        view: establishmentView,
+        target: 'perchMap',
+        view: perchView,
     });
 $(function() {
-    establishmentMap.on("pointermove", function () {
+    perchMap.on("pointermove", function () {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
-    establishmentMap.on('singleclick', function (evt) {
+    perchMap.on('singleclick', function (evt) {
         
-        var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
+        var bounds = transformExtent(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857','EPSG:4326');
         var coordinates = toLonLat(evt.coordinate);
         var latitude = coordinates[1];
         var longitude = coordinates[0];
 
-        establishmentMap.getLayers().forEach(layer => {
-            if (layer && layer.get('name') === 'establishment') {
-                establishmentMap.removeLayer(layer);
+        perchMap.getLayers().forEach(layer => {
+            if (layer && layer.get('name') === 'perch') {
+                perchMap.removeLayer(layer);
             }
         });
-        var establishment = new VectorLayer({
-            name: 'establishment',
+        var perch = new VectorLayer({
+            name: 'perch',
             style: styles,
             source: new VectorSource({
                 features: [
@@ -84,12 +84,13 @@ $(function() {
         $('#south_latitude').val(bounds[1]);
         $('#east_longitude').val(bounds[0]);
         $('#west_longitude').val(bounds[2]);
-        establishmentMap.addLayer(establishment);
+        $('#perch_flag').val(True);
+        perchMap.addLayer(perch);
         window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
 
-    establishmentMap.on('moveend', function () {
-        var bounds = transformExtent(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857','EPSG:4326');
+    perchMap.on('moveend', function () {
+        var bounds = transformExtent(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857','EPSG:4326');
         $('#north_latitude').val(bounds[3]);
         $('#south_latitude').val(bounds[1]);
         $('#east_longitude').val(bounds[0]);

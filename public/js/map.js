@@ -47522,31 +47522,31 @@ var ip_longitude = $('#ip_longitude').val();
 var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__["default"]({
   source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_3__["default"]()
 });
-var establishmentView = new ol_View__WEBPACK_IMPORTED_MODULE_6__["default"]({
+var perchView = new ol_View__WEBPACK_IMPORTED_MODULE_6__["default"]({
   center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
   zoom: 10
 });
-var establishmentMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var perchMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
   layers: [tLayer],
-  target: 'establishmentMap',
-  view: establishmentView
+  target: 'perchMap',
+  view: perchView
 });
 $(function () {
-  establishmentMap.on("pointermove", function () {
+  perchMap.on("pointermove", function () {
     this.getTargetElement().style.cursor = 'pointer';
   });
-  establishmentMap.on('singleclick', function (evt) {
-    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857', 'EPSG:4326');
+  perchMap.on('singleclick', function (evt) {
+    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857', 'EPSG:4326');
     var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["toLonLat"])(evt.coordinate);
     var latitude = coordinates[1];
     var longitude = coordinates[0];
-    establishmentMap.getLayers().forEach(function (layer) {
-      if (layer && layer.get('name') === 'establishment') {
-        establishmentMap.removeLayer(layer);
+    perchMap.getLayers().forEach(function (layer) {
+      if (layer && layer.get('name') === 'perch') {
+        perchMap.removeLayer(layer);
       }
     });
-    var establishment = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
-      name: 'establishment',
+    var perch = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
+      name: 'perch',
       style: styles,
       source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_8__["default"]({
         features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_7__["default"]({
@@ -47560,11 +47560,11 @@ $(function () {
     $('#south_latitude').val(bounds[1]);
     $('#east_longitude').val(bounds[0]);
     $('#west_longitude').val(bounds[2]);
-    establishmentMap.addLayer(establishment);
+    perchMap.addLayer(perch);
     window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
   });
-  establishmentMap.on('moveend', function () {
-    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(establishmentMap.getView().calculateExtent(establishmentMap.getSize()), 'EPSG:3857', 'EPSG:4326');
+  perchMap.on('moveend', function () {
+    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857', 'EPSG:4326');
     $('#north_latitude').val(bounds[3]);
     $('#south_latitude').val(bounds[1]);
     $('#east_longitude').val(bounds[0]);

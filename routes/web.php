@@ -25,3 +25,15 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/perch', function () {
     return view('perch');
 })->name('dashboard-perch');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/peck', function () {
+    return view('peck');
+})->name('dashboard-peck');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/fly', function () {
+    return view('fly');
+})->name('dashboard-fly');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/vote', function () {
+    return view('vote');
+})->name('dashboard-vote');
