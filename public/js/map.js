@@ -47560,6 +47560,7 @@ $(function () {
     $('#south_latitude').val(bounds[1]);
     $('#east_longitude').val(bounds[0]);
     $('#west_longitude').val(bounds[2]);
+    $('#perch_flag').val(1);
     perchMap.addLayer(perch);
     window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
   });

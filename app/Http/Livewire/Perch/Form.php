@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Perch;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Perches;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -41,6 +42,11 @@ class Form extends Component
         'solution' => 'required|max:255',
     ];
 
+    public function mount()
+    {
+
+    }
+
     public function setMapAttributes($latitude, $longitude, $north_latitude, $south_latitude, $east_longitude, $west_longitude) 
     {
         $this->latitude = (float) $latitude;
@@ -53,15 +59,21 @@ class Form extends Component
         $this->west_longitude = (float) $west_longitude;
         $this->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
         $this->ip_issue_distance = distance($this->latitude, $this->longitude, $this->ip_latitude, $this->ip_longitude, 'K');
+
     }
 
     public function createPerch()
     {
         
         $this->validate();
+        $this_user_id = Auth::id();
 
+        // Get user data from users table, store it for later use.
+        $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+
+        // Build the Perch.
         $perch = new Perches();
-        $perch->user_id = Auth::id();
+        $perch->user_id = $this_user_id;
         $perch->latitude = $this->latitude;
         $perch->longitude = $this->longitude;
         $perch->ip_latitude = geoip()->getLocation()->lat;
@@ -74,9 +86,36 @@ class Form extends Component
         $perch->ip_issue_distance = $this->ip_issue_distance;
         $perch->issue = $this->issue;
         $perch->solution = $this->solution;
+        $perch->social_compass = $user_data->social_compass;
+        $perch->economic_compass = $user_data->economic_compass;
+        $perch->compass_color = $user_data->compass_color;
+        
+        
+        $perch_array['user_id'] = $perch->user_id;
+        $perch_array['created_at'] = \Carbon\Carbon::now();
+        $perch_array['updated_at'] = \Carbon\Carbon::now();
+        $perch_array['latitude'] = $perch->latitude;
+        $perch_array['longitude'] = $perch->longitude;
+        $perch_array['ip_latitude'] = $perch->ip_latitude;
+        $perch_array['ip_longitude'] = $perch->ip_longitude;
+        $perch_array['north_latitude'] = $perch->north_latitude;
+        $perch_array['south_latitude'] = $perch->south_latitude;
+        $perch_array['east_longitude'] = $perch->east_longitude;
+        $perch_array['west_longitude'] = $perch->west_longitude;
+        $perch_array['cross_distance'] = $perch->cross_distance;
+        $perch_array['ip_issue_distance'] = $perch->ip_issue_distance;
+        $perch_array['issue'] = $perch->issue;
+        $perch_array['solution'] = $perch->solution;
+        $perch_array['social_compass'] = $perch->social_compass;
+        $perch_array['economic_compass'] = $perch->economic_compass;
+        $perch_array['compass_color'] = $perch->compass_color;
 
+        // Save the Perch, update the current_perches table, and clear the form.
         $perch->save();
-        $this->clearPerch();
+        $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
+        // $this->clearPerch();
+
+        // Livewire emit.
         $this->emit('saved');
     }
 

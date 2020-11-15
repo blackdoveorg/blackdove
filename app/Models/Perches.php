@@ -24,5 +24,8 @@ class Perches extends Model
         'ip_issue_distance',
         'issue',
         'solution',
+        'social_compass',
+        'economic_compass',
+        'compass_color',
     ];
 }
