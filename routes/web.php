@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SeedController;
+use App\Http\Controllers\PerchJSON;
 use Illuminate\Http\Request;
 
 /*
@@ -37,3 +37,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/fly', function 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/vote', function () {
     return view('vote');
 })->name('dashboard-vote');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');

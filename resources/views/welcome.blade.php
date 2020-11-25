@@ -44,7 +44,7 @@
                         <center>
                             <img class="logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
                             <p class="text-4xl break-words">BLACK DOVE</p>
-                            <p class="text-2xl break-words">A Party for All.</p>
+                            <p class="text-2xl break-words">Ground up government.</p>
                         </center>
                     </div>
                     

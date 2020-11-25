@@ -17,6 +17,40 @@
                 width: 100%;
                 height: 350px;
             }
+            #box
+            {
+                cursor: crosshair;
+                width: 300px;
+	            height: 300px;
+                
+            }
+            .rectangle {
+                border: 2px solid #f5f5f5;
+                position: absolute;
+            }
+            .overlay-container {
+                width: 250px;
+                font-size: 11px;
+                background-color: #f5f5f5;
+                color: #000;
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 5px;
+                position: absolute;
+                z-index: 1000;
+                bottom: 100%;
+                left: 100%;
+                margin-left: -125px;
+            }
+
+            .compass-color {
+                margin: 3px;
+                height: 15px;
+                width: 15px;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block;
+            }
         </style>
         @livewireStyles
 
@@ -49,5 +83,6 @@
 
         @livewireScripts
     </body>
-    <script type="text/javascript" src="{{ asset('/js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/perch.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('/js/peck.js') }}"></script>  
 </html>

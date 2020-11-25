@@ -3,7 +3,7 @@
         We facilitate the exchange of issues and solutions.
     </div>
     <div class="text-xl">
-        Explore these tools to engage in meaningful discussion about issues faced in communities both large and small. If you have an idea, share it. 
+        Explore these tools to engage in meaningful discussion about issues faced in communities both large and small.
     </div>
 </div>
 

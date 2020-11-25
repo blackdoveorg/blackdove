@@ -42,11 +42,6 @@ class Form extends Component
         'solution' => 'required|max:255',
     ];
 
-    public function mount()
-    {
-
-    }
-
     public function setMapAttributes($latitude, $longitude, $north_latitude, $south_latitude, $east_longitude, $west_longitude) 
     {
         $this->latitude = (float) $latitude;
@@ -59,7 +54,6 @@ class Form extends Component
         $this->west_longitude = (float) $west_longitude;
         $this->cross_distance = distance($this->north_latitude, $this->east_longitude, $this->south_latitude, $this->west_longitude, 'K');
         $this->ip_issue_distance = distance($this->latitude, $this->longitude, $this->ip_latitude, $this->ip_longitude, 'K');
-
     }
 
     public function createPerch()
@@ -90,7 +84,6 @@ class Form extends Component
         $perch->economic_compass = $user_data->economic_compass;
         $perch->compass_color = $user_data->compass_color;
         
-        
         $perch_array['user_id'] = $perch->user_id;
         $perch_array['created_at'] = \Carbon\Carbon::now();
         $perch_array['updated_at'] = \Carbon\Carbon::now();
@@ -113,10 +106,28 @@ class Form extends Component
         // Save the Perch, update the current_perches table, and clear the form.
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
-        // $this->clearPerch();
-
+        
         // Livewire emit.
         $this->emit('saved');
+        $this->render();
+        //$this->clearPerch();
+    }
+
+    public function mount()
+    {
+        $this_user_id = Auth::id();
+        $current_perch_data = DB::table('current_perches')->where('user_id', '=', $this_user_id)->get()->first();
+        if (!empty($current_perch_data))
+        {
+            $this->issue = $current_perch_data->issue;
+            $this->solution = $current_perch_data->solution;
+            $this->latitude = $current_perch_data->latitude;
+            $this->longitude = $current_perch_data->longitude;
+        } else
+        {
+            $this->ip_latitude = geoip()->getLocation()->lat;
+            $this->ip_longitude = geoip()->getLocation()->lon; 
+        }
     }
 
     public function clearPerch()
@@ -133,6 +144,7 @@ class Form extends Component
         $this->ip_issue_distance = '';
         $this->issue = '';
         $this->solution = '';
+        $this->render();
     }
 
     public function render()
