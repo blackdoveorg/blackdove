@@ -15,17 +15,17 @@ class FixPerchCurrent extends Migration
     {
         Schema::table('current_perches', function($table)
         {
-            if (Schema::hasColumn('current_perches', 'social_compass'))
+            if (Schema::hasColumn('perches', 'social_compass'))
             {
                 $table->dropColumn('social_compass');
                 $table->decimal('social_compass', 4, 2);
             }
-            if (Schema::hasColumn('current_perches', 'economic_compass'))
+            if (Schema::hasColumn('perches', 'economic_compass'))
             {
                 $table->dropColumn('economic_compass');
                 $table->decimal('economic_compass', 4, 2);
             }
-            if (Schema::hasColumn('current_perches', 'compass_color'))
+            if (Schema::hasColumn('perches', 'compass_color'))
             {
                 $table->dropColumn('compass_color');
                 $table->char('compass_color', 6);
