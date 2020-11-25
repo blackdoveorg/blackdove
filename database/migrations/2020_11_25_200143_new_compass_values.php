@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class SetDefaultCompassValues extends Migration
+class NewCompassValues extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,11 @@ class SetDefaultCompassValues extends Migration
     {
         Schema::table('users', function(Blueprint $table)
         {
-            $table->dropColumn('social_compass');
-            $table->dropColumn('economic_compass');
-            $table->dropColumn('compass_color');
-            
+            $table->char('compass_color', 6)->default('ffffff');
+            $table->decimal('social_compass', 4, 2)->default(0);
+            $table->decimal('economic_compass', 4, 2)->default(0);
         });
+        
     }
 
     /**
