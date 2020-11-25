@@ -15,7 +15,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Perch allows you to declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?
+                Declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-            Peck allows you to view issues and solutions to Perches defined by ideology, not location. What has worked for others may work for you. 
+            View issues and solutions to Perches defined by ideology, not location. What has worked for others may work for you. 
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Fly allows you to view Perches of every other user on an interactive map. See what issues matter to others. Maybe you'll change your Perch in the process.
+                View Perches of every other user on an interactive map. See what issues matter to others. Maybe you'll change your Perch in the process.
             </div>
         </div>
     </div>
