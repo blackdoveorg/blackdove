@@ -15,9 +15,9 @@ class SetDefaultCompassValues extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->decimal('social_compass')->default(0);
-            $table->decimal('economic_compass')->default(0);
-            $table->decimal('compass_color')->default('ffffff');
+            $table->decimal('social_compass')->default(0)->change();
+            $table->decimal('economic_compass')->default(0)->change();
+            $table->decimal('compass_color')->default('ffffff')->change();
         });
     }
 
