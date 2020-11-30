@@ -77841,7 +77841,6 @@ $(function () {
     $('#west_longitude').val(bounds[2]);
     $('#perch_flag').val(1);
     perchMap.addLayer(perch);
-    perchMap.removeLayer(perchLayer);
     window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
   });
   perchMap.on('moveend', function () {

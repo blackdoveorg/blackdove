@@ -10,7 +10,7 @@
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6 border-t border-gray-200">
         <div class="flex items-center">
-            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/perch">Perch</a></div>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/perch">Perch</a></div>
         </div>
 
         <div class="ml-12">
@@ -22,7 +22,7 @@
 
     <div class="p-6 border-t border-gray-200 md:border-l">
         <div class="flex items-center">
-            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/perch">Peck</a></div>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/peck">Peck</a></div>
         </div>
 
         <div class="ml-12">
@@ -36,7 +36,7 @@
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6 border-t border-gray-200">
         <div class="flex items-center">
-            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/perch">Fly</a></div>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/fly">Fly</a></div>
         </div>
 
         <div class="ml-12">
@@ -47,7 +47,7 @@
     </div>
     <div class="p-6 border-t border-gray-200 md:border-l">
         <div class="flex items-center">
-            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/perch">Vote</a></div>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/vote">Vote</a></div>
         </div>
 
         <div class="ml-12">

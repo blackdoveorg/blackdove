@@ -17,12 +17,25 @@
                 width: 100%;
                 height: 350px;
             }
-            #box
+            .draw
             {
-                cursor: crosshair;
-                width: 300px;
-	            height: 300px;
-                
+                cursor: crosshair;      
+            }
+            .canvases {
+                position: relative;
+                width: 350px;
+                height: 350px;
+            }
+            .canvases > canvas, .canvas-overlay {
+                position: absolute;
+                border: 5px solid red;
+                top: 0;
+                left: 0;
+            }
+            .bbox
+            {
+                pointer-events: none;
+                display: inline-block;
             }
             .rectangle {
                 border: 2px solid #f5f5f5;
