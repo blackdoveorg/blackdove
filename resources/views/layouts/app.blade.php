@@ -96,6 +96,7 @@
 
         @livewireScripts
     </body>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script type="text/javascript" src="{{ asset('/js/perch.js') }}"></script>  
     <script type="text/javascript" src="{{ asset('/js/peck.js') }}"></script>  
 </html>

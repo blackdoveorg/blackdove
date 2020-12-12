@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerchJSON;
+use App\Http\Controllers\PeckJSON;
 use Illuminate\Http\Request;
 
 /*
@@ -39,3 +40,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/vote', function () {
 })->name('dashboard-vote');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/peckJSON/', [PeckJSON::class, 'peckJSON'])->name('data-peckJSON');

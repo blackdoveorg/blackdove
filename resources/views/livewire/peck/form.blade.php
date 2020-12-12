@@ -8,11 +8,7 @@
     </x-slot>
     <x-slot name="form">
         <div class="col-span-6 sm:col-span-4">
-            <div id="chart">
-            </div>
-                <canvas class="draw" width="350" height="350" style="z-index: 1;"></canvas>
-                <canvas class="box grdnt" width="350" height="350" style="margin-top: -350px; pointer-events: none; z-index: -1;"></canvas>
-            <div class="bbox"></div>
+            <div id="chart" class="box" style="width: 400px;">
         </div>
         <div class="col-span-6 sm:col-span-4">
             <div class="perches"><div id="output"></div></div>
