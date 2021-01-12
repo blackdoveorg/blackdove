@@ -61,8 +61,11 @@ $(function() {
         }
     });
 
+    var ip_latitude = $('#ip_latitude').val();
+    var ip_longitude = $('#ip_longitude').val();
+
     var flyView = new View({
-        center: transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
+        center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
         zoom: 10,
     });
     

@@ -77751,8 +77751,10 @@ $(function () {
       })];
     }
   });
+  var ip_latitude = $('#ip_latitude').val();
+  var ip_longitude = $('#ip_longitude').val();
   var flyView = new ol_View__WEBPACK_IMPORTED_MODULE_7__["default"]({
-    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([0, 0], 'EPSG:4326', 'EPSG:3857'),
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
     zoom: 10
   });
   var flyMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
