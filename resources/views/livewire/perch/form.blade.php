@@ -7,13 +7,13 @@
         {{ __('Perch allows you to declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?') }}
     </x-slot>
     <x-slot name="form">
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-12 sm:col-span-4">
             <div id="perchMap" wire:ignore="perchMap" class="map self-center"></div>
             <div class="overlay-container">
-                <center>
+                <!-- <center>
                     <span class="compass-color"></span><br/>
                     Social: <span class="social-compass"></span>,  Economic: <span class="economic-compass"></span>
-                </center>
+                </center> -->
                 <center><b>Issue</b></center>
                 <span class="perch-issue"></span><br/>
                 <center><b>Solution</b></center>
@@ -62,7 +62,7 @@
         </div> -->
         <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ geoip()->getLocation()->lat }}" wire:ignore="ip_latitude"/>
         <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="{{ geoip()->getLocation()->lon }}" wire:ignore="ip_longitude"/>
-        <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag"/>
+        <!-- <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag"/> -->
     </x-slot>
 
     <x-slot name="actions">

@@ -27,18 +27,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     return view('perch');
 })->name('dashboard-perch');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/peck', function () {
-    return view('peck');
-})->name('dashboard-peck');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/peck', function () {
+//     return view('peck');
+// })->name('dashboard-peck');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/vote', function () {
-    return view('vote');
-})->name('dashboard-vote');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/vote', function () {
+//     return view('vote');
+// })->name('dashboard-vote');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/data/peckJSON/', [PeckJSON::class, 'peckJSON'])->name('data-peckJSON');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [PeckJSON::class, 'peckJSON'])->name('data-peckJSON');

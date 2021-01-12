@@ -17,30 +17,6 @@
                 width: 100%;
                 height: 350px;
             }
-            .draw
-            {
-                cursor: crosshair;      
-            }
-            .canvases {
-                position: relative;
-                width: 350px;
-                height: 350px;
-            }
-            .canvases > canvas, .canvas-overlay {
-                position: absolute;
-                border: 5px solid red;
-                top: 0;
-                left: 0;
-            }
-            .bbox
-            {
-                pointer-events: none;
-                display: inline-block;
-            }
-            .rectangle {
-                border: 2px solid #f5f5f5;
-                position: absolute;
-            }
             .overlay-container {
                 width: 250px;
                 font-size: 11px;
@@ -64,11 +40,17 @@
                 border-radius: 50%;
                 display: inline-block;
             }
+            .fly-map {
+                position: absolute;
+                top: 146px; /* Header Height */
+                bottom: 0px; /* Footer Height */
+                width: 100%;
+            }
         </style>
         @livewireStyles
 
         <!-- Scripts -->
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script>
+        
         <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -98,5 +80,6 @@
     </body>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script type="text/javascript" src="{{ asset('/js/perch.js') }}"></script>  
-    <script type="text/javascript" src="{{ asset('/js/peck.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('/js/fly.js') }}"></script> 
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>

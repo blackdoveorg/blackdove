@@ -35,20 +35,20 @@ $(function() {
         }),
     ];
     
-    var tLayer = new TileLayer({
+    var mapLayer = new TileLayer({
         source: new OSM(),
     });
     
-    var perchJSON = new VectorSource({
-        format: new GeoJSON({
-            defaultDataProjection: 'EPSG:4326' // added line
-        }),
-        url: '../data/perchJSON/'
-    });
+    // var perchJSON = new VectorSource({
+    //     format: new GeoJSON({
+    //         defaultDataProjection: 'EPSG:4326' // added line
+    //     }),
+    //     url: '../data/perchJSON/'
+    // });
     
     var perchLayer = new VectorLayer({
         title: 'Perch Data',
-        source: perchJSON,
+        // source: perchJSON,
         visible: true,
         style: function (feature, resolution) {
         return [new Style({
@@ -61,26 +61,13 @@ $(function() {
         }
     });
 
-    if ($('#latitude').val() === '' && $('#longitude').val() === '')
-    {
-        var use_latitude = $('#ip_latitude').val();
-        var use_longitude = $('#ip_longitude').val();
-    }
-    else
-    {
-        var use_latitude = $('#latitude').val();
-        var use_longitude = $('#longitude').val();
-    }
-
     var perchView = new View({
-        center: transform([use_longitude, use_latitude], 'EPSG:4326', 'EPSG:3857'),
         zoom: 10,
     });
     
     var perchMap = new Map({
-        layers: [tLayer, perchLayer],
-        target: 'perchMap',
-        view: perchView,
+        layers: [mapLayer],
+        target: 'flyMap',
     });
 
     function decodeEntities(encodedString) {
@@ -142,46 +129,5 @@ $(function() {
                 return layerCandidate.get('title') === 'Perch Data';
             }
         })
-        
-
-        perchMap.getLayers().forEach(layer => {
-            if (layer && layer.get('name') === 'perch') {
-                perchMap.removeLayer(layer);
-            }
-        });
-        var perch = new VectorLayer({
-            name: 'perch',
-            style: styles,
-            source: new VectorSource({
-                features: [
-                    new Feature({
-                        geometry: new Point(evt.coordinate)
-                    })
-                ]
-            }),
-            
-        });
-
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        $('#north_latitude').val(bounds[3]);
-        $('#south_latitude').val(bounds[1]);
-        $('#east_longitude').val(bounds[0]);
-        $('#west_longitude').val(bounds[2]);
-        $('#perch_flag').val(1);
-
-        perchMap.addLayer(perch);
-        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
-
-    perchMap.on('moveend', function () {
-        var bounds = transformExtent(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857','EPSG:4326');
-        $('#north_latitude').val(bounds[3]);
-        $('#south_latitude').val(bounds[1]);
-        $('#east_longitude').val(bounds[0]);
-        $('#west_longitude').val(bounds[2]);
-        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
-    });
-
-
 });

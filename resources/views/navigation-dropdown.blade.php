@@ -18,14 +18,8 @@
                     <x-jet-nav-link href="{{ route('dashboard-perch') }}" :active="request()->routeIs('dashboard-perch')">
                         {{ __('Perch') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard-peck') }}" :active="request()->routeIs('dashboard-peck')">
-                        {{ __('Peck') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
                         {{ __('Fly') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard-vote') }}" :active="request()->routeIs('dashboard-vote')">
-                        {{ __('Vote') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -67,15 +61,9 @@
                         <x-jet-dropdown-link href="{{ route('dashboard-perch') }}">
                             {{ __('Perch') }}
                         </x-jet-dropdown-link>  
-                        <x-jet-dropdown-link href="{{ route('dashboard-peck') }}">
-                            {{ __('Peck') }}
-                        </x-jet-dropdown-link>
                         <x-jet-dropdown-link href="{{ route('dashboard-fly') }}">
                             {{ __('Fly') }}
                         </x-jet-dropdown-link>               
-                        <x-jet-dropdown-link href="{{ route('dashboard-vote') }}">
-                            {{ __('Vote') }}
-                        </x-jet-dropdown-link>
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                 {{ __('API Tokens') }}

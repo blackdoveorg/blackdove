@@ -1,20 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Perch') }}
+            {{ __('Fly') }}
         </h2>
     </x-slot>
 
     <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @livewire('perch.form')
-        </div>
-    </div>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                @livewire('perch.show')
+        <div class="col-span-6 sm:col-span-4">
+            <div id="flyMap" wire:ignore="flyMap" class="fly-map self-center"></div>
+            <div class="overlay-container">
+                <!-- <center>
+                    <span class="compass-color"></span><br/>
+                    Social: <span class="social-compass"></span>,  Economic: <span class="economic-compass"></span>
+                </center> -->
+                <center><b>Issue</b></center>
+                <span class="perch-issue"></span><br/>
+                <center><b>Solution</b></center>
+                <span class="perch-solution"></span>
             </div>
         </div>
     </div>
