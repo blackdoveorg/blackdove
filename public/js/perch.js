@@ -77797,9 +77797,10 @@ $(function () {
     overlayLayer.setPosition(undefined);
     perchMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
       var clickedCoordinate = evt.coordinate;
-      var color = feature.get('color');
-      var socialCompass = feature.get('social-compass');
-      var economicCompass = feature.get('economic-compass');
+      console.log(feature); // let color = feature.get('color');
+      // let socialCompass = feature.get('social-compass');
+      // let economicCompass = feature.get('economic-compass');
+
       var issue = decodeEntities(feature.get('issue'));
       var solution = decodeEntities(feature.get('solution')); // let view = perchMap.getView();
       // view.animate({

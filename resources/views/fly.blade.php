@@ -11,12 +11,12 @@
             <div class="overlay-container">
                 <!-- <center>
                     <span class="compass-color"></span><br/>
-                    Social: <span class="social-compass"></span>,  Economic: <span class="economic-compass"></span>
+                    Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
                 </center> -->
                 <center><b>Issue</b></center>
-                <span class="perch-issue"></span><br/>
+                <span class="fly-issue"></span><br/>
                 <center><b>Solution</b></center>
-                <span class="perch-solution"></span>
+                <span class="fly-solution"></span>
             </div>
         </div>
     </div>

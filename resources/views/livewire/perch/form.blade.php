@@ -12,7 +12,7 @@
             <div class="overlay-container">
                 <!-- <center>
                     <span class="compass-color"></span><br/>
-                    Social: <span class="social-compass"></span>,  Economic: <span class="economic-compass"></span>
+                    Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
                 </center> -->
                 <center><b>Issue</b></center>
                 <span class="perch-issue"></span><br/>
@@ -62,7 +62,7 @@
         </div> -->
         <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ geoip()->getLocation()->lat }}" wire:ignore="ip_latitude"/>
         <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="{{ geoip()->getLocation()->lon }}" wire:ignore="ip_longitude"/>
-        <!-- <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag"/> -->
+        <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag"/>
     </x-slot>
 
     <x-slot name="actions">

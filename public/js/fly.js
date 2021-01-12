@@ -77711,51 +77711,54 @@ __webpack_require__.r(__webpack_exports__);
 
 
 $(function () {
-  var perchFill = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
+  var flyFill = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
     color: 'rgba(0, 0, 0, 0.75)'
   });
-  var perchStroke = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Stroke"]({
+  var flyStroke = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Stroke"]({
     color: 'rgba(245, 245, 245, 0.5)',
     width: 3
   });
   var styles = [new ol_style__WEBPACK_IMPORTED_MODULE_12__["Style"]({
     image: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Circle"]({
       radius: 8,
-      fill: perchFill,
-      stroke: perchStroke
+      fill: flyFill,
+      stroke: flyStroke
     })
   })];
-  var mapLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__["default"]({
+  var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__["default"]({
     source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_3__["default"]()
-  }); // var perchJSON = new VectorSource({
-  //     format: new GeoJSON({
-  //         defaultDataProjection: 'EPSG:4326' // added line
-  //     }),
-  //     url: '../data/perchJSON/'
-  // });
+  });
+  var flyJSON = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
+    format: new ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_13__["default"]({
+      defaultDataProjection: 'EPSG:4326' // added line
 
-  var perchLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_10__["default"]({
-    title: 'Perch Data',
-    // source: perchJSON,
+    }),
+    url: '../data/flyJSON/'
+  });
+  var flyLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_10__["default"]({
+    title: 'Fly Data',
+    source: flyJSON,
     visible: true,
     style: function style(feature, resolution) {
       return [new ol_style__WEBPACK_IMPORTED_MODULE_12__["Style"]({
         image: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Circle"]({
           radius: 8,
           fill: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
-            color: feature.get('color')
+            color: '#222'
           }),
-          stroke: perchStroke
+          stroke: flyStroke
         })
       })];
     }
   });
-  var perchView = new ol_View__WEBPACK_IMPORTED_MODULE_7__["default"]({
+  var flyView = new ol_View__WEBPACK_IMPORTED_MODULE_7__["default"]({
+    center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([0, 0], 'EPSG:4326', 'EPSG:3857'),
     zoom: 10
   });
-  var perchMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
-    layers: [mapLayer],
-    target: 'flyMap'
+  var flyMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
+    layers: [tLayer, flyLayer],
+    target: 'flyMap',
+    view: flyView
   });
 
   function decodeEntities(encodedString) {
@@ -77768,28 +77771,29 @@ $(function () {
   // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
   // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
 
-  var overlayFeatureIssue = document.querySelector('.perch-issue');
-  var overlayFeatureSolution = document.querySelector('.perch-solution');
+  var overlayFeatureIssue = document.querySelector('.fly-issue');
+  var overlayFeatureSolution = document.querySelector('.fly-solution');
   var overlayLayer = new ol_Overlay__WEBPACK_IMPORTED_MODULE_2__["default"]({
     element: overlayContainerElement
   });
-  perchMap.addOverlay(overlayLayer);
-  perchMap.on("pointermove", function () {
+  flyMap.addOverlay(overlayLayer);
+  flyMap.on("pointermove", function () {
     this.getTargetElement().style.cursor = 'pointer';
   });
-  perchMap.on('singleclick', function (evt) {
-    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857', 'EPSG:4326');
+  flyMap.on('singleclick', function (evt) {
+    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857', 'EPSG:4326');
     var coordinates = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["toLonLat"])(evt.coordinate);
     var latitude = coordinates[1];
     var longitude = coordinates[0];
     overlayLayer.setPosition(undefined);
-    perchMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+    flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
       var clickedCoordinate = evt.coordinate;
-      var color = feature.get('color');
-      var socialCompass = feature.get('social-compass');
-      var economicCompass = feature.get('economic-compass');
+      console.log(feature); // let color = feature.get('color');
+      // let socialCompass = feature.get('social-compass');
+      // let economicCompass = feature.get('economic-compass');
+
       var issue = decodeEntities(feature.get('issue'));
-      var solution = decodeEntities(feature.get('solution')); // let view = perchMap.getView();
+      var solution = decodeEntities(feature.get('solution')); // let view = flyMap.getView();
       // view.animate({
       //     center: clickedCoordinate,
       //     zoom:   view.getZoom()
@@ -77803,9 +77807,40 @@ $(function () {
       overlayFeatureSolution.innerHTML = solution;
     }, {
       layerFilter: function layerFilter(layerCandidate) {
-        return layerCandidate.get('title') === 'Perch Data';
+        return layerCandidate.get('title') === 'Fly Data';
       }
     });
+    flyMap.getLayers().forEach(function (layer) {
+      if (layer && layer.get('name') === 'fly') {
+        flyMap.removeLayer(layer);
+      }
+    });
+    var fly = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_10__["default"]({
+      name: 'fly',
+      style: styles,
+      source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
+        features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_8__["default"]({
+          geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_11__["default"](evt.coordinate)
+        })]
+      })
+    });
+    $('#latitude').val(latitude);
+    $('#longitude').val(longitude);
+    $('#north_latitude').val(bounds[3]);
+    $('#south_latitude').val(bounds[1]);
+    $('#east_longitude').val(bounds[0]);
+    $('#west_longitude').val(bounds[2]);
+    $('#fly_flag').val(1);
+    flyMap.addLayer(fly);
+    window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
+  });
+  flyMap.on('moveend', function () {
+    var bounds = Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transformExtent"])(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857', 'EPSG:4326');
+    $('#north_latitude').val(bounds[3]);
+    $('#south_latitude').val(bounds[1]);
+    $('#east_longitude').val(bounds[0]);
+    $('#west_longitude').val(bounds[2]);
+    window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
   });
 });
 

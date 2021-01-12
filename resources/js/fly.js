@@ -16,11 +16,11 @@ import GeoJSON from 'ol/format/GeoJSON';
 
 $(function() {
 
-    var perchFill = new Fill({
+    var flyFill = new Fill({
         color: 'rgba(0, 0, 0, 0.75)'
     });
     
-    var perchStroke = new Stroke({
+    var flyStroke = new Stroke({
         color: 'rgba(245, 245, 245, 0.5)',
         width: 3
     });
@@ -29,45 +29,47 @@ $(function() {
         new Style({
             image: new CircleStyle({
             radius: 8,
-            fill: perchFill,
-            stroke: perchStroke,
+            fill: flyFill,
+            stroke: flyStroke,
             }),
         }),
     ];
     
-    var mapLayer = new TileLayer({
+    var tLayer = new TileLayer({
         source: new OSM(),
     });
     
-    // var perchJSON = new VectorSource({
-    //     format: new GeoJSON({
-    //         defaultDataProjection: 'EPSG:4326' // added line
-    //     }),
-    //     url: '../data/perchJSON/'
-    // });
+    var flyJSON = new VectorSource({
+        format: new GeoJSON({
+            defaultDataProjection: 'EPSG:4326' // added line
+        }),
+        url: '../data/flyJSON/'
+    });
     
-    var perchLayer = new VectorLayer({
-        title: 'Perch Data',
-        // source: perchJSON,
+    var flyLayer = new VectorLayer({
+        title: 'Fly Data',
+        source: flyJSON,
         visible: true,
         style: function (feature, resolution) {
         return [new Style({
         image: new CircleStyle({
                 radius: 8,
-                fill: new Fill({ color: feature.get('color') }),
-                stroke: perchStroke
+                fill: new Fill({ color: '#222' }),
+                stroke: flyStroke
             })
         })];
         }
     });
 
-    var perchView = new View({
+    var flyView = new View({
+        center: transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
         zoom: 10,
     });
     
-    var perchMap = new Map({
-        layers: [mapLayer],
+    var flyMap = new Map({
+        layers: [tLayer, flyLayer],
         target: 'flyMap',
+        view: flyView,
     });
 
     function decodeEntities(encodedString) {
@@ -80,37 +82,38 @@ $(function() {
     // var overlayFeatureCompass = document.querySelector('.compass-color');
     // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
     // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
-    var overlayFeatureIssue = document.querySelector('.perch-issue');
-    var overlayFeatureSolution = document.querySelector('.perch-solution');
+    var overlayFeatureIssue = document.querySelector('.fly-issue');
+    var overlayFeatureSolution = document.querySelector('.fly-solution');
     
     const overlayLayer = new Overlay({
         element: overlayContainerElement
     })
 
-    perchMap.addOverlay(overlayLayer);
+    flyMap.addOverlay(overlayLayer);
 
-    perchMap.on("pointermove", function () {
+    flyMap.on("pointermove", function () {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
-    perchMap.on('singleclick', function (evt) {
+    flyMap.on('singleclick', function (evt) {
 
-        var bounds = transformExtent(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857','EPSG:4326');
+        var bounds = transformExtent(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857','EPSG:4326');
         var coordinates = toLonLat(evt.coordinate);
         var latitude = coordinates[1];
         var longitude = coordinates[0];
 
         overlayLayer.setPosition(undefined);
 
-        perchMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
+        flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
             let clickedCoordinate = evt.coordinate;
-            let color = feature.get('color');
-            let socialCompass = feature.get('social-compass');
-            let economicCompass = feature.get('economic-compass');
+            console.log(feature);
+            // let color = feature.get('color');
+            // let socialCompass = feature.get('social-compass');
+            // let economicCompass = feature.get('economic-compass');
             let issue = decodeEntities(feature.get('issue'));
             let solution = decodeEntities(feature.get('solution'));
-            // let view = perchMap.getView();
+            // let view = flyMap.getView();
             // view.animate({
             //     center: clickedCoordinate,
             //     zoom:   view.getZoom()
@@ -126,8 +129,49 @@ $(function() {
         {
             layerFilter: function(layerCandidate)
             {
-                return layerCandidate.get('title') === 'Perch Data';
+                return layerCandidate.get('title') === 'Fly Data';
             }
         })
+        
+
+        flyMap.getLayers().forEach(layer => {
+            if (layer && layer.get('name') === 'fly') {
+                flyMap.removeLayer(layer);
+            }
+        });
+        var fly = new VectorLayer({
+            name: 'fly',
+            style: styles,
+            source: new VectorSource({
+                features: [
+                    new Feature({
+                        geometry: new Point(evt.coordinate)
+                    })
+                ]
+            }),
+            
+        });
+
+        $('#latitude').val(latitude);
+        $('#longitude').val(longitude);
+        $('#north_latitude').val(bounds[3]);
+        $('#south_latitude').val(bounds[1]);
+        $('#east_longitude').val(bounds[0]);
+        $('#west_longitude').val(bounds[2]);
+        $('#fly_flag').val(1);
+
+        flyMap.addLayer(fly);
+        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
+
+    flyMap.on('moveend', function () {
+        var bounds = transformExtent(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857','EPSG:4326');
+        $('#north_latitude').val(bounds[3]);
+        $('#south_latitude').val(bounds[1]);
+        $('#east_longitude').val(bounds[0]);
+        $('#west_longitude').val(bounds[2]);
+        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
+    });
+
+
 });

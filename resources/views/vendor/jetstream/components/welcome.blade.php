@@ -3,7 +3,7 @@
         We facilitate the exchange of issues and solutions.
     </div>
     <div class="text-xl">
-        Explore these tools to engage in meaningful discussion about issues faced in communities both large and small.
+        Explore these tools to engage in meaningful discussion about issues faced in your community.
     </div>
 </div>
 
@@ -15,7 +15,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?
+                Share issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-            View Perches of every other user on an interactive map. See what issues matter to others. Maybe you'll change your Perch in the process.
+            View Perches of every other user on an interactive map. See what issues matter to others.
             </div>
         </div>
     </div>

@@ -79,7 +79,11 @@
         @livewireScripts
     </body>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script type="text/javascript" src="{{ asset('/js/perch.js') }}"></script>  
+    @if (Route::currentRouteName() == 'dashboard-perch')
+    <script type="text/javascript" src="{{ asset('/js/perch.js') }}"></script> 
+    @endif
+    @if (Route::currentRouteName() == 'dashboard-fly')
     <script type="text/javascript" src="{{ asset('/js/fly.js') }}"></script> 
+    @endif
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>

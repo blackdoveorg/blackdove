@@ -118,9 +118,10 @@ $(function() {
         perchMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
             let clickedCoordinate = evt.coordinate;
-            let color = feature.get('color');
-            let socialCompass = feature.get('social-compass');
-            let economicCompass = feature.get('economic-compass');
+            console.log(feature);
+            // let color = feature.get('color');
+            // let socialCompass = feature.get('social-compass');
+            // let economicCompass = feature.get('economic-compass');
             let issue = decodeEntities(feature.get('issue'));
             let solution = decodeEntities(feature.get('solution'));
             // let view = perchMap.getView();
