@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Perch;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Perches;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {

@@ -19,9 +19,9 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('nest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     return view('perch');
