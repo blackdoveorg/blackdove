@@ -101,16 +101,16 @@ window.wave = function () {
       points = [],
       tick = 0,
       opt = {
-    count: 10,
+    count: 5,
     range: {
-      x: 0,
+      x: 10,
       y: 15
     },
     duration: {
-      min: 15,
+      min: 50,
       max: 75
     },
-    thickness: 13,
+    thickness: 15,
     strokeColor: '#808000',
     level: .25,
     curved: true

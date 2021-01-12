@@ -2,8 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-html body {
-    font-family: 'Cooper Black', sans-serif;
+html {
+    font-family: 'Overpass', sans-serif;
 }
 
 term {

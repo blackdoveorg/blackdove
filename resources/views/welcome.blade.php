@@ -45,7 +45,7 @@
                     <div class="md:flex-shrink-0">
                         <center>
                             <img class="logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
-                            <p class="text-5xl break-words">BLACK DOVE</p>
+                            <p class="text-5xl break-words" style="font-family: 'Cooper Black', sans-serif;">BLACK DOVE</p>
                         </center>
                     </div>
                 </div>
