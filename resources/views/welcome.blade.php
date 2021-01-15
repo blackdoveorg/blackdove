@@ -46,6 +46,7 @@
                         <center>
                             <img class="logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
                             <p class="text-5xl break-words" style="font-family: 'Cooper Black', sans-serif;">BLACK DOVE</p>
+                            <p class="text-3xl break-words" style="font-family: 'Cooper Black', sans-serif;">GROUND UP GOVERNMENT</p>
                         </center>
                     </div>
                 </div>

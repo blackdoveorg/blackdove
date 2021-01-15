@@ -97,7 +97,8 @@ $(function() {
     var overlayFeatureSolution = document.querySelector('.perch-solution');
     
     const overlayLayer = new Overlay({
-        element: overlayContainerElement
+        element: overlayContainerElement,
+        autoPan: true
     })
 
     perchMap.addOverlay(overlayLayer);

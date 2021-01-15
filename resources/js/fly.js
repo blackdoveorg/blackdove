@@ -11,8 +11,9 @@ import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import {toLonLat} from 'ol/proj';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
+import {Cluster} from 'ol/source';
 
 $(function() {
 
@@ -45,21 +46,55 @@ $(function() {
         }),
         url: '../data/flyJSON/'
     });
-    
-    var flyLayer = new VectorLayer({
-        title: 'Fly Data',
+
+    var clusterSource = new Cluster({
+        distance: 40,
         source: flyJSON,
-        visible: true,
-        style: function (feature, resolution) {
-        return [new Style({
-        image: new CircleStyle({
-                radius: 8,
-                fill: new Fill({ color: '#222' }),
-                stroke: flyStroke
-            })
-        })];
-        }
-    });
+      });
+      var styleCache = {};
+      var clusters = new VectorLayer({
+        source: clusterSource,
+        style: function (feature) {
+          var size = feature.get('features').length;
+          var style = styleCache[size];
+          if (!style) {
+            style = new Style({
+              image: new CircleStyle({
+                radius: 10,
+                stroke: new Stroke({
+                  color: '#fff',
+                }),
+                fill: new Fill({
+                  color: '#808000',
+                }),
+              }),
+              text: new Text({
+                text: size.toString(),
+                fill: new Fill({
+                  color: '#fff',
+                }),
+              }),
+            });
+            styleCache[size] = style;
+          }
+          return style;
+        },
+      });
+      
+    // var flyLayer = new VectorLayer({
+    //     title: 'Fly Data',
+    //     source: clusters,
+    //     visible: true,
+    //     style: function (feature, resolution) {
+    //     return [new Style({
+    //     image: new CircleStyle({
+    //             radius: 8,
+    //             fill: new Fill({ color: '#222' }),
+    //             stroke: flyStroke
+    //         })
+    //     })];
+    //     }
+    // });
 
     var ip_latitude = $('#ip_latitude').val();
     var ip_longitude = $('#ip_longitude').val();
@@ -70,7 +105,8 @@ $(function() {
     });
     
     var flyMap = new Map({
-        layers: [tLayer, flyLayer],
+        layers: [tLayer, clusters],
+        renderer: 'canvas',
         target: 'flyMap',
         view: flyView,
     });
@@ -89,7 +125,8 @@ $(function() {
     var overlayFeatureSolution = document.querySelector('.fly-solution');
     
     const overlayLayer = new Overlay({
-        element: overlayContainerElement
+        element: overlayContainerElement,
+        autoPan: true
     })
 
     flyMap.addOverlay(overlayLayer);
@@ -98,83 +135,54 @@ $(function() {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
-    flyMap.on('singleclick', function (evt) {
-
-        var bounds = transformExtent(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857','EPSG:4326');
+    flyMap.on('click', function (evt) {
         var coordinates = toLonLat(evt.coordinate);
-        var latitude = coordinates[1];
-        var longitude = coordinates[0];
 
         overlayLayer.setPosition(undefined);
-
+        
         flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
-            let clickedCoordinate = evt.coordinate;
-            console.log(feature);
-            // let color = feature.get('color');
-            // let socialCompass = feature.get('social-compass');
-            // let economicCompass = feature.get('economic-compass');
-            let issue = decodeEntities(feature.get('issue'));
-            let solution = decodeEntities(feature.get('solution'));
-            // let view = flyMap.getView();
-            // view.animate({
-            //     center: clickedCoordinate,
-            //     zoom:   view.getZoom()
-            // });
-            
-            overlayLayer.setPosition(clickedCoordinate);
-            // overlayFeatureCompass.style.backgroundColor = color;
-            // overlayFeatureSocialCompass.innerHTML = socialCompass;
-            // overlayFeatureEconomicCompass.innerHTML = economicCompass;
-            overlayFeatureIssue.innerHTML = issue;
-            overlayFeatureSolution.innerHTML = solution;
-        },
-        {
-            layerFilter: function(layerCandidate)
+            console.log('clicked');
+
+            if (feature)
             {
-                return layerCandidate.get('title') === 'Fly Data';
+                console.log(feature);
+                let clickedCoordinate = evt.coordinate;
+                if (typeof feature.get('features') === 'undefined') {
+                    overlayFeatureIssue.innerHTML = issue;
+                    overlayFeatureSolution.innerHTML = solution;
+                } else {
+                    var cfeatures = feature.get('features');
+                    // if (cfeatures.length > 1) {
+                    //     popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
+                    //     for (var i = 0; i < cfeatures.length; i++) {
+                    //         $(popup_content).append('<article><strong>' + cfeatures[i].get('name') + '</article>');
+                    //     }
+                    // }
+
+                    if (cfeatures.length == 1) {
+                        overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
+                        overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
+                    }
+                }
+                console.log(feature);
+                // let color = feature.get('color');
+                // let socialCompass = feature.get('social-compass');
+                // let economicCompass = feature.get('economic-compass');
+                let issue = decodeEntities(feature.get('issue'));
+                let solution = decodeEntities(feature.get('solution'));
+                // let view = flyMap.getView();
+                // view.animate({
+                //     center: clickedCoordinate,
+                //     zoom:   view.getZoom()
+                // });
+                
+                overlayLayer.setPosition(clickedCoordinate);
+                // overlayFeatureCompass.style.backgroundColor = color;
+                // overlayFeatureSocialCompass.innerHTML = socialCompass;
+                // overlayFeatureEconomicCompass.innerHTML = economicCompass;
+                
             }
         })
-        
-
-        flyMap.getLayers().forEach(layer => {
-            if (layer && layer.get('name') === 'fly') {
-                flyMap.removeLayer(layer);
-            }
-        });
-        var fly = new VectorLayer({
-            name: 'fly',
-            style: styles,
-            source: new VectorSource({
-                features: [
-                    new Feature({
-                        geometry: new Point(evt.coordinate)
-                    })
-                ]
-            }),
-            
-        });
-
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        $('#north_latitude').val(bounds[3]);
-        $('#south_latitude').val(bounds[1]);
-        $('#east_longitude').val(bounds[0]);
-        $('#west_longitude').val(bounds[2]);
-        $('#fly_flag').val(1);
-
-        flyMap.addLayer(fly);
-        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
-
-    flyMap.on('moveend', function () {
-        var bounds = transformExtent(flyMap.getView().calculateExtent(flyMap.getSize()), 'EPSG:3857','EPSG:4326');
-        $('#north_latitude').val(bounds[3]);
-        $('#south_latitude').val(bounds[1]);
-        $('#east_longitude').val(bounds[0]);
-        $('#west_longitude').val(bounds[2]);
-        window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
-    });
-
-
 });
