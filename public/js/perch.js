@@ -77712,10 +77712,10 @@ __webpack_require__.r(__webpack_exports__);
 
 $(function () {
   var perchFill = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
-    color: 'rgba(0, 0, 0, 0.75)'
+    color: 'rgba(222, 222, 222, 0.5)'
   });
   var perchStroke = new ol_style__WEBPACK_IMPORTED_MODULE_12__["Stroke"]({
-    color: 'rgba(245, 245, 245, 0.5)',
+    color: 'rgba(0, 0, 0, 0.5)',
     width: 3
   });
   var styles = [new ol_style__WEBPACK_IMPORTED_MODULE_12__["Style"]({
@@ -77744,7 +77744,7 @@ $(function () {
         image: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Circle"]({
           radius: 8,
           fill: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
-            color: feature.get('color')
+            color: '#' + feature.get('color')
           }),
           stroke: perchStroke
         })
@@ -77776,10 +77776,10 @@ $(function () {
     return textArea.value;
   }
 
-  var overlayContainerElement = document.querySelector('.overlay-container'); // var overlayFeatureCompass = document.querySelector('.compass-color');
-  // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
-  // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
-
+  var overlayContainerElement = document.querySelector('.overlay-container');
+  var overlayFeatureCompass = document.querySelector('.compass-color');
+  var overlayFeatureSocialCompass = document.querySelector('.social-compass');
+  var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
   var overlayFeatureIssue = document.querySelector('.perch-issue');
   var overlayFeatureSolution = document.querySelector('.perch-solution');
   var overlayLayer = new ol_Overlay__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -77798,10 +77798,10 @@ $(function () {
     overlayLayer.setPosition(undefined);
     perchMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
       var clickedCoordinate = evt.coordinate;
-      console.log(feature); // let color = feature.get('color');
-      // let socialCompass = feature.get('social-compass');
-      // let economicCompass = feature.get('economic-compass');
-
+      console.log(feature);
+      var color = '#' + feature.get('color');
+      var socialCompass = feature.get('social-compass');
+      var economicCompass = feature.get('economic-compass');
       var issue = decodeEntities(feature.get('issue'));
       var solution = decodeEntities(feature.get('solution')); // let view = perchMap.getView();
       // view.animate({
@@ -77809,10 +77809,10 @@ $(function () {
       //     zoom:   view.getZoom()
       // });
 
-      overlayLayer.setPosition(clickedCoordinate); // overlayFeatureCompass.style.backgroundColor = color;
-      // overlayFeatureSocialCompass.innerHTML = socialCompass;
-      // overlayFeatureEconomicCompass.innerHTML = economicCompass;
-
+      overlayLayer.setPosition(clickedCoordinate);
+      overlayFeatureCompass.style.backgroundColor = color;
+      overlayFeatureSocialCompass.innerHTML = socialCompass;
+      overlayFeatureEconomicCompass.innerHTML = economicCompass;
       overlayFeatureIssue.innerHTML = issue;
       overlayFeatureSolution.innerHTML = solution;
     }, {
@@ -77851,6 +77851,38 @@ $(function () {
     $('#east_longitude').val(bounds[0]);
     $('#west_longitude').val(bounds[2]);
     window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
+  });
+  Livewire.on('saved', function () {
+    perchMap.getLayers().forEach(function (layer) {
+      if (layer && layer.get('title') === 'Perch Data') {
+        perchMap.removeLayer(layer);
+      }
+    });
+    var perchJSON = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
+      format: new ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_13__["default"]({
+        defaultDataProjection: 'EPSG:4326' // added line
+
+      }),
+      url: '../data/perchJSON/'
+    });
+    console.log(perchJSON);
+    var perchLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_10__["default"]({
+      title: 'Perch Data',
+      source: perchJSON,
+      visible: true,
+      style: function style(feature, resolution) {
+        return [new ol_style__WEBPACK_IMPORTED_MODULE_12__["Style"]({
+          image: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Circle"]({
+            radius: 8,
+            fill: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
+              color: '#111'
+            }),
+            stroke: perchStroke
+          })
+        })];
+      }
+    });
+    perchMap.addLayer(perchLayer);
   });
 });
 

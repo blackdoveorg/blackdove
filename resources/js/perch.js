@@ -17,11 +17,11 @@ import GeoJSON from 'ol/format/GeoJSON';
 $(function() {
 
     var perchFill = new Fill({
-        color: 'rgba(0, 0, 0, 0.75)'
+        color: 'rgba(222, 222, 222, 0.5)'
     });
     
     var perchStroke = new Stroke({
-        color: 'rgba(245, 245, 245, 0.5)',
+        color: 'rgba(0, 0, 0, 0.5)',
         width: 3
     });
     
@@ -54,7 +54,7 @@ $(function() {
         return [new Style({
         image: new CircleStyle({
                 radius: 8,
-                fill: new Fill({ color: feature.get('color') }),
+                fill: new Fill({ color: '#' + feature.get('color') }),
                 stroke: perchStroke
             })
         })];
@@ -90,9 +90,9 @@ $(function() {
     }
 
     var overlayContainerElement = document.querySelector('.overlay-container');
-    // var overlayFeatureCompass = document.querySelector('.compass-color');
-    // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
-    // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
+    var overlayFeatureCompass = document.querySelector('.compass-color');
+    var overlayFeatureSocialCompass = document.querySelector('.social-compass');
+    var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
     var overlayFeatureIssue = document.querySelector('.perch-issue');
     var overlayFeatureSolution = document.querySelector('.perch-solution');
     
@@ -120,9 +120,9 @@ $(function() {
         {
             let clickedCoordinate = evt.coordinate;
             console.log(feature);
-            // let color = feature.get('color');
-            // let socialCompass = feature.get('social-compass');
-            // let economicCompass = feature.get('economic-compass');
+            let color = '#' + feature.get('color');
+            let socialCompass = feature.get('social-compass');
+            let economicCompass = feature.get('economic-compass');
             let issue = decodeEntities(feature.get('issue'));
             let solution = decodeEntities(feature.get('solution'));
             // let view = perchMap.getView();
@@ -132,9 +132,9 @@ $(function() {
             // });
             
             overlayLayer.setPosition(clickedCoordinate);
-            // overlayFeatureCompass.style.backgroundColor = color;
-            // overlayFeatureSocialCompass.innerHTML = socialCompass;
-            // overlayFeatureEconomicCompass.innerHTML = economicCompass;
+            overlayFeatureCompass.style.backgroundColor = color;
+            overlayFeatureSocialCompass.innerHTML = socialCompass;
+            overlayFeatureEconomicCompass.innerHTML = economicCompass;
             overlayFeatureIssue.innerHTML = issue;
             overlayFeatureSolution.innerHTML = solution;
         },
@@ -185,5 +185,34 @@ $(function() {
         window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
 
-
+    Livewire.on('saved', () => {
+        
+        perchMap.getLayers().forEach(layer => {
+            if (layer && layer.get('title') === 'Perch Data') {
+                perchMap.removeLayer(layer);
+            }
+        });
+        var perchJSON = new VectorSource({
+            format: new GeoJSON({
+                defaultDataProjection: 'EPSG:4326' // added line
+            }),
+            url: '../data/perchJSON/'
+        });
+        console.log(perchJSON);
+        var perchLayer = new VectorLayer({
+            title: 'Perch Data',
+            source: perchJSON,
+            visible: true,
+            style: function (feature, resolution) {
+            return [new Style({
+            image: new CircleStyle({
+                    radius: 8,
+                    fill: new Fill({ color: '#111' }),
+                    stroke: perchStroke
+                })
+            })];
+            }
+        });
+        perchMap.addLayer(perchLayer);
+    })
 });

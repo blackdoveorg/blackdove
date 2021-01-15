@@ -84664,7 +84664,8 @@ $(function () {
           image: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Circle"]({
             radius: 10,
             stroke: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Stroke"]({
-              color: '#fff'
+              color: '#000',
+              width: '2'
             }),
             fill: new ol_style__WEBPACK_IMPORTED_MODULE_12__["Fill"]({
               color: '#808000'
@@ -84701,7 +84702,7 @@ $(function () {
   var ip_longitude = $('#ip_longitude').val();
   var flyView = new ol_View__WEBPACK_IMPORTED_MODULE_7__["default"]({
     center: Object(ol_proj__WEBPACK_IMPORTED_MODULE_4__["transform"])([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
-    zoom: 10
+    zoom: 1
   });
   var flyMap = new ol_Map__WEBPACK_IMPORTED_MODULE_1__["default"]({
     layers: [tLayer, clusters],
@@ -84716,10 +84717,10 @@ $(function () {
     return textArea.value;
   }
 
-  var overlayContainerElement = document.querySelector('.overlay-container'); // var overlayFeatureCompass = document.querySelector('.compass-color');
-  // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
-  // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
-
+  var overlayContainerElement = document.querySelector('.overlay-container');
+  var overlayFeatureCompass = document.querySelector('.compass-color');
+  var overlayFeatureSocialCompass = document.querySelector('.social-compass');
+  var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
   var overlayFeatureIssue = document.querySelector('.fly-issue');
   var overlayFeatureSolution = document.querySelector('.fly-solution');
   var overlayLayer = new ol_Overlay__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -84741,10 +84742,11 @@ $(function () {
         var clickedCoordinate = evt.coordinate;
 
         if (typeof feature.get('features') === 'undefined') {
-          overlayFeatureIssue.innerHTML = issue;
-          overlayFeatureSolution.innerHTML = solution;
+          overlayFeatureIssue.innerHTML = '';
+          overlayFeatureSolution.innerHTML = '';
         } else {
-          var cfeatures = feature.get('features'); // if (cfeatures.length > 1) {
+          var cfeatures = feature.get('features');
+          console.log(cfeatures); // if (cfeatures.length > 1) {
           //     popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
           //     for (var i = 0; i < cfeatures.length; i++) {
           //         $(popup_content).append('<article><strong>' + cfeatures[i].get('name') + '</article>');
@@ -84754,12 +84756,14 @@ $(function () {
           if (cfeatures.length == 1) {
             overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
             overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
+            overlayFeatureCompass.style.backgroundColor = '#' + cfeatures[0].get('color');
+            overlayFeatureSocialCompass.innerHTML = cfeatures[0].get('social-compass');
+            overlayFeatureEconomicCompass.innerHTML = cfeatures[0].get('economic-compass');
           }
-        }
-
-        console.log(feature); // let color = feature.get('color');
+        } // let color = feature.get('color');
         // let socialCompass = feature.get('social-compass');
         // let economicCompass = feature.get('economic-compass');
+
 
         var issue = decodeEntities(feature.get('issue'));
         var solution = decodeEntities(feature.get('solution')); // let view = flyMap.getView();

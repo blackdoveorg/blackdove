@@ -7,25 +7,31 @@
         {{ __('Perch allows you to declare issues you believe can be solved. Click on the map where you know about an issue. Then provide a description of the issue, and a description of the solution. If you could protest anywhere in the world, where would it be? ') }}
     </x-slot>
     <x-slot name="form">
-        <div class="col-span-12 sm:col-span-4">
+        <div class="col-span-12">
             <div id="perchMap" wire:ignore="perchMap" class="map self-center"></div>
             <div class="overlay-container">
                 <!-- <center>
                     <span class="compass-color"></span><br/>
                     Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
                 </center> -->
-                <center><b>Issue</b></center>
-                <span class="perch-issue"></span><br/>
-                <center><b>Solution</b></center>
-                <span class="perch-solution"></span>
+                <center>
+                    <b>Issue</b><br/>
+                    <span class="perch-issue"></span><br/><br/>
+                    <b>Solution</b><br/>
+                    <span class="perch-solution"></span><br/><br/>
+                    <b>Metadata</b><br/>
+                    <span class="perch-metadata"></span>
+                    <div class="compass-color"></div><br/>
+                    Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
+                </center>
             </div>
         </div>
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-12 grid-cols-1">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
             <textarea id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-12 rid-cols-1">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
             <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />

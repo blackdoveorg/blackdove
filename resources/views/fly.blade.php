@@ -13,10 +13,15 @@
                     <span class="compass-color"></span><br/>
                     Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
                 </center> -->
-                <center><b>Issue</b></center>
-                <span class="fly-issue"></span><br/>
-                <center><b>Solution</b></center>
-                <span class="fly-solution"></span>
+                <center>
+                    <b>Issue</b><br/>
+                    <span class="fly-issue"></span><br/><br/>
+                    <b>Solution</b><br/>
+                    <span class="fly-solution"></span><br/><br/>
+                    <b>Metadata</b><br/>
+                    <div class="compass-color"></div><br/>
+                    Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
+                </center>
             </div>
         </div>
         <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ geoip()->getLocation()->lat }}" wire:ignore="ip_latitude"/>

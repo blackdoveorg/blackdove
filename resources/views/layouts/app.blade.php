@@ -31,7 +31,6 @@
                 left: 100%;
                 margin-left: -125px;
             }
-
             .compass-color {
                 margin: 3px;
                 height: 15px;
@@ -45,6 +44,7 @@
                 top: 146px; /* Header Height */
                 bottom: 0px; /* Footer Height */
                 width: 100%;
+                /* z-index: -999; */
             }
         </style>
         @livewireStyles

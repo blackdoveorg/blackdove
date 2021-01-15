@@ -20,70 +20,25 @@ class PerchJSON extends Controller
     public function buildPerchGeoJSON($id)
     {
         $data = $this->getUserPerchData($id);
+        // dd($data);
+        $perchJSON['type'] = "FeatureCollection";
+        $perchJSON['features'] = array();
         if (!empty($data))
         {
+            // $json .= "LENGTH = " . count($data);
             $data->longitude = (float) $data->longitude;
             $data->latitude = (float) $data->latitude;
-            $point = new \GeoJson\Geometry\Point([$data->longitude, $data->latitude]);
-            $point->test = 'test';
-            // $point = new \GeoJson\Geometry\MultiPolygon([$data->longitude, $data->latitude]);
-            // $json = json_encode($point);
-            $json = "{
-            \"type\": \"FeatureCollection\",
-            \"features\": [
-                {
-                    \"type\": \"Feature\",
-                    \"properties\": {
-                        \"color\": \"#" . $data->compass_color . "\",
-                        \"social-compass\": \"" . $data->social_compass . "\",
-                        \"economic-compass\": \"" . $data->economic_compass . "\",
-                        \"issue\": \"" . htmlspecialchars($data->issue) . "\",
-                        \"solution\": \"" . htmlspecialchars($data->solution) . "\"
-                    },
-                    \"geometry\": {
-                        \"type\": \"Point\",
-                        \"coordinates\": [
-                            " . $data->longitude . ",
-                            " . $data->latitude . "
-                        ]
-                    }
-                },
-                {
-                \"type\": \"Feature\",
-                \"properties\": {},
-                \"geometry\": {
-                    \"type\": \"Polygon\",
-                    \"coordinates\": [
-                        [
-                            [
-                                " . $data->west_longitude . ",
-                                " . $data->north_latitude . "
-                            ],
-                            [
-                                " . $data->east_longitude . ",
-                                " . $data->north_latitude . "
-                            ],
-                            [
-                                " . $data->east_longitude . ",
-                                " . $data->south_latitude . "
-                            ],
-                            [
-                                " . $data->west_longitude . ",
-                                " . $data->south_latitude . "
-                            ],
-                            [
-                                " . $data->west_longitude . ",
-                                " . $data->north_latitude . "
-                            ]
-                        ]
-                    ]
-                }
-            }
-        ]
-        }";
-            
-            return $json;
+            $thisPerchJSON['type'] = "Feature";
+            $thisPerchJSON['properties']['color'] = $data->compass_color;
+            $thisPerchJSON['properties']['social-compass'] = $data->social_compass;
+            $thisPerchJSON['properties']['economic-compass'] = $data->economic_compass;
+            $thisPerchJSON['properties']['issue'] = htmlspecialchars($data->issue);
+            $thisPerchJSON['properties']['solution'] = htmlspecialchars($data->solution);
+            $thisPerchJSON['geometry']['type'] = "Point";
+            $thisPerchJSON['geometry']['coordinates'] = array($data->longitude, $data->latitude);
+            $perchJSON['features'][] = $thisPerchJSON;
         }
+        return json_encode($perchJSON);
     }
 
     function perchJSON()

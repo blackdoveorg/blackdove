@@ -62,7 +62,8 @@ $(function() {
               image: new CircleStyle({
                 radius: 10,
                 stroke: new Stroke({
-                  color: '#fff',
+                  color: '#000',
+                  width: '2'
                 }),
                 fill: new Fill({
                   color: '#808000',
@@ -101,7 +102,7 @@ $(function() {
 
     var flyView = new View({
         center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 10,
+        zoom: 1,
     });
     
     var flyMap = new Map({
@@ -118,9 +119,9 @@ $(function() {
     }
 
     var overlayContainerElement = document.querySelector('.overlay-container');
-    // var overlayFeatureCompass = document.querySelector('.compass-color');
-    // var overlayFeatureSocialCompass = document.querySelector('.social-compass');
-    // var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
+    var overlayFeatureCompass = document.querySelector('.compass-color');
+    var overlayFeatureSocialCompass = document.querySelector('.social-compass');
+    var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
     var overlayFeatureIssue = document.querySelector('.fly-issue');
     var overlayFeatureSolution = document.querySelector('.fly-solution');
     
@@ -149,10 +150,11 @@ $(function() {
                 console.log(feature);
                 let clickedCoordinate = evt.coordinate;
                 if (typeof feature.get('features') === 'undefined') {
-                    overlayFeatureIssue.innerHTML = issue;
-                    overlayFeatureSolution.innerHTML = solution;
+                    overlayFeatureIssue.innerHTML = '';
+                    overlayFeatureSolution.innerHTML = '';
                 } else {
                     var cfeatures = feature.get('features');
+                    console.log(cfeatures);
                     // if (cfeatures.length > 1) {
                     //     popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
                     //     for (var i = 0; i < cfeatures.length; i++) {
@@ -163,9 +165,11 @@ $(function() {
                     if (cfeatures.length == 1) {
                         overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
                         overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
+                        overlayFeatureCompass.style.backgroundColor = '#' + cfeatures[0].get('color');
+                        overlayFeatureSocialCompass.innerHTML = cfeatures[0].get('social-compass');
+                        overlayFeatureEconomicCompass.innerHTML = cfeatures[0].get('economic-compass');
                     }
                 }
-                console.log(feature);
                 // let color = feature.get('color');
                 // let socialCompass = feature.get('social-compass');
                 // let economicCompass = feature.get('economic-compass');
