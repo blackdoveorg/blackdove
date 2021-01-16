@@ -17,7 +17,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 $(function() {
 
     var perchFill = new Fill({
-        color: 'rgba(222, 222, 222, 0.5)'
+        color: 'rgba(222, 222, 222, 0.0)'
     });
     
     var perchStroke = new Stroke({

@@ -19,6 +19,10 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('nest');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
     return view('dashboard');
 })->name('nest');
@@ -27,17 +31,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     return view('perch');
 })->name('dashboard-perch');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/peck', function () {
-//     return view('peck');
-// })->name('dashboard-peck');
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/vote', function () {
-//     return view('vote');
-// })->name('dashboard-vote');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 

@@ -13,6 +13,11 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
+            .wrapper, html, body {
+                height: 100%;
+                height: 100%;
+                margin: 0;
+            }
             .map {
                 width: 100%;
                 height: 350px;
@@ -36,14 +41,16 @@
                 height: 15px;
                 width: 15px;
                 background-color: #bbb;
+                border: 2px solid black;
                 border-radius: 50%;
                 display: inline-block;
             }
             .fly-map {
-                position: absolute;
-                top: 146px; /* Header Height */
-                bottom: 0px; /* Footer Height */
-                width: 100%;
+                /* position: auto; */
+                /* top: 146px; /* Header Height */
+                /* bottom: 0px; Footer Height */ */
+                /* width: 100%; */
+                /* height: 500px; */
                 /* z-index: -999; */
             }
         </style>

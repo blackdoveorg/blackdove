@@ -81,21 +81,6 @@ $(function() {
           return style;
         },
       });
-      
-    // var flyLayer = new VectorLayer({
-    //     title: 'Fly Data',
-    //     source: clusters,
-    //     visible: true,
-    //     style: function (feature, resolution) {
-    //     return [new Style({
-    //     image: new CircleStyle({
-    //             radius: 8,
-    //             fill: new Fill({ color: '#222' }),
-    //             stroke: flyStroke
-    //         })
-    //     })];
-    //     }
-    // });
 
     var ip_latitude = $('#ip_latitude').val();
     var ip_longitude = $('#ip_longitude').val();
@@ -189,4 +174,14 @@ $(function() {
             }
         })
     });
+    function fixContentHeight(){
+      var viewHeight = $(window).height();
+      var header = $("header");
+      var navbar = $("nav");
+      var content = $("#flyMap");
+      var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 50;
+      content.height(contentHeight);
+      flyMap.updateSize();
+  }
+  fixContentHeight();
 });
