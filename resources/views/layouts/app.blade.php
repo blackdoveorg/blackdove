@@ -13,7 +13,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
-            .wrapper, html, body {
+            html, body {
                 height: 100%;
                 margin: 0;
             }
@@ -44,13 +44,9 @@
                 border-radius: 50%;
                 display: inline-block;
             }
-            .fly-map {
-                /* position: auto; */
-                /* top: 146px; /* Header Height */
-                /* bottom: 0px; Footer Height */ */
-                /* width: 100%; */
-                /* height: 500px; */
-                /* z-index: -999; */
+            #cy {
+                height: 300px;
+                display: block;
             }
         </style>
         @livewireStyles
@@ -90,6 +86,74 @@
     @endif
     @if (Route::currentRouteName() == 'dashboard-fly')
     <script type="text/javascript" src="{{ asset('/js/fly.js') }}"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
+    <script>
+    var cy = cytoscape({
+
+    container: document.getElementById('cy'), // container to render in
+
+    elements: {
+						nodes: [
+							{ data: { id: 'v1', weight: 1} },
+							{ data: { id: 'v2', weight: 2} },
+							{ data: { id: 'v3', weight: 3} },
+							{ data: { id: 'v4', weight: 4} },
+							{ data: { id: 'v5', weight: 5} },
+							{ data: { id: 'v6', weight: 20} },
+							{ data: { id: 'v7', weight: 7} }
+						],
+						edges: [
+							{ data: { source: 'v1', target: 'v2', directed: 'false', width: 5} },
+							{ data: { source: 'v1', target: 'v4', directed: 'false', width: 2} },
+							{ data: { source: 'v1', target: 'v5', directed: 'false', width: 5} },
+							{ data: { source: 'v2', target: 'v4', directed: 'false', width: 5} },
+							{ data: { source: 'v2', target: 'v6', directed: 'false', width: 5} },
+							{ data: { source: 'v3', target: 'v4', directed: 'false', width: 5} },
+							{ data: { source: 'v3', target: 'v7', directed: 'false', width: 1} },
+							{ data: { source: 'v4', target: 'v5', directed: 'false', width: 5} },
+							{ data: { source: 'v4', target: 'v7', directed: 'false', width: 15} },
+							{ data: { source: 'v5', target: 'v6', directed: 'false', width: 5} },
+							{ data: { source: 'v6', target: 'v7', directed: 'false', width: 5} },
+							{ data: { source: 'v6', target: 'v3', directed: 'false', width: 35} }
+						]
+					},
+
+    style: [ // the stylesheet for the graph
+    {
+        selector: 'node',
+        style: {
+        'background-color': '#666',
+        'label': 'data(id)'
+        }
+    },
+
+    {
+        selector: 'edge',
+        style: {
+        'width': 'data(width)',
+        'line-color': '#ccc',
+        'target-arrow-color': '#ccc',
+        'target-arrow-shape': 'triangle',
+        'curve-style': 'haystack'
+        }
+    }
+    ],
+
+    layout: {
+    name: 'grid',
+    rows: 1
+    }
+
+    });
+    var layout = cy.layout({
+    name: 'circle'
+    });
+
+    layout.run();
+    $(window).resize(function(){
+        fixContentHeight();
+    });
+    </script>
     @endif
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>

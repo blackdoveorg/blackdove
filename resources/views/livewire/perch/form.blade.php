@@ -8,7 +8,7 @@
     </x-slot>
     <x-slot name="form">
         <div class="col-span-12">
-            <div id="perchMap" wire:ignore="perchMap" class="map self-center"></div>
+            <div id="perchMap" wire:ignore="perchMap" class="map shadow self-center"></div>
             <div class="overlay-container">
                 <!-- <center>
                     <span class="compass-color"></span><br/>

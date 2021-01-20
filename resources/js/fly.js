@@ -174,13 +174,15 @@ $(function() {
             }
         })
     });
-    function fixContentHeight(){
+    window.fixContentHeight = function(){
       var viewHeight = $(window).height();
       var header = $("header");
       var navbar = $("nav");
       var content = $("#flyMap");
+      var chart = $('#charts');
       var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 50;
       content.height(contentHeight);
+      chart.height(contentHeight);
       flyMap.updateSize();
   }
   fixContentHeight();
