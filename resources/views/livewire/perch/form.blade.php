@@ -30,11 +30,36 @@
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
             <textarea id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
+            @php
+                $selectvalues = $categories;
+                $selected = (json_encode($selectvalues));
+            @endphp
+            @php
+                $returnlist = (array)  $categories->all();
+                dd($returnlist);
+            @endphp
+            @if(isset($returnlist) && count($returnlist) > 0)
+                @foreach($returnlist as $category)
+                    @php
+                    //for collections would be:
+                    try {
+                        $array[$category->id] = $category->category;
+                    } catch (Exception $e)
+                    {
+                        var_dump($e);
+                    }
+                    @endphp
+                @endforeach
+            @endif
+            <x-jet-label for="issue_category" class="py-1" value="{{ __('Issue Categories') }}" />
+            <x-input.selectmultiple wire:model="issue_category" prettyname="issue_category" :options="$array" multiple class="issue-choice mt-1 block w-full form-input rounded-md shadow-sm" />
         </div>
-        <div class="col-span-12 rid-cols-1">
+        <div class="col-span-12 grid-cols-1">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
             <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />
+            <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" />
+            <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$array" multiple class="solution-choice mt-1 block w-full form-input rounded-md shadow-sm" />
         </div>
         <!-- <div class="col-span-4 grid grid-cols-2 gap-4">
             <div>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerchJSON;
 use App\Http\Controllers\FlyJSON;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 /*
@@ -24,11 +25,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('nest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-    return view('dashboard');
-})->name('nest');
+        return view('dashboard');
+    })->name('nest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
-    return view('perch');
+    $categories = DB::table('categories')->get();
+    return view('perch')->with('categories', $categories);
 })->name('dashboard-perch');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {

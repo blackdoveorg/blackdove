@@ -22,6 +22,9 @@ class Form extends Component
     public $ip_issue_distance;
     public $issue;
     public $solution;
+    public $issue_category;
+    public $solution_category;
+    public $categories;
 
     protected $listeners = [
         'set:map-attributes' => 'setMapAttributes'
@@ -80,6 +83,8 @@ class Form extends Component
         $perch->ip_issue_distance = $this->ip_issue_distance;
         $perch->issue = $this->issue;
         $perch->solution = $this->solution;
+        $perch->issue_category = $this->issue_category;
+        $perch->solution_category = $this->solution_category;
         $perch->social_compass = $user_data->social_compass;
         $perch->economic_compass = $user_data->economic_compass;
         $perch->compass_color = $user_data->compass_color;
@@ -99,10 +104,12 @@ class Form extends Component
         $perch_array['ip_issue_distance'] = $perch->ip_issue_distance;
         $perch_array['issue'] = $perch->issue;
         $perch_array['solution'] = $perch->solution;
+        $perch_array['issue_category'] = $perch->issue_category;
+        $perch_array['solution_category'] = $perch->solution_category;
         $perch_array['social_compass'] = $perch->social_compass;
         $perch_array['economic_compass'] = $perch->economic_compass;
         $perch_array['compass_color'] = $perch->compass_color;
-
+        dd($perch);
         // Save the Perch, update the current_perches table, and clear the form.
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
@@ -144,6 +151,8 @@ class Form extends Component
         $this->ip_issue_distance = '';
         $this->issue = '';
         $this->solution = '';
+        $this->issue_category = '';
+        $this->solution_category = '';
         $this->render();
     }
 
