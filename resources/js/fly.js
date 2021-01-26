@@ -14,6 +14,7 @@ import {toLonLat} from 'ol/proj';
 import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Cluster} from 'ol/source';
+import { getValueType } from 'ol/style/expressions';
 
 $(function() {
 
@@ -97,6 +98,69 @@ $(function() {
         view: flyView,
     });
 
+    flyJSON.on('change', function(evt) {
+    var source = evt.target;
+    if(source.getState() === 'ready'){
+        window.cytoscapeData = {};
+        window.cytoscapeData['nodes'] = [];
+        window.cytoscapeData['edges'] = [];
+        var features = flyJSON.getFeatures();
+        var feature;
+        for (var i = 0, ii = features.length; i < ii; ++i) {
+          feature = features[i];
+          var issue_category = feature.get('issue_category');
+          for (const issue_entry in issue_category) {
+            var issue_node_data = { data: { id: issue_category[issue_entry], weight: 1} };
+            window.cytoscapeData['nodes'].push(issue_node_data);
+          }
+          var solution_category = feature.get('solution_category');
+          for (const solution_entry in solution_category) {
+            var solution_node_data = { data: { id: solution_category[solution_entry], weight: 1} };
+            window.cytoscapeData['nodes'].push(solution_node_data);
+          }
+          for (var issue_entry in issue_category) {
+            for (var solution_entry in solution_category) {
+              var edge_data = { data: { source: issue_category[issue_entry], target: solution_category[solution_entry], width: 5} }
+              window.cytoscapeData['edges'].push(edge_data);
+            }
+          }
+        }
+        console.log(cytoscapeData);
+        var cy = cytoscape({
+
+          container: document.getElementById('cy'), // container to render in
+          
+          elements: cytoscapeData,
+
+          style: [ // the stylesheet for the graph
+          {
+              selector: 'node',
+              style: {
+              'background-color': '#666',
+              'label': 'data(id)'
+              }
+          },
+
+          {
+              selector: 'edge',
+              style: {
+              'width': 'data(width)',
+              'line-color': '#ccc',
+              'target-arrow-color': '#ccc',
+              'target-arrow-shape': 'triangle',
+              'curve-style': 'bezier'
+              }
+          }
+          ],
+
+          });
+          var layout = cy.layout({
+          name: 'circle'
+          });
+          layout.run();
+      }
+      
+    });
     function decodeEntities(encodedString) {
         var textArea = document.createElement('textarea');
         textArea.innerHTML = encodedString;
@@ -128,18 +192,18 @@ $(function() {
         
         flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
-            console.log('clicked');
+            // console.log('clicked');
 
             if (feature)
             {
-                console.log(feature);
+                // console.log(feature);
                 let clickedCoordinate = evt.coordinate;
                 if (typeof feature.get('features') === 'undefined') {
                     overlayFeatureIssue.innerHTML = '';
                     overlayFeatureSolution.innerHTML = '';
                 } else {
                     var cfeatures = feature.get('features');
-                    console.log(cfeatures);
+                    //console.log(cfeatures);
                     // if (cfeatures.length > 1) {
                     //     popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
                     //     for (var i = 0; i < cfeatures.length; i++) {
@@ -147,7 +211,7 @@ $(function() {
                     //     }
                     // }
 
-                    if (cfeatures.length == 1) {
+                    if (cfeatures.length === 1) {
                         overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
                         overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
                         overlayFeatureCompass.style.backgroundColor = '#' + cfeatures[0].get('color');
@@ -186,4 +250,8 @@ $(function() {
       flyMap.updateSize();
   }
   fixContentHeight();
+
+    $(window).resize(function(){
+        fixContentHeight();
+    });
 });
