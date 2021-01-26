@@ -84641,7 +84641,7 @@ $(function () {
   var tLayer = new ol_layer_Tile__WEBPACK_IMPORTED_MODULE_5__["default"]({
     source: new ol_source_OSM__WEBPACK_IMPORTED_MODULE_3__["default"]()
   });
-  var flyJSON = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
+  window.flyJSON = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_9__["default"]({
     format: new ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_13__["default"]({
       defaultDataProjection: 'EPSG:4326' // added line
 

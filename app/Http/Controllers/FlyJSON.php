@@ -37,6 +37,8 @@ class FlyJSON extends Controller
                 $thisPerchJSON['properties']['economic-compass'] = $perch->economic_compass;
                 $thisPerchJSON['properties']['issue'] = htmlspecialchars($perch->issue);
                 $thisPerchJSON['properties']['solution'] = htmlspecialchars($perch->solution);
+                $thisPerchJSON['properties']['issue_category'] = $perch->issue_category;
+                $thisPerchJSON['properties']['solution_category'] = $perch->solution_category;
                 $thisPerchJSON['geometry']['type'] = "Point";
                 $thisPerchJSON['geometry']['coordinates'] = array($perch->longitude, $perch->latitude);
                 $flyJSON['features'][] = $thisPerchJSON;

@@ -40,7 +40,7 @@ $(function() {
         source: new OSM(),
     });
     
-    var flyJSON = new VectorSource({
+    window.flyJSON = new VectorSource({
         format: new GeoJSON({
             defaultDataProjection: 'EPSG:4326' // added line
         }),

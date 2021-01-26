@@ -57,7 +57,10 @@
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
+        <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.css"
+    />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="font-sans antialiased">
@@ -104,7 +107,7 @@
             searchEnabled: true,
             searchChoices: true,
             searchFloor: 1,
-            searchResultLimit: 4,
+            searchResultLimit: 10,
             searchFields: ['label', 'value'],
             position: 'auto',
             resetScrollPosition: true,
@@ -138,7 +141,7 @@
             listItems: 'choices__list--multiple',
             listSingle: 'choices__list--single',
             listDropdown: 'choices__list--dropdown',
-            item: 'inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150',
+            item: 'choices__item',
             itemSelectable: 'choices__item--selectable',
             itemDisabled: 'choices__item--disabled',
             itemChoice: 'choices__item--choice',
@@ -182,7 +185,7 @@
             searchEnabled: true,
             searchChoices: true,
             searchFloor: 1,
-            searchResultLimit: 4,
+            searchResultLimit: 10,
             searchFields: ['label', 'value'],
             position: 'auto',
             resetScrollPosition: true,
@@ -244,10 +247,7 @@
             callbackOnCreateTemplates: null
         });
     </script>
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.css"
-    />
+
     @endif
     @if (Route::currentRouteName() == 'dashboard-fly')
     <script type="text/javascript" src="{{ asset('/js/fly.js') }}"></script> 

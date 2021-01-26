@@ -83,8 +83,8 @@ class Form extends Component
         $perch->ip_issue_distance = $this->ip_issue_distance;
         $perch->issue = $this->issue;
         $perch->solution = $this->solution;
-        $perch->issue_category = $this->issue_category;
-        $perch->solution_category = $this->solution_category;
+        $perch->issue_category = json_encode($this->issue_category);
+        $perch->solution_category = json_encode($this->solution_category);
         $perch->social_compass = $user_data->social_compass;
         $perch->economic_compass = $user_data->economic_compass;
         $perch->compass_color = $user_data->compass_color;
@@ -109,7 +109,7 @@ class Form extends Component
         $perch_array['social_compass'] = $perch->social_compass;
         $perch_array['economic_compass'] = $perch->economic_compass;
         $perch_array['compass_color'] = $perch->compass_color;
-        dd($perch);
+        // dd($perch);
         // Save the Perch, update the current_perches table, and clear the form.
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
@@ -128,6 +128,8 @@ class Form extends Component
         {
             $this->issue = $current_perch_data->issue;
             $this->solution = $current_perch_data->solution;
+            $this->issue_category = json_decode($current_perch_data->issue_category);
+            $this->solution_category = json_decode($current_perch_data->solution_category);
             $this->latitude = $current_perch_data->latitude;
             $this->longitude = $current_perch_data->longitude;
         } else

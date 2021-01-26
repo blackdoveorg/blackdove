@@ -34,7 +34,7 @@
 	  return result;
 	}
 	">
-    <select id="{{ $attributes['prettyname'] }}" wire-model="{{ $attributes['wire:model'] }}" wire:change="{{ $attributes['wire:change'] }}" x-ref="{{ $attributes['prettyname'] }}" type="multiple" multiple>
+    <select id="{{ $attributes['prettyname'] }}" wire-model="{{ $attributes['wire:model'] }}" wire:change="{{ $attributes['wire:change'] }}" x-ref="{{ $attributes['prettyname'] }}"  multiple>
     	@if(count($attributes['options'])>0)
 	    	@foreach($attributes['options'] as $key=>$option)
 	    		<option value="{{$key}}" >{{$option}}</option>
