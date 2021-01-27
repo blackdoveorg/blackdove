@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use BeyondCode\ServerTiming\Facades\ServerTiming;
 
 class FlyJSON extends Controller
 {
@@ -48,9 +49,11 @@ class FlyJSON extends Controller
 
     function flyJSON()
     {
+        ServerTiming::start("flyJSON");
         $id = Auth::user()->id;
         $json = new FlyJSON();
         $json = $this->buildFlyGeoJSON($id);
+        ServerTiming::stop("flyJSON");
         return $json;
     }
 }
