@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Perches;
 use Livewire\Component;
+use BeyondCode\ServerTiming\Facades\ServerTiming;
 
 class Form extends Component
 {
@@ -111,9 +112,10 @@ class Form extends Component
         $perch_array['compass_color'] = $perch->compass_color;
         // dd($perch);
         // Save the Perch, update the current_perches table, and clear the form.
+        ServerTiming::start("Inserting Rows.");
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
-        
+        ServerTiming::stop("Inserting Rows.");
         // Livewire emit.
         $this->emit('saved');
         $this->render();
