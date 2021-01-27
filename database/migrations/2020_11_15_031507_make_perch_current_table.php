@@ -27,9 +27,6 @@ class MakePerchCurrentTable extends Migration
             $table->decimal('west_longitude', 11, 8);
             $table->decimal('cross_distance', 11, 8);
             $table->decimal('ip_issue_distance', 11, 8);
-            $table->string('social_compass', 6);
-            $table->string('economic_compass', 6);
-            $table->string('compass_color', 6);
             $table->string('issue', 255);
             $table->string('solution', 255);
         });

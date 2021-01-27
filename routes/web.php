@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SeedController;
+use App\Http\Controllers\PerchJSON;
+use App\Http\Controllers\FlyJSON;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 /*
@@ -22,18 +24,19 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/perch', function () {
-    return view('perch');
+Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
+        return view('dashboard');
+    })->name('nest');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
+    $categories = DB::table('categories')->get();
+    return view('perch')->with('categories', $categories);
 })->name('dashboard-perch');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/peck', function () {
-    return view('peck');
-})->name('dashboard-peck');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/fly', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/vote', function () {
-    return view('vote');
-})->name('dashboard-vote');
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [FlyJSON::class, 'flyJSON'])->name('data-flyJSON');
