@@ -64,8 +64,9 @@ class Form extends Component
     {
         
         $this->validate();
+        ServerTiming::start("Auth.");
         $this_user_id = Auth::id();
-
+        ServerTiming::start("Auth.");
         // Get user data from users table, store it for later use.
         $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
 
