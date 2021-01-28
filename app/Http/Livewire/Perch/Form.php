@@ -50,8 +50,8 @@ class Form extends Component
     {
         $this->latitude = (float) $latitude;
         $this->longitude = (float) $longitude;
-        $this->ip_latitude = geoip()->getLocation()->lat;
-        $this->ip_longitude = geoip()->getLocation()->lon;
+        $this->ip_latitude = session('geoip')->lat;
+        $this->ip_longitude = session('geoip')->lon;
         $this->north_latitude = (float) $north_latitude;
         $this->south_latitude = (float) $south_latitude;
         $this->east_longitude = (float) $east_longitude;
@@ -64,9 +64,7 @@ class Form extends Component
     {
         
         $this->validate();
-        ServerTiming::start("Auth.");
         $this_user_id = Auth::id();
-        ServerTiming::start("Auth.");
         // Get user data from users table, store it for later use.
         $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
 
@@ -75,10 +73,8 @@ class Form extends Component
         $perch->user_id = $this_user_id;
         $perch->latitude = $this->latitude;
         $perch->longitude = $this->longitude;
-        ServerTiming::start("GeoIP.");
-        $perch->ip_latitude = geoip()->getLocation()->lat;
-        $perch->ip_longitude = geoip()->getLocation()->lon;   
-        ServerTiming::stop("GeoIP."); 
+        $perch->ip_latitude = session('geoip')->lat;
+        $perch->ip_longitude = session('geoip')->lon;   
         $perch->north_latitude = $this->north_latitude;
         $perch->south_latitude = $this->south_latitude;
         $perch->east_longitude = $this->east_longitude;
@@ -115,19 +111,13 @@ class Form extends Component
         $perch_array['compass_color'] = $perch->compass_color;
         $perch_array['economic_compass'] = $perch->economic_compass;
         $perch_array['compass_color'] = $perch->compass_color;
-        // dd($perch);
+ 
         // Save the Perch, update the current_perches table, and clear the form.
-        ServerTiming::start("Inserting Rows.");
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
-        ServerTiming::stop("Inserting Rows.");
-        // $dur = ServerTiming::stop("Inserting Rows.")->getElapsedTimeInMs();
-        // Livewire emit.
+
         $this->emit('saved');
-        ServerTiming::start("Rendering.");
         $this->render();
-        dd(ServerTiming::stop("Rendering."));
-        //$this->clearPerch();
     }
 
     public function mount()
@@ -144,28 +134,9 @@ class Form extends Component
             $this->longitude = $current_perch_data->longitude;
         } else
         {
-            $this->ip_latitude = geoip()->getLocation()->lat;
-            $this->ip_longitude = geoip()->getLocation()->lon; 
+            $this->ip_latitude = session('geoip')->lat;
+            $this->ip_longitude = session('geoip')->lon; 
         }
-    }
-
-    public function clearPerch()
-    {
-        $this->latitude = '';
-        $this->longitude = '';
-        $this->ip_latitude = geoip()->getLocation()->lat;
-        $this->ip_longitude = geoip()->getLocation()->lon;    
-        $this->north_latitude = '';
-        $this->south_latitude = '';
-        $this->east_longitude = '';
-        $this->west_longitude = '';
-        $this->cross_distance = '';
-        $this->ip_issue_distance = '';
-        $this->issue = '';
-        $this->solution = '';
-        $this->issue_category = '';
-        $this->solution_category = '';
-        $this->render();
     }
 
     public function render()
