@@ -77,7 +77,7 @@ class Form extends Component
         ServerTiming::start("GeoIP.");
         $perch->ip_latitude = geoip()->getLocation()->lat;
         $perch->ip_longitude = geoip()->getLocation()->lon;   
-        ServerTiming::start("GeoIP."); 
+        ServerTiming::stop("GeoIP."); 
         $perch->north_latitude = $this->north_latitude;
         $perch->south_latitude = $this->south_latitude;
         $perch->east_longitude = $this->east_longitude;
