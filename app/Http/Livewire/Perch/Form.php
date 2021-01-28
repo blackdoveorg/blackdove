@@ -117,11 +117,13 @@ class Form extends Component
         ServerTiming::start("Inserting Rows.");
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
-        dd(ServerTiming::stop("Inserting Rows."));
+        ServerTiming::stop("Inserting Rows.");
         // $dur = ServerTiming::stop("Inserting Rows.")->getElapsedTimeInMs();
         // Livewire emit.
         $this->emit('saved');
+        ServerTiming::start("Rendering.");
         $this->render();
+        dd(ServerTiming::stop("Rendering."));
         //$this->clearPerch();
     }
 
