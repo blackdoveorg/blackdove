@@ -110,12 +110,15 @@ class Form extends Component
         $perch_array['social_compass'] = $perch->social_compass;
         $perch_array['economic_compass'] = $perch->economic_compass;
         $perch_array['compass_color'] = $perch->compass_color;
+        $perch_array['economic_compass'] = $perch->economic_compass;
+        $perch_array['compass_color'] = $perch->compass_color;
         // dd($perch);
         // Save the Perch, update the current_perches table, and clear the form.
         ServerTiming::start("Inserting Rows.");
         $perch->save();
         $current_perch_update = DB::table('current_perches')->updateOrInsert([ 'user_id' => $this_user_id ], $perch_array);
-        ServerTiming::stop("Inserting Rows.");
+        dd(ServerTiming::stop("Inserting Rows."));
+        // $dur = ServerTiming::stop("Inserting Rows.")->getElapsedTimeInMs();
         // Livewire emit.
         $this->emit('saved');
         $this->render();

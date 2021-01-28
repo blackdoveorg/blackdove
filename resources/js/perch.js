@@ -175,7 +175,9 @@ $(function() {
         perchMap.addLayer(perch);
         window.livewire.emit('set:map-attributes', $('#latitude').val(), $('#longitude').val(), $('#north_latitude').val(), $('#south_latitude').val(), $('#east_longitude').val(), $('#west_longitude').val());
     });
-
+    window.addEventListener('duration', dur => {
+        alert('Duration: ' + dur.detail);
+    })
     perchMap.on('moveend', function () {
         var bounds = transformExtent(perchMap.getView().calculateExtent(perchMap.getSize()), 'EPSG:3857','EPSG:4326');
         $('#north_latitude').val(bounds[3]);
