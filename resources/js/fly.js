@@ -15,6 +15,7 @@ import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
+import { update } from 'lodash';
 
 $(function() {
 
@@ -91,23 +92,20 @@ $(function() {
         zoom: 1,
     });
     
-    var flyMap = new Map({
+    window.flyMap = new Map({
         layers: [tLayer, clusters],
         renderer: 'canvas',
         target: 'flyMap',
         view: flyView,
     });
 
-    flyJSON.on('change', function(evt) {
-    var source = evt.target;
-    if(source.getState() === 'ready'){
-        window.cytoscapeData = {};
-        window.cytoscapeData['nodes'] = [];
-        window.cytoscapeData['edges'] = [];
-        var features = flyJSON.getFeatures();
-        var feature;
-        for (var i = 0, ii = features.length; i < ii; ++i) {
-          feature = features[i];
+    function updateCytoscape()
+    {
+      window.cytoscapeData = {};
+      window.cytoscapeData['nodes'] = [];
+      window.cytoscapeData['edges'] = [];
+      var extent = flyMap.getView().calculateExtent(flyMap.getSize());
+      flyJSON.forEachFeatureInExtent(extent, function(feature){
           var issue_category = feature.get('issue_category');
           for (const issue_entry in issue_category) {
             var issue_node_data = { data: { id: issue_category[issue_entry], weight: 1} };
@@ -124,43 +122,43 @@ $(function() {
               window.cytoscapeData['edges'].push(edge_data);
             }
           }
+      }); 
+      // console.log(cytoscapeData);
+      var cy = cytoscape({
+
+        container: document.getElementById('cy'), // container to render in
+        
+        elements: cytoscapeData,
+
+        style: [ // the stylesheet for the graph
+        {
+            selector: 'node',
+            style: {
+            'background-color': '#666',
+            'label': 'data(id)'
+            }
+        },
+
+        {
+            selector: 'edge',
+            style: {
+            'width': 'data(width)',
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+            'target-arrow-shape': 'triangle',
+            'curve-style': 'bezier'
+            }
         }
-        console.log(cytoscapeData);
-        var cy = cytoscape({
+        ],
 
-          container: document.getElementById('cy'), // container to render in
-          
-          elements: cytoscapeData,
-
-          style: [ // the stylesheet for the graph
-          {
-              selector: 'node',
-              style: {
-              'background-color': '#666',
-              'label': 'data(id)'
-              }
-          },
-
-          {
-              selector: 'edge',
-              style: {
-              'width': 'data(width)',
-              'line-color': '#ccc',
-              'target-arrow-color': '#ccc',
-              'target-arrow-shape': 'triangle',
-              'curve-style': 'bezier'
-              }
-          }
-          ],
-
-          });
-          var layout = cy.layout({
+        });
+        var layout = cy.layout({
           name: 'circle'
-          });
-          layout.run();
-      }
-      
-    });
+        });
+        layout.run();
+    }
+    
+
     function decodeEntities(encodedString) {
         var textArea = document.createElement('textarea');
         textArea.innerHTML = encodedString;
@@ -185,6 +183,13 @@ $(function() {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
+    flyMap.on("moveend", updateCytoscape);
+    flyJSON.on('change', function(evt) {
+      var source = evt.target;
+      if(source.getState() === 'ready'){
+        updateCytoscape();
+      }
+    });
     flyMap.on('click', function (evt) {
         var coordinates = toLonLat(evt.coordinate);
 
