@@ -144,7 +144,7 @@ $(function() {
             style: {
             'width': 'data(width)',
             'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
+            'target-arrow-color': '#000',
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier'
             }
