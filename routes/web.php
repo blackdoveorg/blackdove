@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerchJSON;
 use App\Http\Controllers\FlyJSON;
+use App\Http\Controllers\FlyJSONPublic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -40,3 +41,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [FlyJSON::class, 'flyJSON'])->name('data-flyJSON');
+
+Route::get('/data/flyJSONPublic/', [FlyJSONPublic::class, 'flyJSONPublic'])->name('data-flyJSONPublic');
