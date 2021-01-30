@@ -30,15 +30,19 @@
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
             <textarea id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
+        </div>
+        <div class="col-span-12 grid-cols-1">
             <x-jet-label for="issue_category" class="py-1" value="{{ __('Issue Categories') }}" />
-            <x-input.selectmultiple wire:model="issue_category" prettyname="issue_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->issue_category, TRUE)}}" multiple class="issue-choice mt-1 block w-full form-input rounded-md shadow-sm" />
+            <x-input.selectmultiple wire:model="issue_category" prettyname="issue_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->issue_category, TRUE)}}"/>
         </div>
         <div class="col-span-12 grid-cols-1">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
             <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />
+        </div>
+        <div class="col-span-12 grid-cols-1">
             <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" />
-            <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->solution_category, TRUE) }}" multiple class="solution-choice mt-1 block w-full form-input rounded-md shadow-sm" />
+            <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->solution_category, TRUE) }}"/>
         </div>
         <!-- <div class="col-span-4 grid grid-cols-2 gap-4">
             <div>

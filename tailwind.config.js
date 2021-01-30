@@ -14,6 +14,12 @@ module.exports = {
             },
             colors: {
                 'olive': '#808000',
+                'sea' : '#01295f',
+                'sky' : '#437f97',
+                'sun' : '#ffb30f',
+                'plasma' : '#fd151b',
+                
+                
             }
         }
     },

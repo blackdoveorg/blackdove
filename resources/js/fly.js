@@ -15,9 +15,14 @@ import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
-import { update } from 'lodash';
+import { debounce } from 'lodash';
+import fcose from 'cytoscape-fcose';
 
 $(function() {
+  var closer = document.getElementById('popup-closer');
+
+    cytoscape.use( fcose );
+
 
     var flyFill = new Fill({
         color: 'rgba(0, 0, 0, 0.75)'
@@ -50,7 +55,7 @@ $(function() {
     });
 
     var clusterSource = new Cluster({
-        distance: 40,
+        distance: 50,
         source: flyJSON,
       });
       var styleCache = {};
@@ -101,34 +106,37 @@ $(function() {
 
     function updateCytoscape()
     {
-      window.cytoscapeData = {};
-      window.cytoscapeData['nodes'] = [];
-      window.cytoscapeData['edges'] = [];
+      window.tempCytoscapeData = {};
+      window.tempCytoscapeData['nodes'] = [];
+      window.tempCytoscapeData['edges'] = [];
+      window.tempCytoscapeData['nodes'].push({ data: { id: 'Issues' } });
+      window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
       var extent = flyMap.getView().calculateExtent(flyMap.getSize());
       flyJSON.forEachFeatureInExtent(extent, function(feature){
           var issue_category = feature.get('issue_category');
           for (const issue_entry in issue_category) {
-            var issue_node_data = { data: { id: issue_category[issue_entry], weight: 1} };
-            window.cytoscapeData['nodes'].push(issue_node_data);
+            var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
+            window.tempCytoscapeData['nodes'].push(issue_node_data);
           }
           var solution_category = feature.get('solution_category');
           for (const solution_entry in solution_category) {
-            var solution_node_data = { data: { id: solution_category[solution_entry], weight: 1} };
-            window.cytoscapeData['nodes'].push(solution_node_data);
+            var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
+            window.tempCytoscapeData['nodes'].push(solution_node_data);
           }
           for (var issue_entry in issue_category) {
             for (var solution_entry in solution_category) {
-              var edge_data = { data: { source: issue_category[issue_entry], target: solution_category[solution_entry], width: 5} }
-              window.cytoscapeData['edges'].push(edge_data);
+              var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], width: 5} }
+              window.tempCytoscapeData['edges'].push(edge_data);
             }
           }
+
       }); 
-      // console.log(cytoscapeData);
+      // console.log(tempCytoscapeData);
       var cy = cytoscape({
 
         container: document.getElementById('cy'), // container to render in
         
-        elements: cytoscapeData,
+        elements: tempCytoscapeData,
 
         style: [ // the stylesheet for the graph
         {
@@ -138,7 +146,12 @@ $(function() {
             'label': 'data(id)'
             }
         },
-
+        {
+          selector: 'node:parent',
+          css: {
+            'background-opacity': 0.333
+          }
+        },
         {
             selector: 'edge',
             style: {
@@ -150,10 +163,11 @@ $(function() {
             }
         }
         ],
-
+        
         });
         var layout = cy.layout({
-          name: 'circle'
+          name: 'fcose',
+          animate: false,
         });
         layout.run();
     }
@@ -171,19 +185,41 @@ $(function() {
     var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
     var overlayFeatureIssue = document.querySelector('.fly-issue');
     var overlayFeatureSolution = document.querySelector('.fly-solution');
-    
+    var clusterContainerElement = document.querySelector('.cluster-container');
+    var clusterFeatureData = document.querySelector('.cluster-data');
+    var overlayContainerElementCloser = document.getElementById('overlay-popup-closer');
+    var clusterContainerElementCloser = document.getElementById('cluster-popup-closer');
+
     const overlayLayer = new Overlay({
         element: overlayContainerElement,
         autoPan: true
     })
 
+    const clusterLayer = new Overlay({
+        element: clusterContainerElement,
+        autoPan: true
+    })
+
+    overlayContainerElementCloser.onclick = function () {
+      overlayLayer.setPosition(undefined);
+      return false;
+    };
+
+    clusterContainerElementCloser.onclick = function () {
+      clusterLayer.setPosition(undefined);
+      return false;
+    };
     flyMap.addOverlay(overlayLayer);
+    flyMap.addOverlay(overlayLayer);
+
+    flyMap.addOverlay(clusterLayer);
 
     flyMap.on("pointermove", function () {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
-    flyMap.on("moveend", updateCytoscape);
+    clusterSource.on("change", _.debounce(updateCytoscape, 1500));
+    
     flyJSON.on('change', function(evt) {
       var source = evt.target;
       if(source.getState() === 'ready'){
@@ -194,6 +230,7 @@ $(function() {
         var coordinates = toLonLat(evt.coordinate);
 
         overlayLayer.setPosition(undefined);
+        clusterLayer.setPosition(undefined);
         
         flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
@@ -201,45 +238,26 @@ $(function() {
 
             if (feature)
             {
-                // console.log(feature);
+                console.log(feature);
                 let clickedCoordinate = evt.coordinate;
                 if (typeof feature.get('features') === 'undefined') {
                     overlayFeatureIssue.innerHTML = '';
                     overlayFeatureSolution.innerHTML = '';
                 } else {
                     var cfeatures = feature.get('features');
-                    //console.log(cfeatures);
-                    // if (cfeatures.length > 1) {
-                    //     popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
-                    //     for (var i = 0; i < cfeatures.length; i++) {
-                    //         $(popup_content).append('<article><strong>' + cfeatures[i].get('name') + '</article>');
-                    //     }
-                    // }
 
-                    if (cfeatures.length === 1) {
-                        overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
-                        overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
-                        overlayFeatureCompass.style.backgroundColor = '#' + cfeatures[0].get('color');
-                        overlayFeatureSocialCompass.innerHTML = cfeatures[0].get('social-compass');
-                        overlayFeatureEconomicCompass.innerHTML = cfeatures[0].get('economic-compass');
+                    if (cfeatures.length > 1) {
+                      clusterFeatureData.innerHTML = 'There are ' + cfeatures.length + ' Perches in this area.<br/>Please zoom in to see more detailed information.';
+                      clusterLayer.setPosition(clickedCoordinate);
+                    } else if (cfeatures.length === 1) {
+                      overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
+                      overlayFeatureSolution.innerHTML = cfeatures[0].get('solution');
+                      overlayFeatureCompass.style.backgroundColor = '#' + cfeatures[0].get('color');
+                      overlayFeatureSocialCompass.innerHTML = cfeatures[0].get('social-compass');
+                      overlayFeatureEconomicCompass.innerHTML = cfeatures[0].get('economic-compass');
+                      overlayLayer.setPosition(clickedCoordinate);
                     }
-                }
-                // let color = feature.get('color');
-                // let socialCompass = feature.get('social-compass');
-                // let economicCompass = feature.get('economic-compass');
-                let issue = decodeEntities(feature.get('issue'));
-                let solution = decodeEntities(feature.get('solution'));
-                // let view = flyMap.getView();
-                // view.animate({
-                //     center: clickedCoordinate,
-                //     zoom:   view.getZoom()
-                // });
-                
-                overlayLayer.setPosition(clickedCoordinate);
-                // overlayFeatureCompass.style.backgroundColor = color;
-                // overlayFeatureSocialCompass.innerHTML = socialCompass;
-                // overlayFeatureEconomicCompass.innerHTML = economicCompass;
-                
+                }   
             }
         })
     });
