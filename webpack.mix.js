@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/fontawesome.scss', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss')('./tailwind.config.js'),
@@ -20,4 +21,6 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/perch.js', 'public/js')
     .js('resources/js/fly.js', 'public/js')
     .js('resources/js/home.js', 'public/js')
-    .js('resources/js/wave.js', 'public/js');
+    .js('resources/js/wave.js', 'public/js').options({
+        processCssUrls: true,
+    });

@@ -18,11 +18,11 @@ import { getValueType } from 'ol/style/expressions';
 import { debounce } from 'lodash';
 import fcose from 'cytoscape-fcose';
 window.fixContentHeight = function(){
-    console.log('test');
   var viewHeight = $(window).height();
+  var headerHeight = $("#header").height();
   var content = $("#flyMap");
   var chart = $('#charts');
-  var contentHeight = viewHeight -  264;
+  var contentHeight = viewHeight -  headerHeight - 64;
   content.height(contentHeight);
   chart.height(contentHeight);
   flyMap.updateSize();
@@ -133,9 +133,11 @@ $(function() {
           var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
           window.tempCytoscapeData['nodes'].push(solution_node_data);
         }
+        var edge_width = (((issue_category.length*1/(issue_category.length)) + (solution_category.length*1/(solution_category.length)))/(issue_category.length + solution_category.length))*3;
         for (var issue_entry in issue_category) {
           for (var solution_entry in solution_category) {
-            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: 2} }
+            
+            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: edge_width} }
             window.tempCytoscapeData['edges'].push(edge_data);
           }
         }

@@ -12,9 +12,10 @@
         <style>
             .logo
             {
-                height: 200px;
+                height: 125px;
                 margin-top: 0px;
                 margin-bottom: 0px;
+                display: inline-block;
             }
             .blackdove {
                 font-family: Overpass,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
@@ -81,31 +82,35 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
         <!-- Fonts -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/fontawesome.css') }}" rel="stylesheet">
 
     </head>
     <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 grid grid-cols-1 items-center sm:pt-0">
+        <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 grid grid-cols-1 sm:pt-0">
             @if (Route::has('login'))
-                <div class="fixed top-0 right-0 px-6 py-4">
+                <div class="fixed top-4 right-0 px-6 py-6">
                     @auth
-                        <a href="{{ url('/nest') }}" class="text-sm text-gray-700 underline">Nest</a>
+                        <button type="button" onclick="location.href='{{ url('/nest') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Nest</button>
                     @else
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-gray-700 underline">Register</a> or
+                        <button type="button" onclick="location.href='{{ route('register') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Register</button>
                         @endif
-                        <a href="{{ route('login') }}" class="text-gray-700 underline">Login</a>
-
-                       
+                        <button type="button" onclick="location.href='{{ route('login') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Login</button>
                     @endif
+                        <!-- <button type="button" onclick="location.href='{{ route('about') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">About</button> -->
+                        <!-- <button type="button" onclick=tutorial(); class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Tutorial</button> -->
+                        <!-- <button type="button" onclick="location.href='{{ url('login') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Shop</button> -->
+                        <a href="http://www.reddit.com/r/blackdove" class="inline-block align-middle ml-2 text-md social"><i class="items-center fab fa-2x fa-reddit-square"></i></a>
+                        <a href="https://www.facebook.com/theblackdoveorg" class="inline-block align-middle ml-2 text-md social"><i class="py-2 fab fa-2x fa-facebook-square"></i></a>
+                        <a href="https://twitter.com/blackdoveorg" class="inline-block align-middle ml-2 text-md social"><i class="py-2 fab fa-2x fa-twitter-square"></i></a>
                 </div>
             @endif
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div id="header" class="max-w-6xl sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="md:flex-shrink-0">
-                        <center>
-                            <img class="py-4 logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
-                        </center>
+                            <img class="py-4 logo align-middle object-left" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
+                            <p class="inline-block text-center align-middle pt-3 pl-3 text-4xl"><b>BLACK DOVE</b></p>
                     </div>
                 </div>
             </div>          

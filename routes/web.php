@@ -21,6 +21,8 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/about', [HomeController::class, 'index'])->name('about');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
