@@ -89,11 +89,12 @@
                     @auth
                         <a href="{{ url('/nest') }}" class="text-sm text-gray-700 underline">Nest</a>
                     @else
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="text-gray-700 underline">Register</a> or
+                        @endif
                         <a href="{{ route('login') }}" class="text-gray-700 underline">Login</a>
 
-                        @if (Route::has('register'))
-                            or <a href="{{ route('register') }}" class="text-gray-700 underline">register</a> to contribute.
-                        @endif
+                       
                     @endif
                 </div>
             @endif
