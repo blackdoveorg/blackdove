@@ -7,9 +7,9 @@
             loadingText: 'Loading...',
             noResultsText: 'No results found.',
             noChoicesText: 'No choices to choose from.',
-            itemSelectText: 'Press to select.',
-			removeItems: true,
-    		removeItemButton: true,
+			itemSelectText: 'Press to select.',
+			placeholder: true,
+			placeholderValue: 'Begin typing to search for categories.',
             maxItemText: (maxItemCount) => {
             return `Only ${maxItemCount} values can be added`;
             },
@@ -73,11 +73,12 @@
 	  return result;
 	}
 	">
-    <select id="{{ $attributes['prettyname'] }}" wire-model="{{ $attributes['wire:model'] }}" wire:change="{{ $attributes['wire:change'] }}" x-ref="{{ $attributes['prettyname'] }}" multiple="multiple">
+    <select id="{{ $attributes['prettyname'] }}" wire-model="{{ $attributes['wire:model'] }}" wire:change="{{ $attributes['wire:change'] }}" x-ref="{{ $attributes['prettyname'] }}" class="p-0" multiple="multiple">
     	@if(count($attributes['options'])>0)
-	    	@foreach($attributes['options'] as $key=>$option)
+			@foreach($attributes['options'] as $key=>$option)
+				<option value="">Please provide between one and three categories.</option>
 	    		<option value="{{$option}}" >{{$option}}</option>
 	    	@endforeach
     	@endif
-    </select>
+	</select>
 </div>

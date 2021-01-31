@@ -32,8 +32,8 @@ class Form extends Component
     ];
 
     protected $rules = [
-        'latitude' => 'required|between:-90, 90',
-        'longitude' => 'required|between:-180, 180',
+        'latitude' => 'required|between:-90, 90|not_in:0',
+        'longitude' => 'required|between:-180, 180|not_in:0',
         'ip_latitude' => 'required|between:-90, 90',
         'ip_longitude' => 'required|between:-180, 180',
         'north_latitude' => 'required|between:-90, 90',
@@ -44,6 +44,14 @@ class Form extends Component
         'ip_issue_distance' => 'required',
         'issue' => 'required|max:255',
         'solution' => 'required|max:255',
+        'issue_category' => 'required',
+        'solution_category' => 'required',
+    ];
+
+    protected $messages = [
+        'latitude.not_in' => 'Please provide a location for your Perch.',
+        'issue_category.required' => 'Please provide at least one category for the identified issue.',
+        'solution_category.required' => 'Please provide at least one category for the identified solution.',
     ];
 
     public function setMapAttributes($latitude, $longitude, $north_latitude, $south_latitude, $east_longitude, $west_longitude) 
@@ -62,8 +70,8 @@ class Form extends Component
 
     public function createPerch()
     {
-        
         $this->validate();
+
         $this_user_id = Auth::id();
         // Get user data from users table, store it for later use.
         $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
@@ -134,6 +142,8 @@ class Form extends Component
             $this->longitude = $current_perch_data->longitude;
         } else
         {
+            $this->latitude = '';
+            $this->longitude = '';
             $this->ip_latitude = session('geoip')->lat;
             $this->ip_longitude = session('geoip')->lon; 
         }

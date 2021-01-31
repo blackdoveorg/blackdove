@@ -6,9 +6,10 @@
     <x-slot name="description">
         {{ __('Perch allows you to declare issues you believe can be solved. Click on the map where you know about an issue. Then provide a description of the issue, and a description of the solution. If you could protest anywhere in the world, where would it be? ') }}
     </x-slot>
-    <x-slot name="form">
+    <x-slot name="form" >
         <div class="col-span-12">
             <div id="perchMap" wire:ignore="perchMap" class="map shadow self-center"></div>
+            <x-jet-input-error for="latitude" class="mt-2" />
             <div class="overlay-container">
                 <!-- <center>
                     <span class="compass-color"></span><br/>
@@ -26,23 +27,25 @@
                 </center>
             </div>
         </div>
-        <div class="col-span-12 grid-cols-1">
+        <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
-            <textarea id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
+            <textarea placeholder="What issues are there in your area?" id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
-        <div class="col-span-12 grid-cols-1">
+        <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue_category" class="py-1" value="{{ __('Issue Categories') }}" />
             <x-input.selectmultiple wire:model="issue_category" prettyname="issue_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->issue_category, TRUE)}}"/>
+            <x-jet-input-error for="issue_category" class="mt-2" />
         </div>
-        <div class="col-span-12 grid-cols-1">
+        <div class="col-span-12 grid gap-.5">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
-            <textarea id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
+            <textarea placeholder="How do you propose we solve the issue you identified?" id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />
         </div>
-        <div class="col-span-12 grid-cols-1">
-            <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" />
+        <div class="col-span-12 grid gap-.5">
+            <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" /> 
             <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->solution_category, TRUE) }}"/>
+            <x-jet-input-error for="solution_category" class="mt-2" />
         </div>
         <!-- <div class="col-span-4 grid grid-cols-2 gap-4">
             <div>
@@ -77,6 +80,7 @@
         <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ session('geoip')->lat }}" wire:ignore="ip_latitude"/>
         <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="{{ session('geoip')->lon }}" wire:ignore="ip_longitude"/>
         <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="perch_flag"/>
+        <!-- <a href="/category" class="col-span-12 text-xs p-0" target="_blank">Category not listed? Propose one.</a> -->
     </x-slot>
 
     <x-slot name="actions">

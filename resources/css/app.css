@@ -6,8 +6,12 @@ html {
     font-family: 'Overpass', sans-serif;
 }
 
-term {
+a {
     color: olive;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}
+a:hover {
+    color: rgb(188, 188, 0);
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
 

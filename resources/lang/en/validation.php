@@ -134,6 +134,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'for' => [
+            'latitude' => 'Please press on the map to set an issue location.',
+        ],
     ],
 
     /*
