@@ -10,6 +10,8 @@
 			itemSelectText: 'Press to select.',
 			placeholder: true,
 			placeholderValue: 'Begin typing to search for categories.',
+			removeItems: true,
+   			removeItemButton: true,
             maxItemText: (maxItemCount) => {
             return `Only ${maxItemCount} values can be added`;
             },
