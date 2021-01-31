@@ -293,7 +293,7 @@ $(function() {
             zoom: 8,
             duration: 2500
         });
-        updateCytoscape();    
+        // updateCytoscape();    
       }
     });
     flyMap.on('click', function (evt) {

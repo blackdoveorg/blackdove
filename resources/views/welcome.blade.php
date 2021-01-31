@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Black Dove</title>
-
+        <meta property="og:image" content="{{ asset('img/blackdove.svg') }}" />
+        <meta property="og:description" content="Grassroots government." />
         
         <!-- Styles -->
         <style>
