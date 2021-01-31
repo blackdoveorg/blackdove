@@ -157,10 +157,11 @@ $(function() {
             }
         },
         {
-          selector: 'node:parent',
-          css: {
-            'background-opacity': 0.333
-          }
+            selector: 'node:parent',
+            style: {
+            'shape' : 'round-rectangle',
+            'background-opacity': 0.10
+            }
         },
         {
             selector: 'edge',

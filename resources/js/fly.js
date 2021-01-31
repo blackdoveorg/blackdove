@@ -150,8 +150,9 @@ $(function() {
         },
         {
           selector: 'node:parent',
-          css: {
-            'background-opacity': 0.333
+          style: {
+            'shape' : 'round-rectangle',
+            'background-opacity': 0.10
           }
         },
         {
@@ -276,7 +277,7 @@ $(function() {
   }
   fixContentHeight();
 
-    $(window).resize(function(){
+    $(window).resize(function (){
         fixContentHeight();
     });
 });
