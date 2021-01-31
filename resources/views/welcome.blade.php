@@ -11,8 +11,8 @@
         <style>
             .logo
             {
-                width: 200px;
-                margin-top: 50px;
+                width: 150px;
+                margin-top: 25px;
                 margin-bottom: 25px;
             }
             html, body {
@@ -86,11 +86,10 @@
                     @auth
                         <a href="{{ url('/nest') }}" class="text-sm text-gray-700 underline">Nest</a>
                     @else
-                        Want to contribute?<br/>
                         <a href="{{ route('login') }}" class="text-gray-700 underline">Login</a>
 
                         @if (Route::has('register'))
-                            or <a href="{{ route('register') }}" class="text-gray-700 underline">Register</a>
+                            or <a href="{{ route('register') }}" class="text-gray-700 underline">register</a> to contribute.
                         @endif
                     @endif
                 </div>
@@ -98,7 +97,7 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
-                    <div class="md:flex-shrink-0">
+                    <div class="py-8 md:flex-shrink-0">
                         <center>
                             <img class="logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
                             <p class="text-5xl break-words" style="font-family: 'Cooper Black', sans-serif;">BLACK DOVE</p>
@@ -138,18 +137,18 @@
             <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="0" wire:ignore="ip_longitude"/>
 
         </div>
-        <div id="container" style="width: 100%">
+        <!-- <div id="container" style="width: 100%">
             <canvas id="c" class="flex" style="position: relative;"></canvas>
             <center>
             </center>
-        </div>   
+        </div>    -->
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('/js/home.js') }}"></script> 
-    <script type="text/javascript" src="{{ asset('/js/wave.js') }}"></script> 
+    <!-- <script type="text/javascript" src="{{ asset('/js/wave.js') }}"></script>  -->
     <script>
-    $( window ).resize(function() {
-        wave();
-    });
+    // $( window ).resize(function() {
+    //     wave();
+    // });  
     </script>
 </html>

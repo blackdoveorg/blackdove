@@ -11,7 +11,7 @@ class FlyJSON extends Controller
 {
     public function getUserFlyData($id)
     {
-        $currentFly = DB::table('current_perches')->limit(5000)->get();
+        $currentFly = DB::table('current_perches')->latest()->limit(5000)->get();
         if (!empty($currentFly))
         {
             return $currentFly;

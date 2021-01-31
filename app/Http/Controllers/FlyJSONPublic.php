@@ -9,7 +9,7 @@ class FlyJSONPublic extends Controller
 {
     public function getUserFlyData()
     {
-        $currentFly = DB::table('current_perches')->limit(1000)->get();
+        $currentFly = DB::table('current_perches')->latest()->limit(1000)->get();
         if (!empty($currentFly))
         {
             return $currentFly;

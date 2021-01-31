@@ -94,7 +94,7 @@ $(function() {
 
     var flyView = new View({
         center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 1,
+        zoom: 10,
     });
     
     window.flyMap = new Map({
