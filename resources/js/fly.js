@@ -113,6 +113,8 @@ $(function() {
       window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
       var extent = flyMap.getView().calculateExtent(flyMap.getSize());
       flyJSON.forEachFeatureInExtent(extent, function(feature){
+          var issue_color = feature.get('color');
+          console.log(issue_color);
           var issue_category = feature.get('issue_category');
           for (const issue_entry in issue_category) {
             var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
@@ -125,7 +127,7 @@ $(function() {
           }
           for (var issue_entry in issue_category) {
             for (var solution_entry in solution_category) {
-              var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], width: 5} }
+              var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: 2} }
               window.tempCytoscapeData['edges'].push(edge_data);
             }
           }
@@ -155,11 +157,11 @@ $(function() {
         {
             selector: 'edge',
             style: {
-            'width': 'data(width)',
-            'line-color': '#ccc',
-            'target-arrow-color': '#000',
-            'target-arrow-shape': 'triangle',
-            'curve-style': 'bezier'
+              'width': 'data(width)',
+              'line-color': 'data(color)',
+              'target-arrow-color': '#000',
+              'target-arrow-shape': 'triangle',
+              'curve-style': 'haystack'
             }
         }
         ],

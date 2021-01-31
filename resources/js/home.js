@@ -114,24 +114,25 @@ $(function() {
       window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
       var extent = flyMap.getView().calculateExtent(flyMap.getSize());
       flyJSON.forEachFeatureInExtent(extent, function(feature){
-          var issue_category = feature.get('issue_category');
-          for (const issue_entry in issue_category) {
-            var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
-            window.tempCytoscapeData['nodes'].push(issue_node_data);
+        var issue_color = feature.get('color');
+        var issue_category = feature.get('issue_category');
+        for (const issue_entry in issue_category) {
+          var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
+          window.tempCytoscapeData['nodes'].push(issue_node_data);
+        }
+        var solution_category = feature.get('solution_category');
+        for (const solution_entry in solution_category) {
+          var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
+          window.tempCytoscapeData['nodes'].push(solution_node_data);
+        }
+        for (var issue_entry in issue_category) {
+          for (var solution_entry in solution_category) {
+            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: 2} }
+            window.tempCytoscapeData['edges'].push(edge_data);
           }
-          var solution_category = feature.get('solution_category');
-          for (const solution_entry in solution_category) {
-            var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
-            window.tempCytoscapeData['nodes'].push(solution_node_data);
-          }
-          for (var issue_entry in issue_category) {
-            for (var solution_entry in solution_category) {
-              var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], width: 5} }
-              window.tempCytoscapeData['edges'].push(edge_data);
-            }
-          }
+        }
 
-      }); 
+    }); 
       // console.log(tempCytoscapeData);
       var cy = cytoscape({
 
@@ -157,10 +158,10 @@ $(function() {
             selector: 'edge',
             style: {
             'width': 'data(width)',
-            'line-color': '#ccc',
+            'line-color': 'data(color)',
             'target-arrow-color': '#000',
             'target-arrow-shape': 'triangle',
-            'curve-style': 'bezier'
+            'curve-style': 'haystack'
             }
         }
         ],
