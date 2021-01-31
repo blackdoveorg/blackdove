@@ -289,7 +289,7 @@ $(function() {
         flyView.animate(
         {
             center: flyJSON.getFeatures()[0].getGeometry().getCoordinates(),
-            zoom: 5,
+            zoom: 8,
             duration: 2500
         });
         updateCytoscape();    
