@@ -17,10 +17,18 @@ import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
 import { debounce } from 'lodash';
 import fcose from 'cytoscape-fcose';
-
+window.fixContentHeight = function(){
+    console.log('test');
+  var viewHeight = $(window).height();
+  var content = $("#flyMap");
+  var chart = $('#charts');
+  var contentHeight = viewHeight -  200;
+  content.height(contentHeight);
+  chart.height(contentHeight);
+  flyMap.updateSize();
+}
 $(function() {
-  var closer = document.getElementById('popup-closer');
-
+    
     cytoscape.use( fcose );
 
 
@@ -322,17 +330,6 @@ $(function() {
             }
         })
     });
-    window.fixContentHeight = function(){
-      var viewHeight = $(window).height();
-      var header = $("header");
-      var navbar = $("nav");
-      var content = $("#flyMap");
-      var chart = $('#charts');
-      var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 50;
-      content.height(contentHeight);
-      chart.height(contentHeight);
-      flyMap.updateSize();
-  }
   fixContentHeight();
 
     $(window).resize(function(){

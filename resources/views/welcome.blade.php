@@ -12,8 +12,11 @@
             .logo
             {
                 width: 150px;
-                margin-top: 25px;
-                margin-bottom: 25px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+            .blackdove {
+                font-family: Overpass,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
             }
             html, body {
                 height: 100%;
@@ -97,11 +100,9 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col">
-                    <div class="py-8 md:flex-shrink-0">
+                    <div class="md:flex-shrink-0">
                         <center>
-                            <img class="logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
-                            <p class="text-5xl break-words" style="font-family: 'Cooper Black', sans-serif;">BLACK DOVE</p>
-                            <p class="text-3xl break-words" style="font-family: 'Cooper Black', sans-serif;">GRASSROOTS GOVERNMENT</p>
+                            <img class="py-4 logo align-middle" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
                         </center>
                     </div>
                 </div>
