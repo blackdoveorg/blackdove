@@ -110,7 +110,6 @@
                 <div class="flex flex-col">
                     <div class="md:flex-shrink-0">
                             <img class="py-4 logo align-middle object-left" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
-                            <p class="inline-block text-center align-middle pt-3 pl-3 text-4xl"><b>BLACK DOVE</b></p>
                     </div>
                 </div>
             </div>          
