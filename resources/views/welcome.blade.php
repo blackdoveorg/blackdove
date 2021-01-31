@@ -11,7 +11,7 @@
         <style>
             .logo
             {
-                width: 150px;
+                height: 200px;
                 margin-top: 0px;
                 margin-bottom: 0px;
             }

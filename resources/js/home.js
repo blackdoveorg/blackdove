@@ -22,7 +22,7 @@ window.fixContentHeight = function(){
   var viewHeight = $(window).height();
   var content = $("#flyMap");
   var chart = $('#charts');
-  var contentHeight = viewHeight -  200;
+  var contentHeight = viewHeight -  264;
   content.height(contentHeight);
   chart.height(contentHeight);
   flyMap.updateSize();
