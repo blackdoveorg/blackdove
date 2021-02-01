@@ -189,17 +189,6 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                <div class="flex-shrink-0">
-                    <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name=blackdove&amp;color=7F9CF5&amp;background=EBF4FF" alt="blackdove" />
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-
-            </div>
-        </div>
     </div>
 </nav>
 
@@ -207,7 +196,7 @@
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Black Dove (Lurker Mode)
+            Black Dove
         </h2>
                 </div>
             </header>
@@ -251,7 +240,7 @@
         @livewireScripts
     </body>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{{ asset('js/home.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('js/home.js') }}"></script> 
 
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>
