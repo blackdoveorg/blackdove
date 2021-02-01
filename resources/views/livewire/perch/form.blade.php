@@ -8,7 +8,7 @@
     </x-slot>
     <x-slot name="form" >
         <div id="jumpBottom" class="col-span-12 block sm:hidden">
-            <button type="button" id="jumpBottom" onclick="jumpScroll('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Issue Input</button>
+            <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Issue Input</button>
         </div>
         <div class="col-span-12">
             <div id="perchMap" wire:ignore="perchMap" class="map shadow self-center"></div>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div id="jumpTop" class="col-span-12 block sm:hidden">
-            <button type="button" id="jumpTop" onclick="jumpScroll('#jumpTop', '#jumpBottom', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Map</button>
+            <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', '#jumpBottom', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Map</button>
         </div>
         <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />

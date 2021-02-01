@@ -22,6 +22,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/fly.js', 'public/js')
     .js('resources/js/home.js', 'public/js')
     .js('resources/js/interface.js', 'public/js')
+    .js('resources/js/path.js', 'public/js')
     .js('resources/js/wave.js', 'public/js').options({
         processCssUrls: true,
     });

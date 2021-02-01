@@ -21,64 +21,9 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.js"></script>
-        <script src="{{asset('js/interface.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
-            html, body {
-                height: 100%;
-                margin: 0;
-            }
-            .map {
-                width: 100%;
-                height: 350px;
-            }
-            .overlay-container {
-                width: 250px;
-                font-size: 11px;
-                background-color: #f5f5f5;
-                color: #000;
-                border: 1px solid black;
-                border-radius: 5px;
-                padding: 5px;
-                position: absolute;
-                z-index: 1000;
-                bottom: 100%;
-                left: 100%;
-                margin-left: -125px;
-            }
-            .cluster-container {
-                width: 250px;
-                font-size: 11px;
-                background-color: #f5f5f5;
-                color: #000;
-                border: 1px solid black;
-                border-radius: 5px;
-                padding: 5px;
-                position: absolute;
-                z-index: 1000;
-                bottom: 100%;
-                left: 100%;
-                margin-left: -125px;
-            }
-            .ol-popup-closer {
-                text-decoration: none;
-                position: absolute;
-                top: 5px;
-                right: 5px;
-            }
-            .compass-color {
-                margin: 3px;
-                height: 15px;
-                width: 15px;
-                background-color: #bbb;
-                border: 2px solid black;
-                border-radius: 50%;
-                display: inline-block;
-            }
-            #cy {
-                height: 300px;
-                display: block;
-            }
+            
         </style>
     </head>
     <body class="font-sans antialiased">
@@ -153,6 +98,9 @@
                         Login
                     </a>
                 @endif
+                    <!-- <a class="tutorial inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-olive focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                        Tutorial
+                    </a> -->
                 </div>
             </div>
 
@@ -187,6 +135,9 @@
                 Login
             </a>
         @endif
+            <!-- <a class="tutorial block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                Tutorial
+            </a> -->
         </div>
 
         <!-- Responsive Settings Options -->
@@ -206,7 +157,7 @@
             <main>
                 <div class="grid flex grid-cols-3 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
                     <div id="jumpBottom" class="col-span-3 block sm:hidden">
-                        <button type="button" id="jumpBottom" onclick="jumpScroll('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
+                        <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
                     </div>
                     <div class="lg:col-span-2 col-span-3">
                         <div id="flyMap" wire:ignore="flyMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
@@ -215,7 +166,7 @@
                         <div id="cy" class="shadow grid col-span-1 min-h-full" style="height: 500px;"></div>
                     </div>
                     <div id="jumpTop" class="col-span-3 block sm:hidden">
-                        <button type="button" id="jumpTop" onclick="jumpScroll('#jumpTop', 'nav', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
+                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
                     </div>
                 </div>
                 <div id="overlay-container" class="overlay-container">
@@ -248,6 +199,7 @@
     </body>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ asset('js/home.js') }}"></script> 
-
+        <script src="{{ asset('js/interface.js') }}"></script>
+        <script src="{{ asset('js/path.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>

@@ -32,6 +32,8 @@
         "@tensorflow/tfjs": "^2.8.4",
         "choices.js": "^9.0.1",
         "cytoscape-fcose": "^2.0.0",
+        "intro.js": "^3.2.1",
+        "mobile-detect": "git+https://github.com/hgoebl/mobile-detect.js.git",
         "ol": "^6.4.3"
     }
 }

@@ -2,7 +2,8 @@
 	x-data
 	x-init="() => {
 	var choices = new Choices($refs.{{ $attributes['prettyname'] }}, {
-		maxItemCount: 3,
+			maxItemCount: 3,
+			renderChoiceLimit: -1,
             renderSelectedChoices: 'auto',
             loadingText: 'Loading...',
             noResultsText: 'No results found.',

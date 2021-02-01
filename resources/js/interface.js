@@ -1,4 +1,4 @@
-window.jumpScroll = function(from, to, position)
+window.jumpBetween = function(from, to)
 {
     $(from).click(function() {
         $([document.documentElement, document.body]).animate({
