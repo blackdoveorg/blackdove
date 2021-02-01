@@ -32,12 +32,12 @@ window.fixContentHeight = function(){
     var chartAdd;
     if (md.mobile())
     {
-        content.height(contentHeight);
-        chart.height(viewHeight);
+        content.height(contentHeight - jumpBottom - 16);
+        chart.height(viewHeight - jumpBottom - jumpTop - 16);
     } else
     {
-        content.height(contentHeight + 16);
-        chart.height(contentHeight + 16);
+        content.height(contentHeight - 16);
+        chart.height(contentHeight - 16);
     }
     flyMap.updateSize();
 }

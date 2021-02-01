@@ -87,15 +87,6 @@ $(function() {
     source: clusterSource,
     style: function (feature) {
         var size = feature.get('features').length;
-        var featureColor;
-        console.log(feature);
-        if (feature.get('color'))
-        {
-            featureColor = feature.get('color');
-        } else
-        {
-            featureColor = "fff";
-        }
         var style = styleCache[size];
         if (!style) {
         style = new Style({
@@ -106,7 +97,7 @@ $(function() {
                 width: '2'
             }),
             fill: new Fill({
-                color: '#' + featureColor,
+                color: '#808000',
             }),
             }),
             text: new Text({
