@@ -28,23 +28,16 @@ window.fixContentHeight = function(){
     var jumpTop = $("#jumpBottom").outerHeight();
     var content = $("#flyMap");
     var chart = $('#cy');
-    var contentHeight = viewHeight - header - navbar - jumpBottom - 64;
+    var contentHeight = viewHeight - header - navbar - jumpBottom;
     var chartAdd;
     if (md.mobile())
     {
-        if (jumpBottom > 0)
-        {
-            chartAdd = header + navbar;
-        } else
-        {
-            chartAdd = 0;
-        }
-        content.height(contentHeight);
-        chart.height(contentHeight + chartAdd);
+        content.height(contentHeight - jumpBottom - 16);
+        chart.height(viewHeight - jumpBottom - jumpTop - 16);
     } else
     {
-        content.height(contentHeight + 48);
-        chart.height(contentHeight+ 48);
+        content.height(contentHeight - 16);
+        chart.height(contentHeight - 16);
     }
     flyMap.updateSize();
 }
