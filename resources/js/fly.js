@@ -17,6 +17,9 @@ import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
 import { debounce } from 'lodash';
 import fcose from 'cytoscape-fcose';
+var MobileDetect = require('mobile-detect');
+var md = new MobileDetect(window.navigator.userAgent);
+
 window.fixContentHeight = function(){
     var viewHeight = $(window).height();
     var header = $("header").outerHeight();
@@ -25,17 +28,24 @@ window.fixContentHeight = function(){
     var jumpTop = $("#jumpBottom").outerHeight();
     var content = $("#flyMap");
     var chart = $('#cy');
-    var contentHeight = viewHeight - header - navbar - jumpBottom - 50;
+    var contentHeight = viewHeight - header - navbar - jumpBottom - 64;
     var chartAdd;
-    if (jumpBottom > 0)
+    if (md.mobile())
     {
-        chartAdd = header + navbar;
+        if (jumpBottom > 0)
+        {
+            chartAdd = header + navbar;
+        } else
+        {
+            chartAdd = 0;
+        }
+        content.height(contentHeight);
+        chart.height(contentHeight + chartAdd);
     } else
     {
-        chartAdd = 0;
+        content.height(contentHeight + 48);
+        chart.height(contentHeight+ 48);
     }
-    content.height(contentHeight);
-    chart.height(contentHeight + chartAdd);
     flyMap.updateSize();
 }
 
