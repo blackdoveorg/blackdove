@@ -28,8 +28,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-        return view('dashboard');
-    })->name('nest');
+    return view('dashboard');
+})->name('nest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     $categories = DB::table('categories')->get();

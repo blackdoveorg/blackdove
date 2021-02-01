@@ -12,7 +12,15 @@
         <style>
             .logo
             {
-                height: 125px;
+                height: 96px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                display: inline-block;
+                z-index: 999;
+            }
+            .logo-sm
+            {
+                height: 64px;
                 margin-top: 0px;
                 margin-bottom: 0px;
                 display: inline-block;
@@ -88,9 +96,9 @@
     <body class="antialiased">
         <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 grid grid-cols-1 sm:pt-0">
             @if (Route::has('login'))
-                <div class="fixed top-4 right-0 px-6 py-6">
+                <div class="fixed right-0 px-4 pt-2">
                     @auth
-                        <button type="button" onclick="location.href='{{ url('/nest') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Nest</button>
+                        <button type="button" onclick="location.href='{{ url('/nest') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-3">Nest</button>
                     @else
                         @if (Route::has('register'))
                         <button type="button" onclick="location.href='{{ route('register') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Register</button>
@@ -100,19 +108,20 @@
                         <!-- <button type="button" onclick="location.href='{{ route('about') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">About</button> -->
                         <!-- <button type="button" onclick=tutorial(); class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Tutorial</button> -->
                         <!-- <button type="button" onclick="location.href='{{ url('login') }}'" class="inline-flex items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 ml-2">Shop</button> -->
-                        <a href="http://www.reddit.com/r/blackdove" class="inline-block align-middle ml-2 text-md social"><i class="items-center fab fa-2x fa-reddit-square"></i></a>
+                        <br/>
+                        <center><a href="http://www.reddit.com/r/blackdove" class="inline-block align-middle ml-2 text-md social"><i class="fab fa-2x fa-reddit-square"></i></a>
                         <a href="https://www.facebook.com/theblackdoveorg" class="inline-block align-middle ml-2 text-md social"><i class="py-2 fab fa-2x fa-facebook-square"></i></a>
-                        <a href="https://twitter.com/blackdoveorg" class="inline-block align-middle ml-2 text-md social"><i class="py-2 fab fa-2x fa-twitter-square"></i></a>
+                        <a href="https://twitter.com/blackdoveorg" class="inline-block align-middle ml-2 text-md social"><i class="py-2 fab fa-2x fa-twitter-square"></i></a></center>
                 </div>
             @endif
 
-            <div id="header" class="max-w-6xl sm:px-6 lg:px-8">
+            <div id="header" class="flex max-w-6xl sm:px-6 lg:px-8">
                 <div class="flex flex-col">
                     <div class="md:flex-shrink-0">
-                            <img class="py-4 logo align-middle object-left" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
+                            <img class="py-2 logo align-middle object-none object-left md:object-right" src="{{ asset('img/blackdove.svg') }}" alt="Black Dove"/>
                     </div>
                 </div>
-            </div>          
+            </div>                
             <div class="grid grid-cols-3 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l grid-cols-3 gap-4">
                 <div class="lg:col-span-2 col-span-3">
                     <div id="flyMap" wire:ignore="flyMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
