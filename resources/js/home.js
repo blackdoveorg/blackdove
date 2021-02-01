@@ -19,15 +19,26 @@ import { debounce } from 'lodash';
 import fcose from 'cytoscape-fcose';
 window.fixContentHeight = function(){
     var viewHeight = $(window).height();
-    var header = $("header");
-    var navbar = $("nav");
+    var header = $("header").outerHeight();
+    var navbar = $("nav").outerHeight();
+    var jumpBottom = $("#jumpBottom").outerHeight();
+    var jumpTop = $("#jumpBottom").outerHeight();
     var content = $("#flyMap");
-    var chart = $('#charts');
-    var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 50;
+    var chart = $('#cy');
+    var contentHeight = viewHeight - header - navbar - jumpBottom - 50;
+    var chartAdd;
+    if (jumpBottom > 0)
+    {
+        chartAdd = header + navbar;
+    } else
+    {
+        chartAdd = 0;
+    }
     content.height(contentHeight);
-    chart.height(contentHeight);
+    chart.height(contentHeight + chartAdd);
     flyMap.updateSize();
 }
+
 $(function() {
     
     cytoscape.use( fcose );
@@ -184,6 +195,7 @@ $(function() {
           animate: false,
         });
         layout.run();
+        cy.fit(25)
     }
     
 

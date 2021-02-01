@@ -1,0 +1,1 @@
+window.jumpScroll=function(o,n,c){$(o).click((function(){$([document.documentElement,document.body]).animate({scrollTop:$(n).offset().top},1e3)}))};

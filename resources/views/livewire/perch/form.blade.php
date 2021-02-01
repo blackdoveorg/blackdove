@@ -4,9 +4,12 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Perch allows you to declare issues you believe can be solved. Click on the map where you know about an issue. Then provide a description of the issue, and a description of the solution. If you could protest anywhere in the world, where would it be? ') }}
+        {{ __('Press on the map where you know about an issue. Then provide a description of the issue, and a description of the solution.') }}
     </x-slot>
     <x-slot name="form" >
+        <div id="jumpBottom" class="col-span-12 block sm:hidden">
+            <button type="button" id="jumpBottom" onclick="jumpScroll('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Issue Input</button>
+        </div>
         <div class="col-span-12">
             <div id="perchMap" wire:ignore="perchMap" class="map shadow self-center"></div>
             <x-jet-input-error for="latitude" class="mt-2" />
@@ -27,23 +30,26 @@
                 </center>
             </div>
         </div>
+        <div id="jumpTop" class="col-span-12 block sm:hidden">
+            <button type="button" id="jumpTop" onclick="jumpScroll('#jumpTop', '#jumpBottom', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Map</button>
+        </div>
         <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
-            <textarea placeholder="What issues are there in your area?" id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
+            <textarea placeholder="What are the issues in your area?" id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
         <div class="col-span-12 grid gap-.5">
-            <x-jet-label for="issue_category" class="py-1" value="{{ __('Issue Categories') }}" />
+            <!-- <x-jet-label for="issue_category" class="py-1" value="{{ __('Issue Categories') }}" /> -->
             <x-input.selectmultiple wire:model="issue_category" prettyname="issue_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->issue_category, TRUE)}}"/>
             <x-jet-input-error for="issue_category" class="mt-2" />
         </div>
         <div class="col-span-12 grid gap-.5">
             <x-jet-label for="solution" value="{{ __('Solution Description') }}" />
-            <textarea placeholder="How do you propose we solve the issue you identified?" id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
+            <textarea placeholder="How do you propose we these issues?" id="solution" class="mt-1 block w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="solution"></textarea>
             <x-jet-input-error for="solution" class="mt-2" />
         </div>
         <div class="col-span-12 grid gap-.5">
-            <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" /> 
+            <!-- <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" />  -->
             <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->solution_category, TRUE) }}"/>
             <x-jet-input-error for="solution_category" class="mt-2" />
         </div>

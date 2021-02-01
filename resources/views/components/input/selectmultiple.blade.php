@@ -78,7 +78,7 @@
     <select id="{{ $attributes['prettyname'] }}" wire-model="{{ $attributes['wire:model'] }}" wire:change="{{ $attributes['wire:change'] }}" x-ref="{{ $attributes['prettyname'] }}" class="p-0" multiple="multiple">
     	@if(count($attributes['options'])>0)
 			@foreach($attributes['options'] as $key=>$option)
-				<option value="">Please provide between one and three categories.</option>
+				<option value="">One to three categories.</option>
 	    		<option value="{{$option}}" >{{$option}}</option>
 	    	@endforeach
     	@endif

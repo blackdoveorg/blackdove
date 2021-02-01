@@ -2,7 +2,7 @@ import 'ol/ol.css';
 import Map from 'ol/Map';
 import Overlay from 'ol/Overlay';
 import OSM from 'ol/source/OSM';
-import {transform, transformExtent} from 'ol/proj';
+import {transform, transformExtent, fromLonLat} from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import VectorImage from 'ol/layer'
 import View from 'ol/View';
@@ -17,10 +17,30 @@ import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
 import { debounce } from 'lodash';
 import fcose from 'cytoscape-fcose';
+window.fixContentHeight = function(){
+    var viewHeight = $(window).height();
+    var header = $("header").outerHeight();
+    var navbar = $("nav").outerHeight();
+    var jumpBottom = $("#jumpBottom").outerHeight();
+    var jumpTop = $("#jumpBottom").outerHeight();
+    var content = $("#flyMap");
+    var chart = $('#cy');
+    var contentHeight = viewHeight - header - navbar - jumpBottom - 50;
+    var chartAdd;
+    if (jumpBottom > 0)
+    {
+        chartAdd = header + navbar;
+    } else
+    {
+        chartAdd = 0;
+    }
+    content.height(contentHeight);
+    chart.height(contentHeight + chartAdd);
+    flyMap.updateSize();
+}
 
 $(function() {
-  var closer = document.getElementById('popup-closer');
-
+    
     cytoscape.use( fcose );
 
 
@@ -57,42 +77,43 @@ $(function() {
     var clusterSource = new Cluster({
         distance: 50,
         source: flyJSON,
-      });
-      var styleCache = {};
-      var clusters = new VectorLayer({
-        source: clusterSource,
-        style: function (feature) {
-          var size = feature.get('features').length;
-          var style = styleCache[size];
-          if (!style) {
-            style = new Style({
-              image: new CircleStyle({
-                radius: 10,
-                stroke: new Stroke({
-                  color: '#000',
-                  width: '2'
-                }),
-                fill: new Fill({
-                  color: '#808000',
-                }),
-              }),
-              text: new Text({
-                text: size.toString(),
-                fill: new Fill({
-                  color: '#fff',
-                }),
-              }),
-            });
-            styleCache[size] = style;
-          }
-          return style;
-        },
-      });
+    });
+    
+    var styleCache = {};
+    var clusters = new VectorLayer({
+    source: clusterSource,
+    style: function (feature) {
+        var size = feature.get('features').length;
+        var style = styleCache[size];
+        if (!style) {
+        style = new Style({
+            image: new CircleStyle({
+            radius: 10,
+            stroke: new Stroke({
+                color: '#000',
+                width: '2'
+            }),
+            fill: new Fill({
+                color: '#808000',
+            }),
+            }),
+            text: new Text({
+            text: size.toString(),
+            fill: new Fill({
+                color: '#fff',
+            }),
+            }),
+        });
+        styleCache[size] = style;
+        }
+        return style;
+    },
+    });
 
     var ip_latitude = $('#ip_latitude').val();
     var ip_longitude = $('#ip_longitude').val();
 
-    var flyView = new View({
+    window.flyView = new View({
         center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
         zoom: 1,
     });
@@ -150,20 +171,20 @@ $(function() {
             }
         },
         {
-          selector: 'node:parent',
-          style: {
+            selector: 'node:parent',
+            style: {
             'shape' : 'round-rectangle',
             'background-opacity': 0.10
-          }
+            }
         },
         {
             selector: 'edge',
             style: {
-              'width': 'data(width)',
-              'line-color': 'data(color)',
-              'target-arrow-color': '#000',
-              'target-arrow-shape': 'triangle',
-              'curve-style': 'haystack'
+            'width': 'data(width)',
+            'line-color': 'data(color)',
+            'target-arrow-color': '#000',
+            'target-arrow-shape': 'triangle',
+            'curve-style': 'haystack'
             }
         }
         ],
@@ -174,6 +195,7 @@ $(function() {
           animate: false,
         });
         layout.run();
+        cy.fit(25)
     }
     
 
@@ -224,10 +246,69 @@ $(function() {
 
     clusterSource.on("change", _.debounce(updateCytoscape, 1500));
     
+    // function flyTo(location, done) {
+    //     var duration = 25000;
+    //     var zoom = 10;
+    //     var parts = 2;
+    //     var called = false;
+    //     function callback(complete) {
+    //         --parts;
+    //         if (called) {
+    //             return;
+    //         }
+    //         if (parts === 0 || !complete) {
+    //             called = true;
+    //         }   
+    //     }
+    //     flyView.animate(
+    //     {
+    //         center: location,
+    //         duration: duration,
+    //     },
+    //     callback
+    //     );
+    //     flyView.animate(
+    //     {
+    //         zoom: zoom - 1,
+    //         duration: duration / 2,
+    //     },
+    //     {
+    //         zoom: zoom,
+    //         duration: duration / 2,
+    //     },
+    //     callback
+    //     );
+    // }
+    // function tour(trip) {
+    //     var index = -1;
+    //     function next(more) {
+    //       if (more) {
+    //         ++index;
+    //         if (index < trip.length) {
+    //           var delay = index === 0 ? 1000 : 1000;
+    //           setTimeout(function () {
+    //             flyTo(trip[index], next);
+    //           }, delay);
+    //         } else {
+    //         //   alert('Tour complete');
+    //         }
+    //       } else {
+    //         // alert('Tour cancelled');
+    //       }
+    //     }
+    //     next(true);
+    //   }
+      
     flyJSON.on('change', function(evt) {
       var source = evt.target;
       if(source.getState() === 'ready'){
-        updateCytoscape();
+        flyView.animate(
+        {
+            center: flyJSON.getFeatures()[0].getGeometry().getCoordinates(),
+            zoom: 8,
+            duration: 2500
+        });
+        // updateCytoscape();    
       }
     });
     flyMap.on('click', function (evt) {
@@ -265,20 +346,9 @@ $(function() {
             }
         })
     });
-    window.fixContentHeight = function(){
-      var viewHeight = $(window).height();
-      var header = $("header");
-      var navbar = $("nav");
-      var content = $("#flyMap");
-      var chart = $('#charts');
-      var contentHeight = viewHeight - header.outerHeight() - navbar.outerHeight() - 50;
-      content.height(contentHeight);
-      chart.height(contentHeight);
-      flyMap.updateSize();
-  }
   fixContentHeight();
 
-    $(window).resize(function (){
+    $(window).resize(function(){
         fixContentHeight();
     });
 });

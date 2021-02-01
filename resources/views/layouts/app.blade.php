@@ -22,6 +22,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.js"></script>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{asset('js/interface.js') }}"></script>
+
         <style>
             html, body {
                 height: 100%;

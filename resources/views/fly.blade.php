@@ -6,11 +6,17 @@
     </x-slot>
 
     <div class="grid grid-cols-3 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l grid-cols-3 gap-4">
+        <div id="jumpBottom" class="col-span-3 block sm:hidden">
+            <button type="button" id="jumpBottom" onclick="jumpScroll('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
+        </div>
         <div class="lg:col-span-2 col-span-3">
             <div id="flyMap" wire:ignore="flyMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
         </div>
         <div class="lg:col-span-1 col-span-3">
             <div id="cy" class="shadow grid col-span-1 min-h-full" style="height: 500px;"></div>
+        </div>
+        <div id="jumpTop" class="col-span-3 block sm:hidden">
+            <button type="button" id="jumpTop" onclick="jumpScroll('#jumpTop', 'nav', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
         </div>
     </div>
     <div id="overlay-container" class="overlay-container">
