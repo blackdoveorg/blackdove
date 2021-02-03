@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-    return view('dashboard');
+    return view('fly');
 })->name('nest');
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 
