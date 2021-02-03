@@ -20,10 +20,15 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome')->middleware('guest');
+Route::get('/nest', [HomeController::class, 'index'])->name('welcome')->middleware('guest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
+    $this_user_id = Auth::id();
     $categories = DB::table('categories')->get();
-    return view('perch')->with('categories', $categories);
+    $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+    return view('perch')
+                        ->with('categories', $categories)
+                        ->with('user_data', $user_data);
 })->name('dashboard-perch');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

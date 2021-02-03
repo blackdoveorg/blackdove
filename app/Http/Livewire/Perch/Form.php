@@ -26,6 +26,7 @@ class Form extends Component
     public $issue_category;
     public $solution_category;
     public $categories;
+    public $issue_color;
 
     protected $listeners = [
         'set:map-attributes' => 'setMapAttributes'
@@ -131,6 +132,7 @@ class Form extends Component
     public function mount()
     {
         $this_user_id = Auth::id();
+        $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
         $current_perch_data = DB::table('current_perches')->where('user_id', '=', $this_user_id)->get()->first();
         if (!empty($current_perch_data))
         {
@@ -140,10 +142,12 @@ class Form extends Component
             $this->solution_category = json_decode($current_perch_data->solution_category);
             $this->latitude = $current_perch_data->latitude;
             $this->longitude = $current_perch_data->longitude;
+            $this->compass_color = $user_data->compass_color;
         } else
         {
             $this->latitude = '';
             $this->longitude = '';
+            $this->compass_color = $user_data->compass_color;
             $this->ip_latitude = session('geoip')->lat;
             $this->ip_longitude = session('geoip')->lon; 
         }

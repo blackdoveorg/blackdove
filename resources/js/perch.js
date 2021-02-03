@@ -23,13 +23,13 @@ $(function() {
     updateCytoscape();
     var md = new MobileDetect(window.navigator.userAgent);
     var geoStepMobile = "<li>Tap on the map where there\'s an issue<br/>(pinch to zoom).</li>";
-    var geoStepOther = "<li>Click on the map where there\'s an issue (use your mousewheel to zoom).<br/><li>";
+    var geoStepOther = "<li>Click on the map where there\'s an issue (use your mousewheel to zoom).<br/></li>";
     var mobileStep = "<li>Click the <b class='text-xs'>GO TO ISSUE</b> button.</li>";
-    var descriptionStep = "<li>Provide a description of the issue and solution.</li>";
+    var descriptionStep = "<li>Provide a description and category of the issue and solution.</li>";
     var perchStep = "<li>Click Perch.</li>";
     // Setting the Perch instructions this really hackish way.
     var instructionsMobile = "<ol style='list-style: decimal;'>" + geoStepMobile + mobileStep + descriptionStep + perchStep + "</ol>";
-    var instructionsOther = "<ol style='list-style: decimal;'>" + geoStepOther + descriptionStep + perchStep + "</li></ol>";
+    var instructionsOther = "<ol style='list-style: decimal;'>" + geoStepOther + descriptionStep + perchStep + "</ol>";
     
     if (md.mobile())
     {
@@ -304,7 +304,7 @@ $(function() {
         });
         var layout = cy.layout({
           name: 'fcose',
-          animate: false,
+          animate: true,
         });
         layout.run();
     }

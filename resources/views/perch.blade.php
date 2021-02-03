@@ -7,7 +7,8 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @livewire('perch.form', ['categories' => $categories])
+            @livewire('perch.form', ['categories' => $categories,
+                                    'user_data' => $user_data])
         </div>
     </div>
 
