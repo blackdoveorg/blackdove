@@ -24,9 +24,9 @@
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('welcome') }}">
-                    {{ __('Go back home.') }}
+            <div class="text-xs md:text-sm flex items-center justify-end mt-4">
+                <a class="underline text-gray-600 hover:text-gray-900" href="{{ route('welcome') }}">
+                    {{ __('Go home.') }}
                 </a> 
                 <x-jet-button class="ml-4">
                     {{ __('Email Password Reset Link') }}
