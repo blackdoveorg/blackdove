@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Perch allows you to declare issues you believe you have a solution for. If you could protest anywhere in the world, where would it be?') }}
+        {{ __('Perch allows you to declare issues you believe you have a solution for.') }}
     </x-slot>
     <x-slot name="form">
         <div class="col-span-6 sm:col-span-4">

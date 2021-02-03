@@ -13,9 +13,31 @@ import Point from 'ol/geom/Point'
 import {toLonLat} from 'ol/proj';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
+import fcose from 'cytoscape-fcose';
+var MobileDetect = require('mobile-detect');
 
 $(function() {
-
+    $('.choices__input').change(function() {
+        updateCytoscape();
+    });
+    updateCytoscape();
+    var md = new MobileDetect(window.navigator.userAgent);
+    var geoStepMobile = "<li>Tap on the map where there\'s an issue<br/>(pinch to zoom).</li>";
+    var geoStepOther = "<li>Click on the map where there\'s an issue (use your mousewheel to zoom).<br/><li>";
+    var mobileStep = "<li>Click the <b class='text-xs'>GO TO ISSUE</b> button.</li>";
+    var descriptionStep = "<li>Provide a description of the issue and solution.</li>";
+    var perchStep = "<li>Click Perch.</li>";
+    // Setting the Perch instructions this really hackish way.
+    var instructionsMobile = "<ol style='list-style: decimal;'>" + geoStepMobile + mobileStep + descriptionStep + perchStep + "</ol>";
+    var instructionsOther = "<ol style='list-style: decimal;'>" + geoStepOther + descriptionStep + perchStep + "</li></ol>";
+    
+    if (md.mobile())
+    {
+        $('#instructions').hide().html(instructionsMobile).fadeIn(1000);
+        var startItem;
+    } else {
+        $('#instructions').html(instructionsOther).fadeIn(1000);
+    }
     var perchFill = new Fill({
         color: 'rgba(222, 222, 222, 0.0)'
     });
@@ -216,4 +238,74 @@ $(function() {
         });
         perchMap.addLayer(perchLayer);
     })
+    function updateCytoscape()
+    {
+        window.tempCytoscapeData = {};
+        window.tempCytoscapeData['nodes'] = [];
+        window.tempCytoscapeData['edges'] = [];
+        window.tempCytoscapeData['nodes'].push({ data: { id: 'Issues' } });
+        window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
+
+        var issue_color = "#fff";
+        // var issue_color = window.user_color;
+        var issue_category = $('#issue_category').val();
+        for (const issue_entry in issue_category) {
+        var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
+        window.tempCytoscapeData['nodes'].push(issue_node_data);
+        }
+        var solution_category = $('#solution_category').val();
+        for (const solution_entry in solution_category) {
+        var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
+        window.tempCytoscapeData['nodes'].push(solution_node_data);
+        }
+
+        var edge_width = (((issue_category.length*1/(issue_category.length)) + (solution_category.length*1/(solution_category.length)))/(issue_category.length + solution_category.length))*3;
+        for (var issue_entry in issue_category) {
+            for (var solution_entry in solution_category) {
+
+            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: edge_width} }
+            window.tempCytoscapeData['edges'].push(edge_data);
+            }
+        }
+      // console.log(tempCytoscapeData);
+      var cy = cytoscape({
+
+        container: document.getElementById('cy'), // container to render in
+        
+        elements: tempCytoscapeData,
+
+        style: [ // the stylesheet for the graph
+        {
+            selector: 'node',
+            style: {
+            'background-color': '#666',
+            'label': 'data(id)'
+            }
+        },
+        {
+            selector: 'node:parent',
+            style: {
+            'shape' : 'round-rectangle',
+            'background-opacity': 0.10
+            }
+        },
+        {
+            selector: 'edge',
+            style: {
+            'width': 'data(width)',
+            'line-color': 'data(color)',
+            'target-arrow-color': '#000',
+            'target-arrow-shape': 'triangle',
+            'curve-style': 'haystack'
+            }
+        }
+        ],
+        
+        });
+        var layout = cy.layout({
+          name: 'fcose',
+          animate: false,
+        });
+        layout.run();
+    }
 });

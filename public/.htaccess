@@ -3,9 +3,14 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    RewriteCond %{HTTP_HOST} ^blackdove.org
+    RewriteRule (.*) http://www.blackdove.org/$1 [R=301,L]
+
     RewriteEngine On
     RewriteBase /
-    
+
+    Redirect /dashboard/ /fly/
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

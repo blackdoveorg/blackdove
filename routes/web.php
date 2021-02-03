@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-    return view('dashboard');
+    return view('nest');
 })->name('nest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {

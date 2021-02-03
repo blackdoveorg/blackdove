@@ -4,13 +4,14 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Press on the map where you know about an issue. Then provide a description of the issue, and a description of the solution.') }}
+        <div class="m-4" wire:ignore id="instructions"></div>
     </x-slot>
     <x-slot name="form" >
         <div id="jumpBottom" class="col-span-12 block sm:hidden">
-            <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Issue Input</button>
+            <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Go to Issue</button>
         </div>
         <div class="col-span-12">
+            <x-jet-label for="map" value="{{ __('Location') }}" />
             <div id="perchMap" wire:ignore="perchMap" class="map shadow self-center"></div>
             <x-jet-input-error for="latitude" class="mt-2" />
             <div class="overlay-container">
@@ -52,6 +53,9 @@
             <!-- <x-jet-label for="solution_category" class="py-1" value="{{ __('Solution Categories') }}" />  -->
             <x-input.selectmultiple wire:model="solution_category" prettyname="solution_category" :options="$categories->pluck('category', 'id')->toArray()" selected="{{ json_encode($this->solution_category, TRUE) }}"/>
             <x-jet-input-error for="solution_category" class="mt-2" />
+        </div>
+        <div wire:ignore class="col-span-12 grid gap-.5">
+            <div id="cy" class="shadow grid col-span-1 min-h-full" style="height: 200px;"></div>
         </div>
         <!-- <div class="col-span-4 grid grid-cols-2 gap-4">
             <div>
