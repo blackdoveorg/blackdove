@@ -186,7 +186,7 @@ $(function() {
             'width': 'data(width)',
             'line-color': 'data(color)',
             'target-arrow-color': '#000',
-            'target-arrow-shape': 'triangle',
+            'haystack-radius' : .25,
             'curve-style': 'haystack'
             }
         }

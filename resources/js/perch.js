@@ -17,6 +17,7 @@ import fcose from 'cytoscape-fcose';
 var MobileDetect = require('mobile-detect');
 
 $(function() {
+    window.current_issue_color = $('#compass_color').val();
     $('.choices__input').change(function() {
         updateCytoscape();
     });
@@ -39,7 +40,7 @@ $(function() {
         $('#instructions').html(instructionsOther).fadeIn(1000);
     }
     var perchFill = new Fill({
-        color: 'rgba(222, 222, 222, 0.0)'
+        color: '#' + current_issue_color,
     });
     
     var perchStroke = new Stroke({
@@ -230,7 +231,7 @@ $(function() {
             return [new Style({
             image: new CircleStyle({
                     radius: 8,
-                    fill: new Fill({ color: '#111' }),
+                    fill: new Fill({ color: '#' + current_issue_color }),
                     stroke: perchStroke
                 })
             })];
@@ -247,7 +248,6 @@ $(function() {
         window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
 
         var issue_color = "#fff";
-        // var issue_color = window.user_color;
         var issue_category = $('#issue_category').val();
         for (const issue_entry in issue_category) {
         var issue_node_data = { data: { parent: 'Issues', id: 'I:' + issue_category[issue_entry], weight: 1} };
@@ -263,7 +263,7 @@ $(function() {
         for (var issue_entry in issue_category) {
             for (var solution_entry in solution_category) {
 
-            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + issue_color, width: edge_width} }
+            var edge_data = { data: { source: 'I:' + issue_category[issue_entry], target: 'S:' + solution_category[solution_entry], color: '#' + current_issue_color, width: edge_width} }
             window.tempCytoscapeData['edges'].push(edge_data);
             }
         }
@@ -295,7 +295,7 @@ $(function() {
             'width': 'data(width)',
             'line-color': 'data(color)',
             'target-arrow-color': '#000',
-            'target-arrow-shape': 'triangle',
+            'haystack-radius' : .25,
             'curve-style': 'haystack'
             }
         }

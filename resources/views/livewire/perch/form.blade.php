@@ -89,9 +89,9 @@
         </div> -->
         <x-jet-input readonly hidden class="mt-1 block w-full form-input rounded-md shadow-sm" id="ip_latitude" value="{{ session('geoip')->lat }}" wire:ignore="ip_latitude"/>
         <x-jet-input readonly hidden class="mt-1 block form-input rounded-md shadow-sm" id="ip_longitude" value="{{ session('geoip')->lon }}" wire:ignore="ip_longitude"/>
-        <!-- <div wire:ignore class="col-span-12 grid gap-.5">
-            <x-jet-input class="mt-1 block w-full form-input rounded-md shadow-sm" id="issue_color" name="issue_color" wire:model="issue_color"/>
-        </div> -->
+        <div class="col-span-12 grid gap-.5">
+            <x-jet-input readonly hidden wire:ignore class="mt-1 block w-full form-input rounded-md shadow-sm" id="compass_color" name="compass_color" wire:model="compass_color"/>
+        </div>
         <!-- <a href="/category" class="col-span-12 text-xs p-0" target="_blank">Category not listed? Propose one.</a> -->
     </x-slot>
 

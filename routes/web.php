@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerchJSON;
 use App\Http\Controllers\FlyJSON;
 use App\Http\Controllers\FlyJSONPublic;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     $this_user_id = Auth::id();
     $categories = DB::table('categories')->get();
     $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+    // dd($user_data);
     return view('perch')
                         ->with('categories', $categories)
                         ->with('user_data', $user_data);
@@ -38,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
     return view('fly');
 })->name('nest');

@@ -26,7 +26,7 @@ class Form extends Component
     public $issue_category;
     public $solution_category;
     public $categories;
-    public $issue_color;
+    public $compass_color;
 
     protected $listeners = [
         'set:map-attributes' => 'setMapAttributes'
@@ -116,8 +116,6 @@ class Form extends Component
         $perch_array['issue_category'] = $perch->issue_category;
         $perch_array['solution_category'] = $perch->solution_category;
         $perch_array['social_compass'] = $perch->social_compass;
-        $perch_array['economic_compass'] = $perch->economic_compass;
-        $perch_array['compass_color'] = $perch->compass_color;
         $perch_array['economic_compass'] = $perch->economic_compass;
         $perch_array['compass_color'] = $perch->compass_color;
  

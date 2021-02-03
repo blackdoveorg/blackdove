@@ -148,7 +148,7 @@ $(function() {
           var solution_node_data = { data: { parent: 'Solutions', id: 'S:' + solution_category[solution_entry], weight: 1} };
           window.tempCytoscapeData['nodes'].push(solution_node_data);
         }
-        var edge_width = (((issue_category.length*1/(issue_category.length)) + (solution_category.length*1/(solution_category.length)))/(issue_category.length + solution_category.length))*3;
+        var edge_width = (((issue_category.length*1/(issue_category.length)) + (solution_category.length*1/(solution_category.length)))/(issue_category.length + solution_category.length));
         for (var issue_entry in issue_category) {
           for (var solution_entry in solution_category) {
             
@@ -176,7 +176,7 @@ $(function() {
         {
             selector: 'node:parent',
             style: {
-            'shape' : 'round-rectangle',
+            'shape' : 'round',
             'background-opacity': 0.10
             }
         },
@@ -186,7 +186,7 @@ $(function() {
             'width': 'data(width)',
             'line-color': 'data(color)',
             'target-arrow-color': '#000',
-            'target-arrow-shape': 'triangle',
+            'haystack-radius' : .25,
             'curve-style': 'haystack'
             }
         }
