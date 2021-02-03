@@ -19,27 +19,23 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
-
-Route::get('/about', [HomeController::class, 'index'])->name('about');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-    return view('nest');
-})->name('nest');
+Route::get('/', [HomeController::class, 'index'])->name('welcome')->middleware('guest');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     $categories = DB::table('categories')->get();
     return view('perch')->with('categories', $categories);
 })->name('dashboard-perch');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('fly');
 })->name('dashboard-fly');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
+    return view('fly');
+})->name('dashboard-fly');
+Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
+    return view('dashboard');
+})->name('nest');
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [FlyJSON::class, 'flyJSON'])->name('data-flyJSON');

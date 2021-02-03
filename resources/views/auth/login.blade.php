@@ -34,9 +34,14 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
+                    <p><a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                        {{ __('Not registered') }}
+                    </a> 
+                    <p class="text-sm text-gray-600">&nbsp;or&nbsp;</p> 
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{ __('forgot your password?') }}
                     </a>
+                    </p>
                 @endif
 
                 <x-jet-button class="ml-4">
