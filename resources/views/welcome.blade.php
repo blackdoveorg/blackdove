@@ -150,6 +150,15 @@
             <!-- Page Content -->
             <main>
                 <div class="grid flex grid-cols-3 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
+                    <div id="intro" class="col-span-3">
+                    <div class="px-4 sm:px-0">
+                        <h3 class="text-lg font-medium text-gray-900">Fly</h3>
+
+                        <p class="mt-1 text-sm text-gray-600">
+                            </p><div class="m-4" wire:ignore="" id="instructions" style=""><ol style="list-style: decimal;"><li>Tap on the map where there's an issue<br>(pinch to zoom).</li><li>Click the <b class="text-xs">GO TO ISSUE</b> button.</li><li>Provide a description and category of the issue and solution.</li><li>Click Perch.</li></ol></div>
+                        <p></p>
+                    </div>
+                    </div>
                     <div id="jumpBottom" class="col-span-3 block sm:hidden">
                         <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
                     </div>
