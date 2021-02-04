@@ -12,11 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
-                        {{ __('Fly') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('dashboard-perch') }}" :active="request()->routeIs('dashboard-perch')">
                         {{ __('Perch') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
+                        {{ __('Fly') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -54,13 +54,13 @@
 
                         <div class="block px-4 py-2 text-xs text-gray-400">
                             {{ __('Tools') }}
-                        </div>
-                        <x-jet-dropdown-link href="{{ route('dashboard-fly') }}">
-                            {{ __('Fly') }}
-                        </x-jet-dropdown-link>     
+                        </div>    
                         <x-jet-dropdown-link href="{{ route('dashboard-perch') }}">
                             {{ __('Perch') }}
                         </x-jet-dropdown-link>  
+                        <x-jet-dropdown-link href="{{ route('dashboard-fly') }}">
+                            {{ __('Fly') }}
+                        </x-jet-dropdown-link> 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                 {{ __('API Tokens') }}
@@ -129,11 +129,11 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
-                {{ __('Fly') }}
-            </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('dashboard-perch') }}" :active="request()->routeIs('dashboard-perch')">
                 {{ __('Perch') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
+                {{ __('Fly') }}
             </x-jet-responsive-nav-link>
         </div>
 

@@ -33,16 +33,27 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
 })->name('dashboard-perch');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('fly');
-})->name('dashboard-fly');
+    $this_user_id = Auth::id();
+    $categories = DB::table('categories')->get();
+    $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+    return view('perch')
+    ->with('categories', $categories)
+    ->with('user_data', $user_data);;
+})->name('dashboard-perch');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
     return view('fly');
 })->name('dashboard-fly');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
-    return view('fly');
-})->name('dashboard-fly');
+    $this_user_id = Auth::id();
+    $categories = DB::table('categories')->get();
+    $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+    return view('perch')
+    ->with('categories', $categories)
+    ->with('user_data', $user_data);;
+})->name('dashboard-perch');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [FlyJSON::class, 'flyJSON'])->name('data-flyJSON');
