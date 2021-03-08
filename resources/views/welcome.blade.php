@@ -146,12 +146,12 @@
             <!-- Page Content -->
             <main>
                 <div class="grid flex grid-cols-6 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
-                    <div id="jumpBottom" class="col-span-6 block">
+                    <div class="col-span-6 block">
                         <p class="text-6xl text-center m-2">Connect the elected with the electorate.</p>
                         <p class="text-3xl text-center m-2">Explore important issues, and modernize political discourse together.</p>
                     </div>
-                    <div id="jumpBottom" class="col-span-6 block sm:hidden">
-                        <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
+                    <div class="col-span-6 block sm:hidden">
+                        <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
                     </div>
                     <div class="lg:col-span-1">
                     </div>
@@ -163,8 +163,8 @@
                     </div>
                     <div class="lg:col-span-1">
                     </div>
-                    <div id="jumpTop" class="col-span-6 block sm:hidden">
-                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
+                    <div class="col-span-6 block sm:hidden">
+                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
                     </div>
                 </div>
                 <div id="overlay-container" class="overlay-container">
