@@ -163,20 +163,9 @@
             <main>
                 <div class="grid flex grid-cols-1 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
                     <div class="justify-self-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
-                        <p class="text-2xl m-2">Who made this?</p>
-                        <p class="m-2">After serving 5 years in the Marine Corps with two deployments to Iraq as an intelligence analyst, and 5 years working as a contractor for the Air Force, I have seen the damage that extremism can cause. After experiencing first hand that war only perpetuates fringe ideologies, I am confident that we must seek peace with our fellow citizens no matter their perspective.</p>
-                        <hr/>
-                        <p class="text-2xl m-2">What is this?</p>
-                        <p class="m-2">Black Dove is an anonymous web application designed to connect people with their governments. By providing your data, we are able to create an ecosystem designed for debate and an exchange of ideas.</p>
-                        <hr/>
-                        <p class="text-2xl m-2">When was this started?</p>
-                        <p class="m-2">Black Dove has been an idea of mine since May 2020. A renewed focus on this project came after the January 6th events in Washington D.C.</p>
-                        <hr/>
-                        <p class="text-2xl m-2">Where is the focus of this project?</p>
-                        <p class="m-2">Everywhere. While there is friction in the political system of the United States, there are conflicting ideas across the globe.</p>
-                        <hr/>
-                        <p class="text-2xl m-2">Why did I make this?</p>
-                        <p class="m-2">The intent of this project is to find harmony in an otherwise conflicted political environment. I am convinced that the key to peace is through debate and exposure to a multitude of ideas. Through this process, I believe that individuals from across the political spectrum can cooperate to solve society's most difficult issues.</p>
+                        <p class="text-2xl m-2">About</p>
+                        <p class="m-2">Black Dove is a project to get people to talk to one another, and to focus on solutions to common problems.</p>
+                        <p class="m-2">The intent of this project is to find harmony in an otherwise conflicted political environment. We are convinced that the key to peace is through debate and exposure to a multitude of ideas. Through this process, we believe that individuals from across the political spectrum can cooperate to solve society's most difficult issues.</p>
                     </div>
             </main>
         </div>
