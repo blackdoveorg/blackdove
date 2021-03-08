@@ -18,6 +18,9 @@
                     <x-jet-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
                         {{ __('Fly') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                        {{ __('About') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -60,6 +63,9 @@
                         </x-jet-dropdown-link>  
                         <x-jet-dropdown-link href="{{ route('dashboard-fly') }}">
                             {{ __('Fly') }}
+                        </x-jet-dropdown-link> 
+                        <x-jet-dropdown-link href="{{ route('about') }}">
+                            {{ __('About') }}
                         </x-jet-dropdown-link> 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                             <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -134,6 +140,9 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
                 {{ __('Fly') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                {{ __('About') }}
             </x-jet-responsive-nav-link>
         </div>
 

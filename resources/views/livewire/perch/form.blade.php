@@ -36,7 +36,7 @@
         </div>
         <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
-            <textarea placeholder="What are the issues in your area?" id="issue" class="mt-1 block w-full w-full form-input rounded-md shadow-sm" rows="3" maxlength="255" wire:model="issue"></textarea>
+            <textarea placeholder="What are the issues in your area?" id="issue" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
         <div class="col-span-12 grid gap-.5">

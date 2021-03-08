@@ -20,28 +20,6 @@ import fcose from 'cytoscape-fcose';
 var MobileDetect = require('mobile-detect');
 var md = new MobileDetect(window.navigator.userAgent);
 
-window.fixContentHeight = function(){
-    var viewHeight = $(window).height();
-    var header = $("header").outerHeight();
-    var navbar = $("nav").outerHeight();
-    var jumpBottom = $("#jumpBottom").outerHeight();
-    var jumpTop = $("#jumpBottom").outerHeight();
-    var content = $("#flyMap");
-    var chart = $('#cy');
-    var contentHeight = viewHeight - header - navbar - jumpBottom;
-    var chartAdd;
-    if (md.mobile())
-    {
-        content.height(contentHeight - jumpBottom - 16);
-        chart.height(viewHeight - jumpBottom - jumpTop - 16);
-    } else
-    {
-        content.height(contentHeight - 16);
-        chart.height(contentHeight - 16);
-    }
-    flyMap.updateSize();
-}
-
 $(function() {
     
     cytoscape.use( fcose );
@@ -91,7 +69,7 @@ $(function() {
         if (!style) {
         style = new Style({
             image: new CircleStyle({
-            radius: 10,
+            radius: 12.5,
             stroke: new Stroke({
                 color: '#000',
                 width: '2'
@@ -326,7 +304,7 @@ $(function() {
 
             if (feature)
             {
-                console.log(feature);
+                // console.log(feature);
                 let clickedCoordinate = evt.coordinate;
                 if (typeof feature.get('features') === 'undefined') {
                     overlayFeatureIssue.innerHTML = '';
@@ -348,10 +326,5 @@ $(function() {
                 }   
             }
         })
-    });
-  fixContentHeight();
-
-    $(window).resize(function(){
-        fixContentHeight();
     });
 });

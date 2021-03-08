@@ -35,7 +35,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="">
+                    <a href="/">
                         <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="50" height="50" viewBox="0 0 95.450886 96.97414" version="1.1" id="svg2765" inkscape:version="0.92.4 (5da689c313, 2019-01-14)" sodipodi:docname="blackdove_FACE.svg" inkscape:export-xdpi="96" inkscape:export-ydpi="96">
                         <defs id="defs2759">
                             <clipPath clipPathUnits="userSpaceOnUse" id="clipPath5699">
@@ -85,6 +85,12 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 @auth
+                    <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-olive focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('dashboard-perch') }}">
+                        Perch
+                    </a>
+                    <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-olive focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('dashboard-fly') }}">
+                        Fly
+                    </a>
                 @else
                     @if (Route::has('register'))
                     <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-olive focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('register') }}">
@@ -103,7 +109,6 @@
                     </a> -->
                 </div>
             </div>
-
             <!-- Settings Dropdown -->
         
             <!-- Hamburger -->
@@ -122,6 +127,12 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
         @auth
+            <a class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('dashboard-perch') }}">
+                Perch
+            </a>
+            <a class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('dashboard-fly') }}">
+                Fly
+            </a>
         @else
             @if (Route::has('register'))
             <a class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('register') }}">
@@ -130,9 +141,6 @@
             @endif
             <a class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('login') }}">
                 Login
-            </a>
-            <a class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('about') }}">
-                About
             </a>
         @endif
             <!-- <a class="tutorial block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
@@ -143,61 +151,37 @@
         <!-- Responsive Settings Options -->
     </div>
 </nav>
+            <!-- Page Heading -->
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        About
+                    </h2>
+                </div>
+            </header>
             <!-- Page Content -->
             <main>
-                <div class="grid flex grid-cols-6 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
-                    <div id="jumpBottom" class="col-span-6 block">
-                        <p class="text-6xl text-center m-2">Connect the elected with the electorate.</p>
-                        <p class="text-3xl text-center m-2">Explore important issues, and modernize political discourse together.</p>
+                <div class="grid flex grid-cols-1 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
+                    <div id="jumpBottom" class="justify-self-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
+                        <p class="text-2xl m-2">Who made this?</p>
+                        <p class="m-2">My name is Mark Ciubal, and I am a permenantly disabled veteran.</p>
+                        <p class="m-2">After serving 5 years in the Marine Corps with two deployments to Iraq as an intelligence analyst, and 5 years working as a contractor for the Air Force, I have seen the damage that extremism can cause. After experiencing first hand that war only perpetuates fringe ideologies, I am confident that we must seek peace with our fellow citizens no matter their perspective.</p>
+                        <hr/>
+                        <p class="text-2xl m-2">What is this?</p>
+                        <p class="m-2">Black Dove is an anonymous web application designed to connect people with their governments. By providing your data, we are able to create an ecosystem designed for debate and an exchange of ideas.</p>
+                        <hr/>
+                        <p class="text-2xl m-2">When was this started?</p>
+                        <p class="m-2">Black Dove has been an idea of mine since May 2020. A renewed focus on this project came after the January 6th events in Washington D.C.</p>
+                        <hr/>
+                        <p class="text-2xl m-2">Where is the focus of this project?</p>
+                        <p class="m-2">Everywhere. While there is friction in the political system of the United States, there are conflicting ideas across the globe.</p>
+                        <hr/>
+                        <p class="text-2xl m-2">Why did I make this?</p>
+                        <p class="m-2">The intent of this project is to find harmony in an otherwise conflicted political environment. I am convinced that the key to peace is through debate and exposure to a multitude of ideas. Through this process, I believe that individuals from across the political spectrum can cooperate to solve society's most difficult issues.</p>
                     </div>
-                    <div id="jumpBottom" class="col-span-6 block sm:hidden">
-                        <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop', 'bottom')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
-                    </div>
-                    <div class="lg:col-span-1">
-                    </div>
-                    <div class="lg:col-span-2 col-span-6">
-                        <div id="flyMap" wire:ignore="flyMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
-                    </div>
-                    <div class="lg:col-span-2 col-span-6">
-                        <div id="cy" class="shadow grid col-span-1 min-h-full" style="height: 500px;"></div>
-                    </div>
-                    <div class="lg:col-span-1">
-                    </div>
-                    <div id="jumpTop" class="col-span-6 block sm:hidden">
-                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav', 'top')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
-                    </div>
-                </div>
-                <div id="overlay-container" class="overlay-container">
-                    <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer">x</a>
-                    <center>
-                        <b>Issue</b><br/>
-                        <span class="fly-issue"></span><br/><br/>
-                        <b>Solution</b><br/>
-                        <span class="fly-solution"></span><br/><br/>
-                        <b>Metadata</b><br/>
-                        <div class="compass-color"></div><br/>
-                        Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
-                    </center>
-                </div>
-                <div id="cluster-container" class="cluster-container">
-                    <a href="#" id="cluster-popup-closer" class="align-right ol-popup-closer">x</a>
-                    <center>
-                        <b>Data</b><br/>
-                        <span class="cluster-data"></span>
-                    </center>
-                </div>
-                <input  class="form-input rounded-md shadow-sm mt-1 block w-full form-input rounded-md shadow-sm" readonly="readonly" hidden="hidden" id="ip_latitude" value="0" wire:ignore="ip_latitude">
-                <input  class="form-input rounded-md shadow-sm mt-1 block form-input rounded-md shadow-sm" readonly="readonly" hidden="hidden" id="ip_longitude" value="0" wire:ignore="ip_longitude">
             </main>
         </div>
 
         @stack('modals')
-
-        @livewireScripts
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{{ asset('js/home.js') }}"></script> 
-    <script src="{{ asset('js/interface.js') }}"></script>
-    <script src="{{ asset('js/path.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js"></script> 
 </html>

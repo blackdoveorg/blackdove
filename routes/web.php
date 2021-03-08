@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PerchJSON;
 use App\Http\Controllers\FlyJSON;
 use App\Http\Controllers\FlyJSONPublic;
@@ -21,6 +22,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome')->middleware('guest');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
     $this_user_id = Auth::id();
