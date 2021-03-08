@@ -5,7 +5,7 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Thanks for signing up! Verify your email address by clicking on the link we just emailed to you. Check your spam folder, and if you didn\'t receive the email, we will gladly send you another.') }}
+            {{ __('Thanks for signing up! Make sure to check your spam folder, and verify your email address by clicking on the link we just emailed to you. Check your spam folder, and if you didn\'t receive the email, we will gladly send you another.') }}
         </div>
 
         @if (session('status') == 'verification-link-sent')

@@ -146,9 +146,9 @@
             <!-- Page Content -->
             <main>
                 <div class="grid flex grid-cols-6 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
-                    <div class="col-span-6 block">
-                        <p class="text-3xl text-center m-2">Connect the elected with the electorate.</p>
-                        <p class="text-xl text-center m-2">Explore important issues, and modernize political discourse together.</p>
+                    <div class="col-span-6 block justify-self-center text-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
+                        <p class="text-3xl text-center m-3">Connect the elected with the electorate.</p>
+                        <p class="text-xl text-center m-1">Explore important issues, and modernize political discourse together.</p>
                     </div>
                     <div class="col-span-6 block sm:hidden">
                         <button type="button" id="jumpBottom" onclick="jumpBetween('#jumpBottom', '#jumpTop')" class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Relationship Data</button>
@@ -165,6 +165,13 @@
                     </div>
                     <div class="col-span-6 block sm:hidden">
                         <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
+                    </div>
+                    <div class="col-span-6 block justify-self-center text-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
+                        <p class="text-3xl text-center m-3">How does it work?</p>
+                        <p class="text-xl text-center m-1">After your register you can click on a map, type up an issue, a solution, and then categorize your anonymous responses. We share that data and provide a platform for the exchange of ideas.</p>
+                        <p class="text-3xl text-center m-3">Contribute to the community.</p>
+                        <p class="text-xl text-center m-1">Join us and provide an issue and solution in an location that matters to you.</p>
+                        <a href="{{ route('register') }}" class="m-auto"><button type="button" class="m-2 justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">Register</button></a>
                     </div>
                 </div>
                 <div id="overlay-container" class="overlay-container">
