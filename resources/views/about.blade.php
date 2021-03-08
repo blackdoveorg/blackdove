@@ -164,7 +164,6 @@
                 <div class="grid flex grid-cols-1 bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200 md:border-l gap-4">
                     <div id="jumpBottom" class="justify-self-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
                         <p class="text-2xl m-2">Who made this?</p>
-                        <p class="m-2">My name is Mark Ciubal, and I am a permenantly disabled veteran.</p>
                         <p class="m-2">After serving 5 years in the Marine Corps with two deployments to Iraq as an intelligence analyst, and 5 years working as a contractor for the Air Force, I have seen the damage that extremism can cause. After experiencing first hand that war only perpetuates fringe ideologies, I am confident that we must seek peace with our fellow citizens no matter their perspective.</p>
                         <hr/>
                         <p class="text-2xl m-2">What is this?</p>
