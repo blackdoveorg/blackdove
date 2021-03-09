@@ -164,7 +164,7 @@
                     <div class="lg:col-span-1">
                     </div>
                     <div class="col-span-6 block sm:hidden">
-                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', 'nav')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
+                        <button type="button" id="jumpTop" onclick="jumpBetween('#jumpTop', '#flyMap')"  class="w-full justify-self-center items-center px-4 py-2 bg-gray-900 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-800 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">View Map Data</button>
                     </div>
                     <div class="col-span-6 block justify-self-center text-center col-span-1 block bg-white overflow-hidden shadow-xl sm:rounded-lg w-full sm:w-2/3 p-4">
                         <p class="text-3xl text-center m-3">How does it work?</p>
