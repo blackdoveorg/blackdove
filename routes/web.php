@@ -35,14 +35,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/report', function () {
                         ->with('user_data', $user_data);
 })->name('dashboard-report');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    $this_user_id = Auth::id();
-    $categories = DB::table('categories')->get();
-    $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
-    return view('report')
-    ->with('categories', $categories)
-    ->with('user_data', $user_data);;
-})->name('dashboard-report');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     $this_user_id = Auth::id();
+//     $categories = DB::table('categories')->get();
+//     $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
+//     return view('report')
+//     ->with('categories', $categories)
+//     ->with('user_data', $user_data);;
+// })->name('dashboard-report');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/browse', function () {
     return view('browse');
