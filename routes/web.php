@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\PerchJSON;
-use App\Http\Controllers\FlyJSON;
-use App\Http\Controllers\FlyJSONPublic;
+use App\Http\Controllers\ReportJSON;
+use App\Http\Controllers\BrowseJSON;
+use App\Http\Controllers\BrowseJSONPublic;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -25,40 +25,40 @@ Route::get('/', [HomeController::class, 'index'])->name('welcome')->middleware('
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/perch', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/report', function () {
     $this_user_id = Auth::id();
     $categories = DB::table('categories')->get();
     $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
     // dd($user_data);
-    return view('perch')
+    return view('report')
                         ->with('categories', $categories)
                         ->with('user_data', $user_data);
-})->name('dashboard-perch');
+})->name('dashboard-report');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $this_user_id = Auth::id();
     $categories = DB::table('categories')->get();
     $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
-    return view('perch')
+    return view('report')
     ->with('categories', $categories)
     ->with('user_data', $user_data);;
-})->name('dashboard-perch');
+})->name('dashboard-report');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/fly', function () {
-    return view('fly');
-})->name('dashboard-fly');
+Route::middleware(['auth:sanctum', 'verified'])->get('/browse', function () {
+    return view('browse');
+})->name('dashboard-browse');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/nest', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/report', function () {
     $this_user_id = Auth::id();
     $categories = DB::table('categories')->get();
     $user_data = DB::table('users')->where('id', '=', $this_user_id)->get()->first();
-    return view('perch')
+    return view('report')
     ->with('categories', $categories)
     ->with('user_data', $user_data);;
-})->name('dashboard-perch');
+})->name('dashboard-report');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/data/perchJSON/', [PerchJSON::class, 'perchJSON'])->name('data-perchJSON');
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/reportJSON/', [ReportJSON::class, 'reportJSON'])->name('data-reportJSON');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/data/flyJSON/', [FlyJSON::class, 'flyJSON'])->name('data-flyJSON');
+Route::middleware(['auth:sanctum', 'verified'])->get('/data/browseJSON/', [BrowseJSON::class, 'browseJSON'])->name('data-browseJSON');
 
-Route::get('/data/flyJSONPublic/', [FlyJSONPublic::class, 'flyJSONPublic'])->name('data-flyJSONPublic');
+Route::get('/data/browseJSONPublic/', [BrowseJSONPublic::class, 'browseJSONPublic'])->name('data-browseJSONPublic');

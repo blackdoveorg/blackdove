@@ -156,7 +156,7 @@
                     <div class="lg:col-span-1">
                     </div>
                     <div class="lg:col-span-2 col-span-6">
-                        <div id="flyMap" wire:ignore="flyMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
+                        <div id="browseMap" wire:ignore="browseMap" class="shadow col-span-2 self-center min-h-full" style="height: 500px;"></div>
                     </div>
                     <div class="lg:col-span-2 col-span-6">
                         <div id="cy" class="shadow grid col-span-1 min-h-full" style="height: 500px;"></div>
@@ -178,9 +178,9 @@
                     <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer">x</a>
                     <center>
                         <b>Issue</b><br/>
-                        <span class="fly-issue"></span><br/><br/>
+                        <span class="browse-issue"></span><br/><br/>
                         <b>Solution</b><br/>
-                        <span class="fly-solution"></span><br/><br/>
+                        <span class="browse-solution"></span><br/><br/>
                         <b>Metadata</b><br/>
                         <div class="compass-color"></div><br/>
                         Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>

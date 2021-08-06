@@ -5,18 +5,18 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard-fly') }}">
+                    <a href="{{ route('dashboard-browse') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard-perch') }}" :active="request()->routeIs('dashboard-perch')">
-                        {{ __('Perch') }}
+                    <x-jet-nav-link href="{{ route('dashboard-report') }}" :active="request()->routeIs('dashboard-report')">
+                        {{ __('Report') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
-                        {{ __('Fly') }}
+                    <x-jet-nav-link href="{{ route('dashboard-browse') }}" :active="request()->routeIs('dashboard-browse')">
+                        {{ __('Browse') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                         {{ __('About') }}
@@ -58,11 +58,11 @@
                         <div class="block px-4 py-2 text-xs text-gray-400">
                             {{ __('Tools') }}
                         </div>    
-                        <x-jet-dropdown-link href="{{ route('dashboard-perch') }}">
-                            {{ __('Perch') }}
+                        <x-jet-dropdown-link href="{{ route('dashboard-report') }}">
+                            {{ __('Report') }}
                         </x-jet-dropdown-link>  
-                        <x-jet-dropdown-link href="{{ route('dashboard-fly') }}">
-                            {{ __('Fly') }}
+                        <x-jet-dropdown-link href="{{ route('dashboard-browse') }}">
+                            {{ __('Browse') }}
                         </x-jet-dropdown-link> 
                         <x-jet-dropdown-link href="{{ route('about') }}">
                             {{ __('About') }}
@@ -135,11 +135,11 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard-perch') }}" :active="request()->routeIs('dashboard-perch')">
-                {{ __('Perch') }}
+            <x-jet-responsive-nav-link href="{{ route('dashboard-report') }}" :active="request()->routeIs('dashboard-report')">
+                {{ __('Report') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('dashboard-fly') }}" :active="request()->routeIs('dashboard-fly')">
-                {{ __('Fly') }}
+            <x-jet-responsive-nav-link href="{{ route('dashboard-browse') }}" :active="request()->routeIs('dashboard-browse')">
+                {{ __('Browse') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                 {{ __('About') }}

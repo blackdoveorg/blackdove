@@ -1,1 +1,13 @@
-window.jumpBetween=function(e,n){$(e).click((function(){$([document.documentElement,document.body]).animate({scrollTop:$(n).offset().top},1e3)}))};
+/******/ (() => { // webpackBootstrap
+/*!***********************************!*\
+  !*** ./resources/js/interface.js ***!
+  \***********************************/
+window.jumpBetween = function (from, to) {
+  $(from).click(function () {
+    $([document.documentElement, document.body]).animate({
+      scrollTop: $(to).offset().top
+    }, 1000);
+  });
+};
+/******/ })()
+;

@@ -20,19 +20,19 @@
             <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
                 <div class="p-6 border-t border-gray-200">
                     <div class="flex items-center">
-                        <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/fly">Fly</a></div>
+                        <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/browse">Browse</a></div>
                     </div>
 
                     <div class="ml-12">
                         <div class="mt-2 text-sm text-gray-500">
-                        View Perches of every other user on an interactive map. See what issues matter to others.
+                        View Reports of every other user on an interactive map. See what issues matter to others.
                         </div>
                     </div>
                 </div>
 
                 <div class="p-6 border-t border-gray-200 md:border-l">
                     <div class="flex items-center">
-                        <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/perch">Perch</a></div>
+                        <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/report">Report</a></div>
                     </div>
                     <div class="ml-12">
                         <div class="mt-2 text-sm text-gray-500">

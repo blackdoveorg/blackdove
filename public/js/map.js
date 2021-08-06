@@ -77736,7 +77736,7 @@ $(function () {
     url: '../data/perchJSON/'
   });
   var perchLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_10__["default"]({
-    title: 'Perch Data',
+    title: 'Report Data',
     source: perchJSON,
     visible: true,
     style: function style(feature, resolution) {
@@ -77816,7 +77816,7 @@ $(function () {
       overlayFeatureSolution.innerHTML = solution;
     }, {
       layerFilter: function layerFilter(layerCandidate) {
-        return layerCandidate.get('title') === 'Perch Data';
+        return layerCandidate.get('title') === 'Report Data';
       }
     });
     perchMap.getLayers().forEach(function (layer) {

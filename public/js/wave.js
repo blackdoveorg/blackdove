@@ -1,1 +1,164 @@
-window.wave=function(){var t=document.getElementById("c"),i=t.getContext("2d"),n=t.width=$("#container").width(),e=t.height=200,a=[],o=5,r={x:10,y:15},h={min:50,max:75},s=15,u="#808000",c=.25,l=function(t,i){return Math.floor(Math.random()*(i-t+1)+t)},m=function(t,i,n,e){return(t/=e/2)<1?n/2*t*t+i:-n/2*(--t*(t-2)-1)+i};i.lineJoin="round",i.lineWidth=s,i.strokeStyle=u;var d=function(t){this.anchorX=t.x,this.anchorY=t.y,this.x=t.x,this.y=t.y,this.setTarget()};d.prototype.setTarget=function(){this.initialX=this.x,this.initialY=this.y,this.targetX=this.anchorX+l(0,2*r.x)-r.x,this.targetY=this.anchorY+l(0,2*r.y)-r.y,this.tick=0,this.duration=l(h.min,h.max)},d.prototype.update=function(){var t=this.targetX-this.x,i=this.targetY-this.y,n=Math.sqrt(t*t+i*i);if(Math.abs(n)<=0)this.setTarget();else{var e=this.tick,a=this.initialY,o=this.targetY-this.initialY,r=this.duration;this.y=m(e,a,o,r),a=this.initialX,o=this.targetX-this.initialX,r=this.duration,this.x=m(e,a,o,r),this.tick++}},d.prototype.render=function(){i.beginPath(),i.arc(this.x,this.y,3,0,2*Math.PI,!1),i.fillStyle="#000",i.fill()};for(var w=o+2,x=(n+2*r.x)/(o-1);w--;)a.push(new d({x:x*(w-1)-r.x,y:e-e*c}));window.requestAnimFrame=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(t){window.setTimeout(t,1e3/60)},function o(){window.requestAnimFrame(o,t),i.clearRect(0,0,n,e),function(){for(var t=a.length;t--;)a[t].update()}(),function(){i.beginPath();var t,o=a.length;for(i.moveTo(a[0].x,a[0].y),t=0;t<o-1;t++){var h=(a[t].x+a[t+1].x)/2,u=(a[t].y+a[t+1].y)/2;i.quadraticCurveTo(a[t].x,a[t].y,h,u)}i.lineTo(-r.x-s,e+s),i.lineTo(n+r.x+s,e+s),i.closePath(),i.fillStyle="#222",i.stroke()}()}()},wave();
+/******/ (() => { // webpackBootstrap
+/*!******************************!*\
+  !*** ./resources/js/wave.js ***!
+  \******************************/
+window.wave = function () {
+  var c = document.getElementById('c'),
+      ctx = c.getContext('2d'),
+      cw = c.width = $('#container').width(),
+      ch = c.height = 200,
+      points = [],
+      tick = 0,
+      opt = {
+    count: 5,
+    range: {
+      x: 10,
+      y: 15
+    },
+    duration: {
+      min: 50,
+      max: 75
+    },
+    thickness: 15,
+    strokeColor: '#808000',
+    level: .25,
+    curved: true
+  },
+      rand = function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  },
+      ease = function ease(t, b, c, d) {
+    if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+    return -c / 2 * (--t * (t - 2) - 1) + b;
+  };
+
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = opt.thickness;
+  ctx.strokeStyle = opt.strokeColor;
+
+  var Point = function Point(config) {
+    this.anchorX = config.x;
+    this.anchorY = config.y;
+    this.x = config.x;
+    this.y = config.y;
+    this.setTarget();
+  };
+
+  Point.prototype.setTarget = function () {
+    this.initialX = this.x;
+    this.initialY = this.y;
+    this.targetX = this.anchorX + rand(0, opt.range.x * 2) - opt.range.x;
+    this.targetY = this.anchorY + rand(0, opt.range.y * 2) - opt.range.y;
+    this.tick = 0;
+    this.duration = rand(opt.duration.min, opt.duration.max);
+  };
+
+  Point.prototype.update = function () {
+    var dx = this.targetX - this.x;
+    var dy = this.targetY - this.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (Math.abs(dist) <= 0) {
+      this.setTarget();
+    } else {
+      var t = this.tick;
+      var b = this.initialY;
+      var c = this.targetY - this.initialY;
+      var d = this.duration;
+      this.y = ease(t, b, c, d);
+      b = this.initialX;
+      c = this.targetX - this.initialX;
+      d = this.duration;
+      this.x = ease(t, b, c, d);
+      this.tick++;
+    }
+  };
+
+  Point.prototype.render = function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
+    ctx.fillStyle = '#000';
+    ctx.fill();
+  };
+
+  var updatePoints = function updatePoints() {
+    var i = points.length;
+
+    while (i--) {
+      points[i].update();
+    }
+  };
+
+  var renderPoints = function renderPoints() {
+    var i = points.length;
+
+    while (i--) {
+      points[i].render();
+    }
+  };
+
+  var fillPoints = function fillPoints() {
+    var i;
+
+    for (i = 0; i < pointCount - 1; i++) {
+      var c = (points[i].x + points[i + 1].x) / 2;
+      var d = (points[i].y + points[i + 1].y) / 2;
+      ctx.quadraticCurveTo(points[i].x, points[i].y, c, d);
+    }
+  };
+
+  var renderShape = function renderShape() {
+    ctx.beginPath();
+    var pointCount = points.length;
+    ctx.moveTo(points[0].x, points[0].y);
+    var i;
+
+    for (i = 0; i < pointCount - 1; i++) {
+      var c = (points[i].x + points[i + 1].x) / 2;
+      var d = (points[i].y + points[i + 1].y) / 2;
+      ctx.quadraticCurveTo(points[i].x, points[i].y, c, d);
+    }
+
+    ctx.lineTo(-opt.range.x - opt.thickness, ch + opt.thickness);
+    ctx.lineTo(cw + opt.range.x + opt.thickness, ch + opt.thickness);
+    ctx.closePath();
+    ctx.fillStyle = '#222'; // ctx.fill();  
+
+    ctx.stroke();
+  };
+
+  var clear = function clear() {
+    ctx.clearRect(0, 0, cw, ch);
+  };
+
+  var loop = function loop() {
+    window.requestAnimFrame(loop, c);
+    tick++;
+    clear(); // fillPoints();
+
+    updatePoints();
+    renderShape(); // renderPoints();
+  };
+
+  var i = opt.count + 2;
+  var spacing = (cw + opt.range.x * 2) / (opt.count - 1);
+
+  while (i--) {
+    points.push(new Point({
+      x: spacing * (i - 1) - opt.range.x,
+      y: ch - ch * opt.level
+    }));
+  }
+
+  window.requestAnimFrame = function () {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (a) {
+      window.setTimeout(a, 1E3 / 60);
+    };
+  }();
+
+  loop();
+};
+
+wave();
+/******/ })()
+;

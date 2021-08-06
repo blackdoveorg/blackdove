@@ -25,11 +25,11 @@ $(function() {
     cytoscape.use( fcose );
 
 
-    var flyFill = new Fill({
+    var browseFill = new Fill({
         color: 'rgba(0, 0, 0, 0.75)'
     });
     
-    var flyStroke = new Stroke({
+    var browseStroke = new Stroke({
         color: 'rgba(245, 245, 245, 0.5)',
         width: 3
     });
@@ -38,8 +38,8 @@ $(function() {
         new Style({
             image: new CircleStyle({
             radius: 8,
-            fill: flyFill,
-            stroke: flyStroke,
+            fill: browseFill,
+            stroke: browseStroke,
             }),
         }),
     ];
@@ -48,16 +48,16 @@ $(function() {
         source: new OSM(),
     });
     
-    window.flyJSON = new VectorSource({
+    window.browseJSON = new VectorSource({
         format: new GeoJSON({
             defaultDataProjection: 'EPSG:4326' // added line
         }),
-        url: '../data/flyJSONPublic/'
+        url: '../data/browseJSONPublic/'
     });
 
     var clusterSource = new Cluster({
         distance: 50,
-        source: flyJSON,
+        source: browseJSON,
     });
     
     var styleCache = {};
@@ -94,16 +94,16 @@ $(function() {
     var ip_latitude = $('#ip_latitude').val();
     var ip_longitude = $('#ip_longitude').val();
 
-    window.flyView = new View({
+    window.browseView = new View({
         center: transform([ip_longitude, ip_latitude], 'EPSG:4326', 'EPSG:3857'),
         zoom: 1,
     });
     
-    window.flyMap = new Map({
+    window.browseMap = new Map({
         layers: [tLayer, clusters],
         renderer: 'canvas',
-        target: 'flyMap',
-        view: flyView,
+        target: 'browseMap',
+        view: browseView,
     });
 
     function updateCytoscape()
@@ -113,8 +113,8 @@ $(function() {
       window.tempCytoscapeData['edges'] = [];
       window.tempCytoscapeData['nodes'].push({ data: { id: 'Issues' } });
       window.tempCytoscapeData['nodes'].push({ data: { id: 'Solutions' } });
-      var extent = flyMap.getView().calculateExtent(flyMap.getSize());
-      flyJSON.forEachFeatureInExtent(extent, function(feature){
+      var extent = browseMap.getView().calculateExtent(browseMap.getSize());
+      browseJSON.forEachFeatureInExtent(extent, function(feature){
         var issue_color = feature.get('color');
         var issue_category = feature.get('issue_category');
         for (const issue_entry in issue_category) {
@@ -190,8 +190,8 @@ $(function() {
     var overlayFeatureCompass = document.querySelector('.compass-color');
     var overlayFeatureSocialCompass = document.querySelector('.social-compass');
     var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
-    var overlayFeatureIssue = document.querySelector('.fly-issue');
-    var overlayFeatureSolution = document.querySelector('.fly-solution');
+    var overlayFeatureIssue = document.querySelector('.browse-issue');
+    var overlayFeatureSolution = document.querySelector('.browse-solution');
     var clusterContainerElement = document.querySelector('.cluster-container');
     var clusterFeatureData = document.querySelector('.cluster-data');
     var overlayContainerElementCloser = document.getElementById('overlay-popup-closer');
@@ -216,89 +216,36 @@ $(function() {
       clusterLayer.setPosition(undefined);
       return false;
     };
-    flyMap.addOverlay(overlayLayer);
-    flyMap.addOverlay(overlayLayer);
+    browseMap.addOverlay(overlayLayer);
+    browseMap.addOverlay(overlayLayer);
 
-    flyMap.addOverlay(clusterLayer);
+    browseMap.addOverlay(clusterLayer);
 
-    flyMap.on("pointermove", function () {
+    browseMap.on("pointermove", function () {
         this.getTargetElement().style.cursor = 'pointer';
     });
 
     clusterSource.on("change", _.debounce(updateCytoscape, 1500));
     
-    // function flyTo(location, done) {
-    //     var duration = 25000;
-    //     var zoom = 10;
-    //     var parts = 2;
-    //     var called = false;
-    //     function callback(complete) {
-    //         --parts;
-    //         if (called) {
-    //             return;
-    //         }
-    //         if (parts === 0 || !complete) {
-    //             called = true;
-    //         }   
-    //     }
-    //     flyView.animate(
-    //     {
-    //         center: location,
-    //         duration: duration,
-    //     },
-    //     callback
-    //     );
-    //     flyView.animate(
-    //     {
-    //         zoom: zoom - 1,
-    //         duration: duration / 2,
-    //     },
-    //     {
-    //         zoom: zoom,
-    //         duration: duration / 2,
-    //     },
-    //     callback
-    //     );
-    // }
-    // function tour(trip) {
-    //     var index = -1;
-    //     function next(more) {
-    //       if (more) {
-    //         ++index;
-    //         if (index < trip.length) {
-    //           var delay = index === 0 ? 1000 : 1000;
-    //           setTimeout(function () {
-    //             flyTo(trip[index], next);
-    //           }, delay);
-    //         } else {
-    //         //   alert('Tour complete');
-    //         }
-    //       } else {
-    //         // alert('Tour cancelled');
-    //       }
-    //     }
-    //     next(true);
-    //   }
-      
-    flyJSON.on('change', function(evt) {
+    browseJSON.on('change', function(evt) {
       var source = evt.target;
       if(source.getState() === 'ready'){
-        flyView.animate(
+        browseView.animate(
         {
-            center: flyJSON.getFeatures()[0].getGeometry().getCoordinates(),
+            center: browseJSON.getFeatures()[0].getGeometry().getCoordinates(),
             zoom: 8,
             duration: 2500
         });
         // updateCytoscape();    
       }
     });
-    flyMap.on('click', function (evt) {
+    browseMap.on('click', function (evt) {
         var coordinates = toLonLat(evt.coordinate);
 
         overlayLayer.setPosition(undefined);
         clusterLayer.setPosition(undefined);
         
-        flyMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
+        browseMap.forEachFeatureAtPixel(evt.pixel, function (feature, layer)
         {
             // console.log('clicked');
 
@@ -313,7 +260,7 @@ $(function() {
                     var cfeatures = feature.get('features');
 
                     if (cfeatures.length > 1) {
-                      clusterFeatureData.innerHTML = 'There are ' + cfeatures.length + ' Perches in this area.<br/>Please zoom in to see more detailed information.';
+                      clusterFeatureData.innerHTML = 'There are ' + cfeatures.length + ' Reports in this area.<br/>Please zoom in to see more detailed information.';
                       clusterLayer.setPosition(clickedCoordinate);
                     } else if (cfeatures.length === 1) {
                       overlayFeatureIssue.innerHTML = cfeatures[0].get('issue');
