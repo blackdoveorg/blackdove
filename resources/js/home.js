@@ -16,15 +16,13 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {Cluster} from 'ol/source';
 import { getValueType } from 'ol/style/expressions';
 import { debounce } from 'lodash';
-import fcose from 'cytoscape-fcose';
+import cytoscape from 'cytoscape';
+
 var MobileDetect = require('mobile-detect');
 var md = new MobileDetect(window.navigator.userAgent);
 
 $(function() {
     
-    cytoscape.use( fcose );
-
-
     var browseFill = new Fill({
         color: 'rgba(0, 0, 0, 0.75)'
     });
@@ -172,7 +170,7 @@ $(function() {
         
         });
         var layout = cy.layout({
-          name: 'fcose',
+          name: 'circle',
           animate: false,
         });
         layout.run();

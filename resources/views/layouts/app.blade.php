@@ -104,6 +104,7 @@
         @livewireScripts
     </body>
     @if (Route::currentRouteName() == 'dashboard-report')
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.17.1/cytoscape.min.js" integrity="sha512-dR5Qb5zIoRodLJCkh0InsAi/uyP1Pd3lMAliXEdv5ol71k2qCwWFS9N18LIGH9MQuAPWu3adPyww5SK2deReog==" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('/js/report.js') }}"></script>
 

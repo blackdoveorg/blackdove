@@ -8,13 +8,13 @@
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 /*!
- * Intro.js v3.2.1
- * https://github.com/usablica/intro.js
+ * Intro.js v3.4.0
+ * https://introjs.com
  *
- * Copyright (C) 2017-2020 Afshin Mehrabani (@afshinmeh).
+ * Copyright (C) 2012-2021 Afshin Mehrabani (@afshinmeh).
  * https://raw.githubusercontent.com/usablica/intro.js/master/license.md
  *
- * Date: Sun, 20 Dec 2020 11:16:47 GMT
+ * Date: Thu, 25 Mar 2021 09:48:49 GMT
  */
 
 (function (global, factory) {
@@ -205,12 +205,12 @@
 
   // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
   var global_1 =
-    // eslint-disable-next-line no-undef
+    /* global globalThis -- safe */
     check(typeof globalThis == 'object' && globalThis) ||
     check(typeof window == 'object' && window) ||
     check(typeof self == 'object' && self) ||
     check(typeof commonjsGlobal == 'object' && commonjsGlobal) ||
-    // eslint-disable-next-line no-new-func
+    // eslint-disable-next-line no-new-func -- fallback
     (function () { return this; })() || Function('return this')();
 
   var fails = function (exec) {
@@ -221,7 +221,7 @@
     }
   };
 
-  // Thank's IE8 for his funny defineProperty
+  // Detect IE8's incomplete defineProperty implementation
   var descriptors = !fails(function () {
     return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
   });
@@ -233,7 +233,7 @@
   var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
 
   // `Object.prototype.propertyIsEnumerable` method implementation
-  // https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+  // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
   var f = NASHORN_BUG ? function propertyIsEnumerable(V) {
     var descriptor = getOwnPropertyDescriptor(this, V);
     return !!descriptor && descriptor.enumerable;
@@ -263,14 +263,14 @@
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
   var indexedObject = fails(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
-    // eslint-disable-next-line no-prototype-builtins
+    // eslint-disable-next-line no-prototype-builtins -- safe
     return !Object('z').propertyIsEnumerable(0);
   }) ? function (it) {
     return classofRaw(it) == 'String' ? split.call(it, '') : Object(it);
   } : Object;
 
   // `RequireObjectCoercible` abstract operation
-  // https://tc39.github.io/ecma262/#sec-requireobjectcoercible
+  // https://tc39.es/ecma262/#sec-requireobjectcoercible
   var requireObjectCoercible = function (it) {
     if (it == undefined) throw TypeError("Can't call method on " + it);
     return it;
@@ -289,7 +289,7 @@
   };
 
   // `ToPrimitive` abstract operation
-  // https://tc39.github.io/ecma262/#sec-toprimitive
+  // https://tc39.es/ecma262/#sec-toprimitive
   // instead of the ES6 spec version, we didn't implement @@toPrimitive case
   // and the second argument - flag - preferred type is a string
   var toPrimitive = function (input, PREFERRED_STRING) {
@@ -325,7 +325,7 @@
   var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
   // `Object.getOwnPropertyDescriptor` method
-  // https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+  // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
   var f$1 = descriptors ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
     O = toIndexedObject(O);
     P = toPrimitive(P, true);
@@ -348,7 +348,7 @@
   var nativeDefineProperty = Object.defineProperty;
 
   // `Object.defineProperty` method
-  // https://tc39.github.io/ecma262/#sec-object.defineproperty
+  // https://tc39.es/ecma262/#sec-object.defineproperty
   var f$2 = descriptors ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
     anObject(O);
     P = toPrimitive(P, true);
@@ -404,9 +404,9 @@
   (module.exports = function (key, value) {
     return sharedStore[key] || (sharedStore[key] = value !== undefined ? value : {});
   })('versions', []).push({
-    version: '3.8.1',
+    version: '3.9.1',
     mode:  'global',
-    copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
+    copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
   });
   });
 
@@ -532,7 +532,7 @@
   var floor = Math.floor;
 
   // `ToInteger` abstract operation
-  // https://tc39.github.io/ecma262/#sec-tointeger
+  // https://tc39.es/ecma262/#sec-tointeger
   var toInteger = function (argument) {
     return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
   };
@@ -540,7 +540,7 @@
   var min = Math.min;
 
   // `ToLength` abstract operation
-  // https://tc39.github.io/ecma262/#sec-tolength
+  // https://tc39.es/ecma262/#sec-tolength
   var toLength = function (argument) {
     return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
@@ -564,10 +564,10 @@
       var index = toAbsoluteIndex(fromIndex, length);
       var value;
       // Array#includes uses SameValueZero equality algorithm
-      // eslint-disable-next-line no-self-compare
+      // eslint-disable-next-line no-self-compare -- NaN check
       if (IS_INCLUDES && el != el) while (length > index) {
         value = O[index++];
-        // eslint-disable-next-line no-self-compare
+        // eslint-disable-next-line no-self-compare -- NaN check
         if (value != value) return true;
       // Array#indexOf ignores holes, Array#includes - not
       } else for (;length > index; index++) {
@@ -578,10 +578,10 @@
 
   var arrayIncludes = {
     // `Array.prototype.includes` method
-    // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+    // https://tc39.es/ecma262/#sec-array.prototype.includes
     includes: createMethod(true),
     // `Array.prototype.indexOf` method
-    // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+    // https://tc39.es/ecma262/#sec-array.prototype.indexof
     indexOf: createMethod(false)
   };
 
@@ -615,7 +615,7 @@
   var hiddenKeys$1 = enumBugKeys.concat('length', 'prototype');
 
   // `Object.getOwnPropertyNames` method
-  // https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+  // https://tc39.es/ecma262/#sec-object.getownpropertynames
   var f$3 = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
     return objectKeysInternal(O, hiddenKeys$1);
   };
@@ -722,7 +722,7 @@
   };
 
   // `RegExp.prototype.flags` getter implementation
-  // https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
+  // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
   var regexpFlags = function () {
     var that = anObject(this);
     var result = '';
@@ -779,6 +779,7 @@
   var UNSUPPORTED_Y$1 = regexpStickyHelpers.UNSUPPORTED_Y || regexpStickyHelpers.BROKEN_CARET;
 
   // nonparticipating capturing group, copied from es5-shim's String#split patch.
+  // eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
   var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
 
   var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED || UNSUPPORTED_Y$1;
@@ -844,20 +845,45 @@
 
   var regexpExec = patchedExec;
 
+  // `RegExp.prototype.exec` method
+  // https://tc39.es/ecma262/#sec-regexp.prototype.exec
   _export({ target: 'RegExp', proto: true, forced: /./.exec !== regexpExec }, {
     exec: regexpExec
   });
 
+  var engineIsNode = classofRaw(global_1.process) == 'process';
+
+  var engineUserAgent = getBuiltIn('navigator', 'userAgent') || '';
+
+  var process = global_1.process;
+  var versions = process && process.versions;
+  var v8 = versions && versions.v8;
+  var match, version;
+
+  if (v8) {
+    match = v8.split('.');
+    version = match[0] + match[1];
+  } else if (engineUserAgent) {
+    match = engineUserAgent.match(/Edge\/(\d+)/);
+    if (!match || match[1] >= 74) {
+      match = engineUserAgent.match(/Chrome\/(\d+)/);
+      if (match) version = match[1];
+    }
+  }
+
+  var engineV8Version = version && +version;
+
   var nativeSymbol = !!Object.getOwnPropertySymbols && !fails(function () {
-    // Chrome 38 Symbol has incorrect toString conversion
-    // eslint-disable-next-line no-undef
-    return !String(Symbol());
+    /* global Symbol -- required for testing */
+    return !Symbol.sham &&
+      // Chrome 38 Symbol has incorrect toString conversion
+      // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
+      (engineIsNode ? engineV8Version === 38 : engineV8Version > 37 && engineV8Version < 41);
   });
 
   var useSymbolAsUid = nativeSymbol
-    // eslint-disable-next-line no-undef
+    /* global Symbol -- safe */
     && !Symbol.sham
-    // eslint-disable-next-line no-undef
     && typeof Symbol.iterator == 'symbol';
 
   var WellKnownSymbolsStore = shared('wks');
@@ -865,9 +891,12 @@
   var createWellKnownSymbol = useSymbolAsUid ? Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid;
 
   var wellKnownSymbol = function (name) {
-    if (!has(WellKnownSymbolsStore, name)) {
-      if (nativeSymbol && has(Symbol$1, name)) WellKnownSymbolsStore[name] = Symbol$1[name];
-      else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+    if (!has(WellKnownSymbolsStore, name) || !(nativeSymbol || typeof WellKnownSymbolsStore[name] == 'string')) {
+      if (nativeSymbol && has(Symbol$1, name)) {
+        WellKnownSymbolsStore[name] = Symbol$1[name];
+      } else {
+        WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
+      }
     } return WellKnownSymbolsStore[name];
   };
 
@@ -912,6 +941,7 @@
   // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
   // Weex JS has frozen built-in prototypes, so use try / catch wrapper
   var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+    // eslint-disable-next-line regexp/no-empty-group -- required for testing
     var re = /(?:)/;
     var originalExec = re.exec;
     re.exec = function () { return originalExec.apply(this, arguments); };
@@ -1014,7 +1044,7 @@
 
   var stringMultibyte = {
     // `String.prototype.codePointAt` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
+    // https://tc39.es/ecma262/#sec-string.prototype.codepointat
     codeAt: createMethod$1(false),
     // `String.prototype.at` method
     // https://github.com/mathiasbynens/String.prototype.at
@@ -1024,13 +1054,13 @@
   var charAt = stringMultibyte.charAt;
 
   // `AdvanceStringIndex` abstract operation
-  // https://tc39.github.io/ecma262/#sec-advancestringindex
+  // https://tc39.es/ecma262/#sec-advancestringindex
   var advanceStringIndex = function (S, index, unicode) {
     return index + (unicode ? charAt(S, index).length : 1);
   };
 
   // `RegExpExec` abstract operation
-  // https://tc39.github.io/ecma262/#sec-regexpexec
+  // https://tc39.es/ecma262/#sec-regexpexec
   var regexpExecAbstract = function (R, S) {
     var exec = R.exec;
     if (typeof exec === 'function') {
@@ -1052,14 +1082,14 @@
   fixRegexpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
     return [
       // `String.prototype.match` method
-      // https://tc39.github.io/ecma262/#sec-string.prototype.match
+      // https://tc39.es/ecma262/#sec-string.prototype.match
       function match(regexp) {
         var O = requireObjectCoercible(this);
         var matcher = regexp == undefined ? undefined : regexp[MATCH];
         return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
       },
       // `RegExp.prototype[@@match]` method
-      // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
       function (regexp) {
         var res = maybeCallNative(nativeMatch, regexp, this);
         if (res.done) return res.value;
@@ -1086,13 +1116,13 @@
   });
 
   // `IsArray` abstract operation
-  // https://tc39.github.io/ecma262/#sec-isarray
+  // https://tc39.es/ecma262/#sec-isarray
   var isArray = Array.isArray || function isArray(arg) {
     return classofRaw(arg) == 'Array';
   };
 
   // `ToObject` abstract operation
-  // https://tc39.github.io/ecma262/#sec-toobject
+  // https://tc39.es/ecma262/#sec-toobject
   var toObject = function (argument) {
     return Object(requireObjectCoercible(argument));
   };
@@ -1106,7 +1136,7 @@
   var SPECIES$1 = wellKnownSymbol('species');
 
   // `ArraySpeciesCreate` abstract operation
-  // https://tc39.github.io/ecma262/#sec-arrayspeciescreate
+  // https://tc39.es/ecma262/#sec-arrayspeciescreate
   var arraySpeciesCreate = function (originalArray, length) {
     var C;
     if (isArray(originalArray)) {
@@ -1119,26 +1149,6 @@
       }
     } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
   };
-
-  var engineUserAgent = getBuiltIn('navigator', 'userAgent') || '';
-
-  var process = global_1.process;
-  var versions = process && process.versions;
-  var v8 = versions && versions.v8;
-  var match, version;
-
-  if (v8) {
-    match = v8.split('.');
-    version = match[0] + match[1];
-  } else if (engineUserAgent) {
-    match = engineUserAgent.match(/Edge\/(\d+)/);
-    if (!match || match[1] >= 74) {
-      match = engineUserAgent.match(/Chrome\/(\d+)/);
-      if (match) version = match[1];
-    }
-  }
-
-  var engineV8Version = version && +version;
 
   var SPECIES$2 = wellKnownSymbol('species');
 
@@ -1180,10 +1190,11 @@
   var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
 
   // `Array.prototype.concat` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.concat
+  // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
   _export({ target: 'Array', proto: true, forced: FORCED }, {
-    concat: function concat(arg) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars -- required for `.length`
+    concat: function concat(arg) {
       var O = toObject(this);
       var A = arraySpeciesCreate(O, 0);
       var n = 0;
@@ -1235,13 +1246,13 @@
   };
 
   // `Object.prototype.toString` method implementation
-  // https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+  // https://tc39.es/ecma262/#sec-object.prototype.tostring
   var objectToString = toStringTagSupport ? {}.toString : function toString() {
     return '[object ' + classof(this) + ']';
   };
 
   // `Object.prototype.toString` method
-  // https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+  // https://tc39.es/ecma262/#sec-object.prototype.tostring
   if (!toStringTagSupport) {
     redefine(Object.prototype, 'toString', objectToString, { unsafe: true });
   }
@@ -1255,7 +1266,7 @@
   var INCORRECT_NAME = nativeToString.name != TO_STRING;
 
   // `RegExp.prototype.toString` method
-  // https://tc39.github.io/ecma262/#sec-regexp.prototype.tostring
+  // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
   if (NOT_GENERIC || INCORRECT_NAME) {
     redefine(RegExp.prototype, TO_STRING, function toString() {
       var R = anObject(this);
@@ -1269,7 +1280,7 @@
   var MATCH = wellKnownSymbol('match');
 
   // `IsRegExp` abstract operation
-  // https://tc39.github.io/ecma262/#sec-isregexp
+  // https://tc39.es/ecma262/#sec-isregexp
   var isRegexp = function (it) {
     var isRegExp;
     return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classofRaw(it) == 'RegExp');
@@ -1284,7 +1295,7 @@
   var SPECIES$3 = wellKnownSymbol('species');
 
   // `SpeciesConstructor` abstract operation
-  // https://tc39.github.io/ecma262/#sec-speciesconstructor
+  // https://tc39.es/ecma262/#sec-speciesconstructor
   var speciesConstructor = function (O, defaultConstructor) {
     var C = anObject(O).constructor;
     var S;
@@ -1303,9 +1314,11 @@
     var internalSplit;
     if (
       'abbc'.split(/(b)*/)[1] == 'c' ||
+      // eslint-disable-next-line regexp/no-empty-group -- required for testing
       'test'.split(/(?:)/, -1).length != 4 ||
       'ab'.split(/(?:ab)*/).length != 2 ||
       '.'.split(/(.?)(.?)/).length != 4 ||
+      // eslint-disable-next-line regexp/no-assertion-capturing-group, regexp/no-empty-group -- required for testing
       '.'.split(/()()/).length > 1 ||
       ''.split(/.?/).length
     ) {
@@ -1353,7 +1366,7 @@
 
     return [
       // `String.prototype.split` method
-      // https://tc39.github.io/ecma262/#sec-string.prototype.split
+      // https://tc39.es/ecma262/#sec-string.prototype.split
       function split(separator, limit) {
         var O = requireObjectCoercible(this);
         var splitter = separator == undefined ? undefined : separator[SPLIT];
@@ -1362,7 +1375,7 @@
           : internalSplit.call(String(O), separator, limit);
       },
       // `RegExp.prototype[@@split]` method
-      // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
       //
       // NOTE: This cannot be properly polyfilled in engines that don't support
       // the 'y' flag.
@@ -1620,27 +1633,100 @@
     anchor.tabIndex = 0;
   }
 
+  // `Object.keys` method
+  // https://tc39.es/ecma262/#sec-object.keys
+  var objectKeys = Object.keys || function keys(O) {
+    return objectKeysInternal(O, enumBugKeys);
+  };
+
+  var nativeAssign = Object.assign;
+  var defineProperty = Object.defineProperty;
+
+  // `Object.assign` method
+  // https://tc39.es/ecma262/#sec-object.assign
+  var objectAssign = !nativeAssign || fails(function () {
+    // should have correct order of operations (Edge bug)
+    if (descriptors && nativeAssign({ b: 1 }, nativeAssign(defineProperty({}, 'a', {
+      enumerable: true,
+      get: function () {
+        defineProperty(this, 'b', {
+          value: 3,
+          enumerable: false
+        });
+      }
+    }), { b: 2 })).b !== 1) return true;
+    // should work with symbols and should have deterministic property order (V8 bug)
+    var A = {};
+    var B = {};
+    /* global Symbol -- required for testing */
+    var symbol = Symbol();
+    var alphabet = 'abcdefghijklmnopqrst';
+    A[symbol] = 7;
+    alphabet.split('').forEach(function (chr) { B[chr] = chr; });
+    return nativeAssign({}, A)[symbol] != 7 || objectKeys(nativeAssign({}, B)).join('') != alphabet;
+  }) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
+    var T = toObject(target);
+    var argumentsLength = arguments.length;
+    var index = 1;
+    var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
+    var propertyIsEnumerable = objectPropertyIsEnumerable.f;
+    while (argumentsLength > index) {
+      var S = indexedObject(arguments[index++]);
+      var keys = getOwnPropertySymbols ? objectKeys(S).concat(getOwnPropertySymbols(S)) : objectKeys(S);
+      var length = keys.length;
+      var j = 0;
+      var key;
+      while (length > j) {
+        key = keys[j++];
+        if (!descriptors || propertyIsEnumerable.call(S, key)) T[key] = S[key];
+      }
+    } return T;
+  } : nativeAssign;
+
+  // `Object.assign` method
+  // https://tc39.es/ecma262/#sec-object.assign
+  _export({ target: 'Object', stat: true, forced: Object.assign !== objectAssign }, {
+    assign: objectAssign
+  });
+
   /**
-   * Get an element position on the page
+   * Get an element position on the page relative to another element (or body)
    * Thanks to `meouw`: http://stackoverflow.com/a/442474/375966
    *
    * @api private
-   * @method _getOffset
+   * @method getOffset
    * @param {Object} element
+   * @param {Object} relativeEl
    * @returns Element's position info
    */
-  function getOffset(element) {
+
+  function getOffset(element, relativeEl) {
     var body = document.body;
     var docEl = document.documentElement;
     var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
     var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    relativeEl = relativeEl || body;
     var x = element.getBoundingClientRect();
-    return {
-      top: x.top + scrollTop,
+    var xr = relativeEl.getBoundingClientRect();
+    var relativeElPosition = getPropValue(relativeEl, "position");
+    var obj = {
       width: x.width,
-      height: x.height,
-      left: x.left + scrollLeft
+      height: x.height
     };
+
+    if (relativeEl.tagName.toLowerCase() !== "body" && relativeElPosition === "relative" || relativeElPosition === "sticky") {
+      // when the container of our target element is _not_ body and has either "relative" or "sticky" position, we should not
+      // consider the scroll position but we need to include the relative x/y of the container element
+      return Object.assign(obj, {
+        top: x.top - xr.top,
+        left: x.left - xr.left
+      });
+    } else {
+      return Object.assign(obj, {
+        top: x.top + scrollTop,
+        left: x.left + scrollLeft
+      });
+    }
   }
 
   /**
@@ -1666,11 +1752,47 @@
     return isFixed(p);
   }
 
+  var floor$1 = Math.floor;
+  var replace = ''.replace;
+  var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
+  var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
+
+  // https://tc39.es/ecma262/#sec-getsubstitution
+  var getSubstitution = function (matched, str, position, captures, namedCaptures, replacement) {
+    var tailPos = position + matched.length;
+    var m = captures.length;
+    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+    if (namedCaptures !== undefined) {
+      namedCaptures = toObject(namedCaptures);
+      symbols = SUBSTITUTION_SYMBOLS;
+    }
+    return replace.call(replacement, symbols, function (match, ch) {
+      var capture;
+      switch (ch.charAt(0)) {
+        case '$': return '$';
+        case '&': return matched;
+        case '`': return str.slice(0, position);
+        case "'": return str.slice(tailPos);
+        case '<':
+          capture = namedCaptures[ch.slice(1, -1)];
+          break;
+        default: // \d\d?
+          var n = +ch;
+          if (n === 0) return match;
+          if (n > m) {
+            var f = floor$1(n / 10);
+            if (f === 0) return match;
+            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+            return match;
+          }
+          capture = captures[n - 1];
+      }
+      return capture === undefined ? '' : capture;
+    });
+  };
+
   var max$1 = Math.max;
   var min$3 = Math.min;
-  var floor$1 = Math.floor;
-  var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
-  var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
 
   var maybeToString = function (it) {
     return it === undefined ? it : String(it);
@@ -1684,7 +1806,7 @@
 
     return [
       // `String.prototype.replace` method
-      // https://tc39.github.io/ecma262/#sec-string.prototype.replace
+      // https://tc39.es/ecma262/#sec-string.prototype.replace
       function replace(searchValue, replaceValue) {
         var O = requireObjectCoercible(this);
         var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
@@ -1693,7 +1815,7 @@
           : nativeReplace.call(String(O), searchValue, replaceValue);
       },
       // `RegExp.prototype[@@replace]` method
-      // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
       function (regexp, replaceValue) {
         if (
           (!REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE && REPLACE_KEEPS_$0) ||
@@ -1756,40 +1878,6 @@
         return accumulatedResult + S.slice(nextSourcePosition);
       }
     ];
-
-    // https://tc39.github.io/ecma262/#sec-getsubstitution
-    function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
-      var tailPos = position + matched.length;
-      var m = captures.length;
-      var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
-      if (namedCaptures !== undefined) {
-        namedCaptures = toObject(namedCaptures);
-        symbols = SUBSTITUTION_SYMBOLS;
-      }
-      return nativeReplace.call(replacement, symbols, function (match, ch) {
-        var capture;
-        switch (ch.charAt(0)) {
-          case '$': return '$';
-          case '&': return matched;
-          case '`': return str.slice(0, position);
-          case "'": return str.slice(tailPos);
-          case '<':
-            capture = namedCaptures[ch.slice(1, -1)];
-            break;
-          default: // \d\d?
-            var n = +ch;
-            if (n === 0) return match;
-            if (n > m) {
-              var f = floor$1(n / 10);
-              if (f === 0) return match;
-              if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
-              return match;
-            }
-            capture = captures[n - 1];
-        }
-        return capture === undefined ? '' : capture;
-      });
-    }
   });
 
   /**
@@ -1848,7 +1936,7 @@
       //prevent error when `this._currentStep` in undefined
       if (!this._introItems[this._currentStep]) return;
       var currentElement = this._introItems[this._currentStep];
-      var elementPosition = getOffset(currentElement.element);
+      var elementPosition = getOffset(currentElement.element, this._targetElement);
       var widthHeightPadding = this._options.helperElementPadding; // If the target element is fixed, the tooltip should be fixed as well.
       // Otherwise, remove a fixed class that may be left over from the previous
       // step.
@@ -1873,14 +1961,8 @@
     }
   }
 
-  // `Object.keys` method
-  // https://tc39.github.io/ecma262/#sec-object.keys
-  var objectKeys = Object.keys || function keys(O) {
-    return objectKeysInternal(O, enumBugKeys);
-  };
-
   // `Object.defineProperties` method
-  // https://tc39.github.io/ecma262/#sec-object.defineproperties
+  // https://tc39.es/ecma262/#sec-object.defineproperties
   var objectDefineProperties = descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
     anObject(O);
     var keys = objectKeys(Properties);
@@ -1939,7 +2021,7 @@
   var activeXDocument;
   var NullProtoObject = function () {
     try {
-      /* global ActiveXObject */
+      /* global ActiveXObject -- old IE */
       activeXDocument = document.domain && new ActiveXObject('htmlfile');
     } catch (error) { /* ignore */ }
     NullProtoObject = activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) : NullProtoObjectViaIFrame();
@@ -1951,7 +2033,7 @@
   hiddenKeys[IE_PROTO] = true;
 
   // `Object.create` method
-  // https://tc39.github.io/ecma262/#sec-object.create
+  // https://tc39.es/ecma262/#sec-object.create
   var objectCreate = Object.create || function create(O, Properties) {
     var result;
     if (O !== null) {
@@ -1968,7 +2050,7 @@
   var ArrayPrototype = Array.prototype;
 
   // Array.prototype[@@unscopables]
-  // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   if (ArrayPrototype[UNSCOPABLES] == undefined) {
     objectDefineProperty.f(ArrayPrototype, UNSCOPABLES, {
       configurable: true,
@@ -1981,87 +2063,30 @@
     ArrayPrototype[UNSCOPABLES][key] = true;
   };
 
-  var defineProperty = Object.defineProperty;
-  var cache = {};
-
-  var thrower = function (it) { throw it; };
-
-  var arrayMethodUsesToLength = function (METHOD_NAME, options) {
-    if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
-    if (!options) options = {};
-    var method = [][METHOD_NAME];
-    var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
-    var argument0 = has(options, 0) ? options[0] : thrower;
-    var argument1 = has(options, 1) ? options[1] : undefined;
-
-    return cache[METHOD_NAME] = !!method && !fails(function () {
-      if (ACCESSORS && !descriptors) return true;
-      var O = { length: -1 };
-
-      if (ACCESSORS) defineProperty(O, 1, { enumerable: true, get: thrower });
-      else O[1] = 1;
-
-      method.call(O, argument0, argument1);
-    });
-  };
-
   var $includes = arrayIncludes.includes;
 
 
-
-  var USES_TO_LENGTH = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
-
   // `Array.prototype.includes` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-  _export({ target: 'Array', proto: true, forced: !USES_TO_LENGTH }, {
+  // https://tc39.es/ecma262/#sec-array.prototype.includes
+  _export({ target: 'Array', proto: true }, {
     includes: function includes(el /* , fromIndex = 0 */) {
       return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  // https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   addToUnscopables('includes');
 
-  var arrayMethodIsStrict = function (METHOD_NAME, argument) {
-    var method = [][METHOD_NAME];
-    return !!method && fails(function () {
-      // eslint-disable-next-line no-useless-call,no-throw-literal
-      method.call(null, argument || function () { throw 1; }, 1);
-    });
-  };
-
-  var $indexOf = arrayIncludes.indexOf;
-
-
-
-  var nativeIndexOf = [].indexOf;
-
-  var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
-  var STRICT_METHOD = arrayMethodIsStrict('indexOf');
-  var USES_TO_LENGTH$1 = arrayMethodUsesToLength('indexOf', { ACCESSORS: true, 1: 0 });
-
-  // `Array.prototype.indexOf` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-  _export({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || !STRICT_METHOD || !USES_TO_LENGTH$1 }, {
-    indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
-      return NEGATIVE_ZERO
-        // convert -0 to +0
-        ? nativeIndexOf.apply(this, arguments) || 0
-        : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
   var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
-  var USES_TO_LENGTH$2 = arrayMethodUsesToLength('slice', { ACCESSORS: true, 0: 0, 1: 2 });
 
   var SPECIES$4 = wellKnownSymbol('species');
   var nativeSlice = [].slice;
   var max$2 = Math.max;
 
   // `Array.prototype.slice` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.slice
+  // https://tc39.es/ecma262/#sec-array.prototype.slice
   // fallback for not array-like ES3 strings and DOM objects
-  _export({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH$2 }, {
+  _export({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     slice: function slice(start, end) {
       var O = toIndexedObject(this);
       var length = toLength(O.length);
@@ -2110,11 +2135,136 @@
   };
 
   // `String.prototype.includes` method
-  // https://tc39.github.io/ecma262/#sec-string.prototype.includes
+  // https://tc39.es/ecma262/#sec-string.prototype.includes
   _export({ target: 'String', proto: true, forced: !correctIsRegexpLogic('includes') }, {
     includes: function includes(searchString /* , position = 0 */) {
       return !!~String(requireObjectCoercible(this))
         .indexOf(notARegexp(searchString), arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  var arrayMethodIsStrict = function (METHOD_NAME, argument) {
+    var method = [][METHOD_NAME];
+    return !!method && fails(function () {
+      // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
+      method.call(null, argument || function () { throw 1; }, 1);
+    });
+  };
+
+  var nativeJoin = [].join;
+
+  var ES3_STRINGS = indexedObject != Object;
+  var STRICT_METHOD = arrayMethodIsStrict('join', ',');
+
+  // `Array.prototype.join` method
+  // https://tc39.es/ecma262/#sec-array.prototype.join
+  _export({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD }, {
+    join: function join(separator) {
+      return nativeJoin.call(toIndexedObject(this), separator === undefined ? ',' : separator);
+    }
+  });
+
+  // optional / simple context binding
+  var functionBindContext = function (fn, that, length) {
+    aFunction$1(fn);
+    if (that === undefined) return fn;
+    switch (length) {
+      case 0: return function () {
+        return fn.call(that);
+      };
+      case 1: return function (a) {
+        return fn.call(that, a);
+      };
+      case 2: return function (a, b) {
+        return fn.call(that, a, b);
+      };
+      case 3: return function (a, b, c) {
+        return fn.call(that, a, b, c);
+      };
+    }
+    return function (/* ...args */) {
+      return fn.apply(that, arguments);
+    };
+  };
+
+  var push = [].push;
+
+  // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterOut }` methods implementation
+  var createMethod$2 = function (TYPE) {
+    var IS_MAP = TYPE == 1;
+    var IS_FILTER = TYPE == 2;
+    var IS_SOME = TYPE == 3;
+    var IS_EVERY = TYPE == 4;
+    var IS_FIND_INDEX = TYPE == 6;
+    var IS_FILTER_OUT = TYPE == 7;
+    var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+    return function ($this, callbackfn, that, specificCreate) {
+      var O = toObject($this);
+      var self = indexedObject(O);
+      var boundFunction = functionBindContext(callbackfn, that, 3);
+      var length = toLength(self.length);
+      var index = 0;
+      var create = specificCreate || arraySpeciesCreate;
+      var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_OUT ? create($this, 0) : undefined;
+      var value, result;
+      for (;length > index; index++) if (NO_HOLES || index in self) {
+        value = self[index];
+        result = boundFunction(value, index, O);
+        if (TYPE) {
+          if (IS_MAP) target[index] = result; // map
+          else if (result) switch (TYPE) {
+            case 3: return true;              // some
+            case 5: return value;             // find
+            case 6: return index;             // findIndex
+            case 2: push.call(target, value); // filter
+          } else switch (TYPE) {
+            case 4: return false;             // every
+            case 7: push.call(target, value); // filterOut
+          }
+        }
+      }
+      return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
+    };
+  };
+
+  var arrayIteration = {
+    // `Array.prototype.forEach` method
+    // https://tc39.es/ecma262/#sec-array.prototype.foreach
+    forEach: createMethod$2(0),
+    // `Array.prototype.map` method
+    // https://tc39.es/ecma262/#sec-array.prototype.map
+    map: createMethod$2(1),
+    // `Array.prototype.filter` method
+    // https://tc39.es/ecma262/#sec-array.prototype.filter
+    filter: createMethod$2(2),
+    // `Array.prototype.some` method
+    // https://tc39.es/ecma262/#sec-array.prototype.some
+    some: createMethod$2(3),
+    // `Array.prototype.every` method
+    // https://tc39.es/ecma262/#sec-array.prototype.every
+    every: createMethod$2(4),
+    // `Array.prototype.find` method
+    // https://tc39.es/ecma262/#sec-array.prototype.find
+    find: createMethod$2(5),
+    // `Array.prototype.findIndex` method
+    // https://tc39.es/ecma262/#sec-array.prototype.findIndex
+    findIndex: createMethod$2(6),
+    // `Array.prototype.filterOut` method
+    // https://github.com/tc39/proposal-array-filtering
+    filterOut: createMethod$2(7)
+  };
+
+  var $filter = arrayIteration.filter;
+
+
+  var HAS_SPECIES_SUPPORT$1 = arrayMethodHasSpeciesSupport('filter');
+
+  // `Array.prototype.filter` method
+  // https://tc39.es/ecma262/#sec-array.prototype.filter
+  // with adding support of @@species
+  _export({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
+    filter: function filter(callbackfn /* , thisArg */) {
+      return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
@@ -2126,11 +2276,11 @@
   function checkRight(targetOffset, tooltipLayerStyleLeft, tooltipOffset, windowSize, tooltipLayer) {
     if (targetOffset.left + tooltipLayerStyleLeft + tooltipOffset.width > windowSize.width) {
       // off the right side of the window
-      tooltipLayer.left = "".concat(windowSize.width - tooltipOffset.width - targetOffset.left, "px");
+      tooltipLayer.style.left = "".concat(windowSize.width - tooltipOffset.width - targetOffset.left, "px");
       return false;
     }
 
-    tooltipLayer.left = "".concat(tooltipLayerStyleLeft, "px");
+    tooltipLayer.style.left = "".concat(tooltipLayerStyleLeft, "px");
     return true;
   }
 
@@ -2150,8 +2300,7 @@
     return true;
   }
 
-  var HAS_SPECIES_SUPPORT$1 = arrayMethodHasSpeciesSupport('splice');
-  var USES_TO_LENGTH$3 = arrayMethodUsesToLength('splice', { ACCESSORS: true, 0: 0, 1: 2 });
+  var HAS_SPECIES_SUPPORT$2 = arrayMethodHasSpeciesSupport('splice');
 
   var max$3 = Math.max;
   var min$4 = Math.min;
@@ -2159,9 +2308,9 @@
   var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
 
   // `Array.prototype.splice` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.splice
+  // https://tc39.es/ecma262/#sec-array.prototype.splice
   // with adding support of @@species
-  _export({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 || !USES_TO_LENGTH$3 }, {
+  _export({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     splice: function splice(start, deleteCount /* , ...items */) {
       var O = toObject(this);
       var len = toLength(O.length);
@@ -2338,7 +2487,7 @@
     }
 
     if (possiblePositions.length) {
-      if (desiredTooltipPosition !== "auto" && possiblePositions.includes(desiredTooltipPosition)) {
+      if (possiblePositions.includes(desiredTooltipPosition)) {
         // If the requested position is in the list, choose that
         calculatedPosition = desiredTooltipPosition;
       } else {
@@ -2393,11 +2542,11 @@
       tooltipCssClass = this._options.tooltipClass;
     }
 
-    tooltipLayer.className = "introjs-tooltip ".concat(tooltipCssClass).replace(/^\s+|\s+$/g, "");
+    tooltipLayer.className = ["introjs-tooltip", tooltipCssClass].filter(Boolean).join(" ");
     tooltipLayer.setAttribute("role", "dialog");
     currentTooltipPosition = this._introItems[this._currentStep].position; // Floating is always valid, no point in calculating
 
-    if (currentTooltipPosition !== "floating") {
+    if (currentTooltipPosition !== "floating" && this._options.autoPosition) {
       currentTooltipPosition = _determineAutoPosition.call(this, targetElement, tooltipLayer, currentTooltipPosition);
     }
 
@@ -3114,7 +3263,7 @@
    */
 
   function onKeyDown(e) {
-    var code = e.code === null ? e.which : e.code; // if code/e.which is null
+    var code = e.code === undefined ? e.which : e.code; // if e.which is null
 
     if (code === null) {
       code = e.charCode === null ? e.keyCode : e.charCode;
@@ -3730,42 +3879,27 @@
    */
 
   function addOverlayLayer(targetElm) {
+    var _this = this;
+
     var overlayLayer = _createElement("div", {
       className: "introjs-overlay"
     });
-    var self = this; // check if the target element is body, we should calculate the size of overlay layer in a better way
-
-    if (!targetElm.tagName || targetElm.tagName.toLowerCase() === "body") {
-      setStyle(overlayLayer, {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        position: "fixed"
-      });
-    } else {
-      // set overlay layer position
-      var elementPosition = getOffset(targetElm);
-
-      if (elementPosition) {
-        setStyle(overlayLayer, {
-          width: "".concat(elementPosition.width, "px"),
-          height: "".concat(elementPosition.height, "px"),
-          top: "".concat(elementPosition.top, "px"),
-          left: "".concat(elementPosition.left, "px")
-        });
-      }
-    }
-
+    setStyle(overlayLayer, {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      position: "fixed"
+    });
     targetElm.appendChild(overlayLayer);
 
-    if (self._options.exitOnOverlayClick === true) {
+    if (this._options.exitOnOverlayClick === true) {
       setStyle(overlayLayer, {
         cursor: "pointer"
       });
 
       overlayLayer.onclick = function () {
-        exitIntro.call(self, targetElm);
+        exitIntro.call(_this, targetElm);
       };
     }
 
@@ -3942,7 +4076,7 @@
     return false;
   }
 
-  var version$1 = "3.2.1";
+  var version$1 = "3.4.0";
 
   /**
    * IntroJs main class
@@ -4020,6 +4154,9 @@
 
       /* Set the overlay opacity */
       overlayOpacity: 0.5,
+
+      /* To determine the tooltip position automatically based on the window.width/height */
+      autoPosition: true,
 
       /* Precedence of positions, when auto is enabled */
       positionPrecedence: ["bottom", "top", "right", "left"],
@@ -4301,7 +4438,7 @@
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 // THIS FILE IS GENERATED - DO NOT EDIT!
-/*!mobile-detect v1.4.4 2019-09-21*/
+/*!mobile-detect v1.4.5 2021-03-13*/
 /*global module:false, define:false*/
 /*jshint latedef:false*/
 /*!@license Copyright 2013, Heinrich Goebl, License: MIT, see https://github.com/hgoebl/mobile-detect.js*/
@@ -4315,20 +4452,22 @@ define(function () {
     "phones": {
         "iPhone": "\\biPhone\\b|\\biPod\\b",
         "BlackBerry": "BlackBerry|\\bBB10\\b|rim[0-9]+|\\b(BBA100|BBB100|BBD100|BBE100|BBF100|STH100)\\b-[0-9]+",
+        "Pixel": "; \\bPixel\\b",
         "HTC": "HTC|HTC.*(Sensation|Evo|Vision|Explorer|6800|8100|8900|A7272|S510e|C110e|Legend|Desire|T8282)|APX515CKT|Qtek9090|APA9292KT|HD_mini|Sensation.*Z710e|PG86100|Z715e|Desire.*(A8181|HD)|ADR6200|ADR6400L|ADR6425|001HT|Inspire 4G|Android.*\\bEVO\\b|T-Mobile G1|Z520m|Android [0-9.]+; Pixel",
-        "Nexus": "Nexus One|Nexus S|Galaxy.*Nexus|Android.*Nexus.*Mobile|Nexus 4|Nexus 5|Nexus 6",
+        "Nexus": "Nexus One|Nexus S|Galaxy.*Nexus|Android.*Nexus.*Mobile|Nexus 4|Nexus 5|Nexus 5X|Nexus 6",
         "Dell": "Dell[;]? (Streak|Aero|Venue|Venue Pro|Flash|Smoke|Mini 3iX)|XCD28|XCD35|\\b001DL\\b|\\b101DL\\b|\\bGS01\\b",
         "Motorola": "Motorola|DROIDX|DROID BIONIC|\\bDroid\\b.*Build|Android.*Xoom|HRI39|MOT-|A1260|A1680|A555|A853|A855|A953|A955|A956|Motorola.*ELECTRIFY|Motorola.*i1|i867|i940|MB200|MB300|MB501|MB502|MB508|MB511|MB520|MB525|MB526|MB611|MB612|MB632|MB810|MB855|MB860|MB861|MB865|MB870|ME501|ME502|ME511|ME525|ME600|ME632|ME722|ME811|ME860|ME863|ME865|MT620|MT710|MT716|MT720|MT810|MT870|MT917|Motorola.*TITANIUM|WX435|WX445|XT300|XT301|XT311|XT316|XT317|XT319|XT320|XT390|XT502|XT530|XT531|XT532|XT535|XT603|XT610|XT611|XT615|XT681|XT701|XT702|XT711|XT720|XT800|XT806|XT860|XT862|XT875|XT882|XT883|XT894|XT901|XT907|XT909|XT910|XT912|XT928|XT926|XT915|XT919|XT925|XT1021|\\bMoto E\\b|XT1068|XT1092|XT1052",
-        "Samsung": "\\bSamsung\\b|SM-G950F|SM-G955F|SM-G9250|GT-19300|SGH-I337|BGT-S5230|GT-B2100|GT-B2700|GT-B2710|GT-B3210|GT-B3310|GT-B3410|GT-B3730|GT-B3740|GT-B5510|GT-B5512|GT-B5722|GT-B6520|GT-B7300|GT-B7320|GT-B7330|GT-B7350|GT-B7510|GT-B7722|GT-B7800|GT-C3010|GT-C3011|GT-C3060|GT-C3200|GT-C3212|GT-C3212I|GT-C3262|GT-C3222|GT-C3300|GT-C3300K|GT-C3303|GT-C3303K|GT-C3310|GT-C3322|GT-C3330|GT-C3350|GT-C3500|GT-C3510|GT-C3530|GT-C3630|GT-C3780|GT-C5010|GT-C5212|GT-C6620|GT-C6625|GT-C6712|GT-E1050|GT-E1070|GT-E1075|GT-E1080|GT-E1081|GT-E1085|GT-E1087|GT-E1100|GT-E1107|GT-E1110|GT-E1120|GT-E1125|GT-E1130|GT-E1160|GT-E1170|GT-E1175|GT-E1180|GT-E1182|GT-E1200|GT-E1210|GT-E1225|GT-E1230|GT-E1390|GT-E2100|GT-E2120|GT-E2121|GT-E2152|GT-E2220|GT-E2222|GT-E2230|GT-E2232|GT-E2250|GT-E2370|GT-E2550|GT-E2652|GT-E3210|GT-E3213|GT-I5500|GT-I5503|GT-I5700|GT-I5800|GT-I5801|GT-I6410|GT-I6420|GT-I7110|GT-I7410|GT-I7500|GT-I8000|GT-I8150|GT-I8160|GT-I8190|GT-I8320|GT-I8330|GT-I8350|GT-I8530|GT-I8700|GT-I8703|GT-I8910|GT-I9000|GT-I9001|GT-I9003|GT-I9010|GT-I9020|GT-I9023|GT-I9070|GT-I9082|GT-I9100|GT-I9103|GT-I9220|GT-I9250|GT-I9300|GT-I9305|GT-I9500|GT-I9505|GT-M3510|GT-M5650|GT-M7500|GT-M7600|GT-M7603|GT-M8800|GT-M8910|GT-N7000|GT-S3110|GT-S3310|GT-S3350|GT-S3353|GT-S3370|GT-S3650|GT-S3653|GT-S3770|GT-S3850|GT-S5210|GT-S5220|GT-S5229|GT-S5230|GT-S5233|GT-S5250|GT-S5253|GT-S5260|GT-S5263|GT-S5270|GT-S5300|GT-S5330|GT-S5350|GT-S5360|GT-S5363|GT-S5369|GT-S5380|GT-S5380D|GT-S5560|GT-S5570|GT-S5600|GT-S5603|GT-S5610|GT-S5620|GT-S5660|GT-S5670|GT-S5690|GT-S5750|GT-S5780|GT-S5830|GT-S5839|GT-S6102|GT-S6500|GT-S7070|GT-S7200|GT-S7220|GT-S7230|GT-S7233|GT-S7250|GT-S7500|GT-S7530|GT-S7550|GT-S7562|GT-S7710|GT-S8000|GT-S8003|GT-S8500|GT-S8530|GT-S8600|SCH-A310|SCH-A530|SCH-A570|SCH-A610|SCH-A630|SCH-A650|SCH-A790|SCH-A795|SCH-A850|SCH-A870|SCH-A890|SCH-A930|SCH-A950|SCH-A970|SCH-A990|SCH-I100|SCH-I110|SCH-I400|SCH-I405|SCH-I500|SCH-I510|SCH-I515|SCH-I600|SCH-I730|SCH-I760|SCH-I770|SCH-I830|SCH-I910|SCH-I920|SCH-I959|SCH-LC11|SCH-N150|SCH-N300|SCH-R100|SCH-R300|SCH-R351|SCH-R400|SCH-R410|SCH-T300|SCH-U310|SCH-U320|SCH-U350|SCH-U360|SCH-U365|SCH-U370|SCH-U380|SCH-U410|SCH-U430|SCH-U450|SCH-U460|SCH-U470|SCH-U490|SCH-U540|SCH-U550|SCH-U620|SCH-U640|SCH-U650|SCH-U660|SCH-U700|SCH-U740|SCH-U750|SCH-U810|SCH-U820|SCH-U900|SCH-U940|SCH-U960|SCS-26UC|SGH-A107|SGH-A117|SGH-A127|SGH-A137|SGH-A157|SGH-A167|SGH-A177|SGH-A187|SGH-A197|SGH-A227|SGH-A237|SGH-A257|SGH-A437|SGH-A517|SGH-A597|SGH-A637|SGH-A657|SGH-A667|SGH-A687|SGH-A697|SGH-A707|SGH-A717|SGH-A727|SGH-A737|SGH-A747|SGH-A767|SGH-A777|SGH-A797|SGH-A817|SGH-A827|SGH-A837|SGH-A847|SGH-A867|SGH-A877|SGH-A887|SGH-A897|SGH-A927|SGH-B100|SGH-B130|SGH-B200|SGH-B220|SGH-C100|SGH-C110|SGH-C120|SGH-C130|SGH-C140|SGH-C160|SGH-C170|SGH-C180|SGH-C200|SGH-C207|SGH-C210|SGH-C225|SGH-C230|SGH-C417|SGH-C450|SGH-D307|SGH-D347|SGH-D357|SGH-D407|SGH-D415|SGH-D780|SGH-D807|SGH-D980|SGH-E105|SGH-E200|SGH-E315|SGH-E316|SGH-E317|SGH-E335|SGH-E590|SGH-E635|SGH-E715|SGH-E890|SGH-F300|SGH-F480|SGH-I200|SGH-I300|SGH-I320|SGH-I550|SGH-I577|SGH-I600|SGH-I607|SGH-I617|SGH-I627|SGH-I637|SGH-I677|SGH-I700|SGH-I717|SGH-I727|SGH-i747M|SGH-I777|SGH-I780|SGH-I827|SGH-I847|SGH-I857|SGH-I896|SGH-I897|SGH-I900|SGH-I907|SGH-I917|SGH-I927|SGH-I937|SGH-I997|SGH-J150|SGH-J200|SGH-L170|SGH-L700|SGH-M110|SGH-M150|SGH-M200|SGH-N105|SGH-N500|SGH-N600|SGH-N620|SGH-N625|SGH-N700|SGH-N710|SGH-P107|SGH-P207|SGH-P300|SGH-P310|SGH-P520|SGH-P735|SGH-P777|SGH-Q105|SGH-R210|SGH-R220|SGH-R225|SGH-S105|SGH-S307|SGH-T109|SGH-T119|SGH-T139|SGH-T209|SGH-T219|SGH-T229|SGH-T239|SGH-T249|SGH-T259|SGH-T309|SGH-T319|SGH-T329|SGH-T339|SGH-T349|SGH-T359|SGH-T369|SGH-T379|SGH-T409|SGH-T429|SGH-T439|SGH-T459|SGH-T469|SGH-T479|SGH-T499|SGH-T509|SGH-T519|SGH-T539|SGH-T559|SGH-T589|SGH-T609|SGH-T619|SGH-T629|SGH-T639|SGH-T659|SGH-T669|SGH-T679|SGH-T709|SGH-T719|SGH-T729|SGH-T739|SGH-T746|SGH-T749|SGH-T759|SGH-T769|SGH-T809|SGH-T819|SGH-T839|SGH-T919|SGH-T929|SGH-T939|SGH-T959|SGH-T989|SGH-U100|SGH-U200|SGH-U800|SGH-V205|SGH-V206|SGH-X100|SGH-X105|SGH-X120|SGH-X140|SGH-X426|SGH-X427|SGH-X475|SGH-X495|SGH-X497|SGH-X507|SGH-X600|SGH-X610|SGH-X620|SGH-X630|SGH-X700|SGH-X820|SGH-X890|SGH-Z130|SGH-Z150|SGH-Z170|SGH-ZX10|SGH-ZX20|SHW-M110|SPH-A120|SPH-A400|SPH-A420|SPH-A460|SPH-A500|SPH-A560|SPH-A600|SPH-A620|SPH-A660|SPH-A700|SPH-A740|SPH-A760|SPH-A790|SPH-A800|SPH-A820|SPH-A840|SPH-A880|SPH-A900|SPH-A940|SPH-A960|SPH-D600|SPH-D700|SPH-D710|SPH-D720|SPH-I300|SPH-I325|SPH-I330|SPH-I350|SPH-I500|SPH-I600|SPH-I700|SPH-L700|SPH-M100|SPH-M220|SPH-M240|SPH-M300|SPH-M305|SPH-M320|SPH-M330|SPH-M350|SPH-M360|SPH-M370|SPH-M380|SPH-M510|SPH-M540|SPH-M550|SPH-M560|SPH-M570|SPH-M580|SPH-M610|SPH-M620|SPH-M630|SPH-M800|SPH-M810|SPH-M850|SPH-M900|SPH-M910|SPH-M920|SPH-M930|SPH-N100|SPH-N200|SPH-N240|SPH-N300|SPH-N400|SPH-Z400|SWC-E100|SCH-i909|GT-N7100|GT-N7105|SCH-I535|SM-N900A|SGH-I317|SGH-T999L|GT-S5360B|GT-I8262|GT-S6802|GT-S6312|GT-S6310|GT-S5312|GT-S5310|GT-I9105|GT-I8510|GT-S6790N|SM-G7105|SM-N9005|GT-S5301|GT-I9295|GT-I9195|SM-C101|GT-S7392|GT-S7560|GT-B7610|GT-I5510|GT-S7582|GT-S7530E|GT-I8750|SM-G9006V|SM-G9008V|SM-G9009D|SM-G900A|SM-G900D|SM-G900F|SM-G900H|SM-G900I|SM-G900J|SM-G900K|SM-G900L|SM-G900M|SM-G900P|SM-G900R4|SM-G900S|SM-G900T|SM-G900V|SM-G900W8|SHV-E160K|SCH-P709|SCH-P729|SM-T2558|GT-I9205|SM-G9350|SM-J120F|SM-G920F|SM-G920V|SM-G930F|SM-N910C|SM-A310F|GT-I9190|SM-J500FN|SM-G903F|SM-J330F",
+        "Samsung": "\\bSamsung\\b|SM-G950F|SM-G955F|SM-G9250|GT-19300|SGH-I337|BGT-S5230|GT-B2100|GT-B2700|GT-B2710|GT-B3210|GT-B3310|GT-B3410|GT-B3730|GT-B3740|GT-B5510|GT-B5512|GT-B5722|GT-B6520|GT-B7300|GT-B7320|GT-B7330|GT-B7350|GT-B7510|GT-B7722|GT-B7800|GT-C3010|GT-C3011|GT-C3060|GT-C3200|GT-C3212|GT-C3212I|GT-C3262|GT-C3222|GT-C3300|GT-C3300K|GT-C3303|GT-C3303K|GT-C3310|GT-C3322|GT-C3330|GT-C3350|GT-C3500|GT-C3510|GT-C3530|GT-C3630|GT-C3780|GT-C5010|GT-C5212|GT-C6620|GT-C6625|GT-C6712|GT-E1050|GT-E1070|GT-E1075|GT-E1080|GT-E1081|GT-E1085|GT-E1087|GT-E1100|GT-E1107|GT-E1110|GT-E1120|GT-E1125|GT-E1130|GT-E1160|GT-E1170|GT-E1175|GT-E1180|GT-E1182|GT-E1200|GT-E1210|GT-E1225|GT-E1230|GT-E1390|GT-E2100|GT-E2120|GT-E2121|GT-E2152|GT-E2220|GT-E2222|GT-E2230|GT-E2232|GT-E2250|GT-E2370|GT-E2550|GT-E2652|GT-E3210|GT-E3213|GT-I5500|GT-I5503|GT-I5700|GT-I5800|GT-I5801|GT-I6410|GT-I6420|GT-I7110|GT-I7410|GT-I7500|GT-I8000|GT-I8150|GT-I8160|GT-I8190|GT-I8320|GT-I8330|GT-I8350|GT-I8530|GT-I8700|GT-I8703|GT-I8910|GT-I9000|GT-I9001|GT-I9003|GT-I9010|GT-I9020|GT-I9023|GT-I9070|GT-I9082|GT-I9100|GT-I9103|GT-I9220|GT-I9250|GT-I9300|GT-I9305|GT-I9500|GT-I9505|GT-M3510|GT-M5650|GT-M7500|GT-M7600|GT-M7603|GT-M8800|GT-M8910|GT-N7000|GT-S3110|GT-S3310|GT-S3350|GT-S3353|GT-S3370|GT-S3650|GT-S3653|GT-S3770|GT-S3850|GT-S5210|GT-S5220|GT-S5229|GT-S5230|GT-S5233|GT-S5250|GT-S5253|GT-S5260|GT-S5263|GT-S5270|GT-S5300|GT-S5330|GT-S5350|GT-S5360|GT-S5363|GT-S5369|GT-S5380|GT-S5380D|GT-S5560|GT-S5570|GT-S5600|GT-S5603|GT-S5610|GT-S5620|GT-S5660|GT-S5670|GT-S5690|GT-S5750|GT-S5780|GT-S5830|GT-S5839|GT-S6102|GT-S6500|GT-S7070|GT-S7200|GT-S7220|GT-S7230|GT-S7233|GT-S7250|GT-S7500|GT-S7530|GT-S7550|GT-S7562|GT-S7710|GT-S8000|GT-S8003|GT-S8500|GT-S8530|GT-S8600|SCH-A310|SCH-A530|SCH-A570|SCH-A610|SCH-A630|SCH-A650|SCH-A790|SCH-A795|SCH-A850|SCH-A870|SCH-A890|SCH-A930|SCH-A950|SCH-A970|SCH-A990|SCH-I100|SCH-I110|SCH-I400|SCH-I405|SCH-I500|SCH-I510|SCH-I515|SCH-I600|SCH-I730|SCH-I760|SCH-I770|SCH-I830|SCH-I910|SCH-I920|SCH-I959|SCH-LC11|SCH-N150|SCH-N300|SCH-R100|SCH-R300|SCH-R351|SCH-R400|SCH-R410|SCH-T300|SCH-U310|SCH-U320|SCH-U350|SCH-U360|SCH-U365|SCH-U370|SCH-U380|SCH-U410|SCH-U430|SCH-U450|SCH-U460|SCH-U470|SCH-U490|SCH-U540|SCH-U550|SCH-U620|SCH-U640|SCH-U650|SCH-U660|SCH-U700|SCH-U740|SCH-U750|SCH-U810|SCH-U820|SCH-U900|SCH-U940|SCH-U960|SCS-26UC|SGH-A107|SGH-A117|SGH-A127|SGH-A137|SGH-A157|SGH-A167|SGH-A177|SGH-A187|SGH-A197|SGH-A227|SGH-A237|SGH-A257|SGH-A437|SGH-A517|SGH-A597|SGH-A637|SGH-A657|SGH-A667|SGH-A687|SGH-A697|SGH-A707|SGH-A717|SGH-A727|SGH-A737|SGH-A747|SGH-A767|SGH-A777|SGH-A797|SGH-A817|SGH-A827|SGH-A837|SGH-A847|SGH-A867|SGH-A877|SGH-A887|SGH-A897|SGH-A927|SGH-B100|SGH-B130|SGH-B200|SGH-B220|SGH-C100|SGH-C110|SGH-C120|SGH-C130|SGH-C140|SGH-C160|SGH-C170|SGH-C180|SGH-C200|SGH-C207|SGH-C210|SGH-C225|SGH-C230|SGH-C417|SGH-C450|SGH-D307|SGH-D347|SGH-D357|SGH-D407|SGH-D415|SGH-D780|SGH-D807|SGH-D980|SGH-E105|SGH-E200|SGH-E315|SGH-E316|SGH-E317|SGH-E335|SGH-E590|SGH-E635|SGH-E715|SGH-E890|SGH-F300|SGH-F480|SGH-I200|SGH-I300|SGH-I320|SGH-I550|SGH-I577|SGH-I600|SGH-I607|SGH-I617|SGH-I627|SGH-I637|SGH-I677|SGH-I700|SGH-I717|SGH-I727|SGH-i747M|SGH-I777|SGH-I780|SGH-I827|SGH-I847|SGH-I857|SGH-I896|SGH-I897|SGH-I900|SGH-I907|SGH-I917|SGH-I927|SGH-I937|SGH-I997|SGH-J150|SGH-J200|SGH-L170|SGH-L700|SGH-M110|SGH-M150|SGH-M200|SGH-N105|SGH-N500|SGH-N600|SGH-N620|SGH-N625|SGH-N700|SGH-N710|SGH-P107|SGH-P207|SGH-P300|SGH-P310|SGH-P520|SGH-P735|SGH-P777|SGH-Q105|SGH-R210|SGH-R220|SGH-R225|SGH-S105|SGH-S307|SGH-T109|SGH-T119|SGH-T139|SGH-T209|SGH-T219|SGH-T229|SGH-T239|SGH-T249|SGH-T259|SGH-T309|SGH-T319|SGH-T329|SGH-T339|SGH-T349|SGH-T359|SGH-T369|SGH-T379|SGH-T409|SGH-T429|SGH-T439|SGH-T459|SGH-T469|SGH-T479|SGH-T499|SGH-T509|SGH-T519|SGH-T539|SGH-T559|SGH-T589|SGH-T609|SGH-T619|SGH-T629|SGH-T639|SGH-T659|SGH-T669|SGH-T679|SGH-T709|SGH-T719|SGH-T729|SGH-T739|SGH-T746|SGH-T749|SGH-T759|SGH-T769|SGH-T809|SGH-T819|SGH-T839|SGH-T919|SGH-T929|SGH-T939|SGH-T959|SGH-T989|SGH-U100|SGH-U200|SGH-U800|SGH-V205|SGH-V206|SGH-X100|SGH-X105|SGH-X120|SGH-X140|SGH-X426|SGH-X427|SGH-X475|SGH-X495|SGH-X497|SGH-X507|SGH-X600|SGH-X610|SGH-X620|SGH-X630|SGH-X700|SGH-X820|SGH-X890|SGH-Z130|SGH-Z150|SGH-Z170|SGH-ZX10|SGH-ZX20|SHW-M110|SPH-A120|SPH-A400|SPH-A420|SPH-A460|SPH-A500|SPH-A560|SPH-A600|SPH-A620|SPH-A660|SPH-A700|SPH-A740|SPH-A760|SPH-A790|SPH-A800|SPH-A820|SPH-A840|SPH-A880|SPH-A900|SPH-A940|SPH-A960|SPH-D600|SPH-D700|SPH-D710|SPH-D720|SPH-I300|SPH-I325|SPH-I330|SPH-I350|SPH-I500|SPH-I600|SPH-I700|SPH-L700|SPH-M100|SPH-M220|SPH-M240|SPH-M300|SPH-M305|SPH-M320|SPH-M330|SPH-M350|SPH-M360|SPH-M370|SPH-M380|SPH-M510|SPH-M540|SPH-M550|SPH-M560|SPH-M570|SPH-M580|SPH-M610|SPH-M620|SPH-M630|SPH-M800|SPH-M810|SPH-M850|SPH-M900|SPH-M910|SPH-M920|SPH-M930|SPH-N100|SPH-N200|SPH-N240|SPH-N300|SPH-N400|SPH-Z400|SWC-E100|SCH-i909|GT-N7100|GT-N7105|SCH-I535|SM-N900A|SGH-I317|SGH-T999L|GT-S5360B|GT-I8262|GT-S6802|GT-S6312|GT-S6310|GT-S5312|GT-S5310|GT-I9105|GT-I8510|GT-S6790N|SM-G7105|SM-N9005|GT-S5301|GT-I9295|GT-I9195|SM-C101|GT-S7392|GT-S7560|GT-B7610|GT-I5510|GT-S7582|GT-S7530E|GT-I8750|SM-G9006V|SM-G9008V|SM-G9009D|SM-G900A|SM-G900D|SM-G900F|SM-G900H|SM-G900I|SM-G900J|SM-G900K|SM-G900L|SM-G900M|SM-G900P|SM-G900R4|SM-G900S|SM-G900T|SM-G900V|SM-G900W8|SHV-E160K|SCH-P709|SCH-P729|SM-T2558|GT-I9205|SM-G9350|SM-J120F|SM-G920F|SM-G920V|SM-G930F|SM-N910C|SM-A310F|GT-I9190|SM-J500FN|SM-G903F|SM-J330F|SM-G610F|SM-G981B|SM-G892A|SM-A530F",
         "LG": "\\bLG\\b;|LG[- ]?(C800|C900|E400|E610|E900|E-900|F160|F180K|F180L|F180S|730|855|L160|LS740|LS840|LS970|LU6200|MS690|MS695|MS770|MS840|MS870|MS910|P500|P700|P705|VM696|AS680|AS695|AX840|C729|E970|GS505|272|C395|E739BK|E960|L55C|L75C|LS696|LS860|P769BK|P350|P500|P509|P870|UN272|US730|VS840|VS950|LN272|LN510|LS670|LS855|LW690|MN270|MN510|P509|P769|P930|UN200|UN270|UN510|UN610|US670|US740|US760|UX265|UX840|VN271|VN530|VS660|VS700|VS740|VS750|VS910|VS920|VS930|VX9200|VX11000|AX840A|LW770|P506|P925|P999|E612|D955|D802|MS323|M257)|LM-G710",
-        "Sony": "SonyST|SonyLT|SonyEricsson|SonyEricssonLT15iv|LT18i|E10i|LT28h|LT26w|SonyEricssonMT27i|C5303|C6902|C6903|C6906|C6943|D2533",
+        "Sony": "SonyST|SonyLT|SonyEricsson|SonyEricssonLT15iv|LT18i|E10i|LT28h|LT26w|SonyEricssonMT27i|C5303|C6902|C6903|C6906|C6943|D2533|SOV34|601SO|F8332",
         "Asus": "Asus.*Galaxy|PadFone.*Mobile",
+        "Xiaomi": "^(?!.*\\bx11\\b).*xiaomi.*$|POCOPHONE F1|MI 8|Redmi Note 9S|Redmi Note 5A Prime|N2G47H|M2001J2G|M2001J2I|M1805E10A|M2004J11G|M1902F1G|M2002J9G|M2004J19G|M2003J6A1G",
         "NokiaLumia": "Lumia [0-9]{3,4}",
         "Micromax": "Micromax.*\\b(A210|A92|A88|A72|A111|A110Q|A115|A116|A110|A90S|A26|A51|A35|A54|A25|A27|A89|A68|A65|A57|A90)\\b",
         "Palm": "PalmSource|Palm",
         "Vertu": "Vertu|Vertu.*Ltd|Vertu.*Ascent|Vertu.*Ayxta|Vertu.*Constellation(F|Quest)?|Vertu.*Monika|Vertu.*Signature",
         "Pantech": "PANTECH|IM-A850S|IM-A840S|IM-A830L|IM-A830K|IM-A830S|IM-A820L|IM-A810K|IM-A810S|IM-A800S|IM-T100K|IM-A725L|IM-A780L|IM-A775C|IM-A770K|IM-A760S|IM-A750K|IM-A740S|IM-A730S|IM-A720L|IM-A710K|IM-A690L|IM-A690S|IM-A650S|IM-A630K|IM-A600S|VEGA PTL21|PT003|P8010|ADR910L|P6030|P6020|P9070|P4100|P9060|P5000|CDM8992|TXT8045|ADR8995|IS11PT|P2030|P6010|P8000|PT002|IS06|CDM8999|P9050|PT001|TXT8040|P2020|P9020|P2000|P7040|P7000|C790",
-        "Browse": "IQ230|IQ444|IQ450|IQ440|IQ442|IQ441|IQ245|IQ256|IQ236|IQ255|IQ235|IQ245|IQ275|IQ240|IQ285|IQ280|IQ270|IQ260|IQ250",
+        "Fly": "IQ230|IQ444|IQ450|IQ440|IQ442|IQ441|IQ245|IQ256|IQ236|IQ255|IQ235|IQ245|IQ275|IQ240|IQ285|IQ280|IQ270|IQ260|IQ250",
         "Wiko": "KITE 4G|HIGHWAY|GETAWAY|STAIRWAY|DARKSIDE|DARKFULL|DARKNIGHT|DARKMOON|SLIDE|WAX 4G|RAINBOW|BLOOM|SUNSET|GOA(?!nna)|LENNY|BARRY|IGGY|OZZY|CINK FIVE|CINK PEAX|CINK PEAX 2|CINK SLIM|CINK SLIM 2|CINK +|CINK KING|CINK PEAX|CINK SLIM|SUBLIM",
         "iMobile": "i-mobile (IQ|i-STYLE|idea|ZAA|Hitz)",
         "SimValley": "\\b(SP-80|XT-930|SX-340|XT-930|SX-310|SP-360|SP60|SPT-800|SP-120|SPT-800|SP-140|SPX-5|SPX-8|SP-100|SPX-8|SPX-12)\\b",
@@ -4344,7 +4483,7 @@ define(function () {
         "iPad": "iPad|iPad.*Mobile",
         "NexusTablet": "Android.*Nexus[\\s]+(7|9|10)",
         "GoogleTablet": "Android.*Pixel C",
-        "SamsungTablet": "SAMSUNG.*Tablet|Galaxy.*Tab|SC-01C|GT-P1000|GT-P1003|GT-P1010|GT-P3105|GT-P6210|GT-P6800|GT-P6810|GT-P7100|GT-P7300|GT-P7310|GT-P7500|GT-P7510|SCH-I800|SCH-I815|SCH-I905|SGH-I957|SGH-I987|SGH-T849|SGH-T859|SGH-T869|SPH-P100|GT-P3100|GT-P3108|GT-P3110|GT-P5100|GT-P5110|GT-P6200|GT-P7320|GT-P7511|GT-N8000|GT-P8510|SGH-I497|SPH-P500|SGH-T779|SCH-I705|SCH-I915|GT-N8013|GT-P3113|GT-P5113|GT-P8110|GT-N8010|GT-N8005|GT-N8020|GT-P1013|GT-P6201|GT-P7501|GT-N5100|GT-N5105|GT-N5110|SHV-E140K|SHV-E140L|SHV-E140S|SHV-E150S|SHV-E230K|SHV-E230L|SHV-E230S|SHW-M180K|SHW-M180L|SHW-M180S|SHW-M180W|SHW-M300W|SHW-M305W|SHW-M380K|SHW-M380S|SHW-M380W|SHW-M430W|SHW-M480K|SHW-M480S|SHW-M480W|SHW-M485W|SHW-M486W|SHW-M500W|GT-I9228|SCH-P739|SCH-I925|GT-I9200|GT-P5200|GT-P5210|GT-P5210X|SM-T311|SM-T310|SM-T310X|SM-T210|SM-T210R|SM-T211|SM-P600|SM-P601|SM-P605|SM-P900|SM-P901|SM-T217|SM-T217A|SM-T217S|SM-P6000|SM-T3100|SGH-I467|XE500|SM-T110|GT-P5220|GT-I9200X|GT-N5110X|GT-N5120|SM-P905|SM-T111|SM-T2105|SM-T315|SM-T320|SM-T320X|SM-T321|SM-T520|SM-T525|SM-T530NU|SM-T230NU|SM-T330NU|SM-T900|XE500T1C|SM-P605V|SM-P905V|SM-T337V|SM-T537V|SM-T707V|SM-T807V|SM-P600X|SM-P900X|SM-T210X|SM-T230|SM-T230X|SM-T325|GT-P7503|SM-T531|SM-T330|SM-T530|SM-T705|SM-T705C|SM-T535|SM-T331|SM-T800|SM-T700|SM-T537|SM-T807|SM-P907A|SM-T337A|SM-T537A|SM-T707A|SM-T807A|SM-T237|SM-T807P|SM-P607T|SM-T217T|SM-T337T|SM-T807T|SM-T116NQ|SM-T116BU|SM-P550|SM-T350|SM-T550|SM-T9000|SM-P9000|SM-T705Y|SM-T805|GT-P3113|SM-T710|SM-T810|SM-T815|SM-T360|SM-T533|SM-T113|SM-T335|SM-T715|SM-T560|SM-T670|SM-T677|SM-T377|SM-T567|SM-T357T|SM-T555|SM-T561|SM-T713|SM-T719|SM-T813|SM-T819|SM-T580|SM-T355Y?|SM-T280|SM-T817A|SM-T820|SM-W700|SM-P580|SM-T587|SM-P350|SM-P555M|SM-P355M|SM-T113NU|SM-T815Y|SM-T585|SM-T285|SM-T825|SM-W708|SM-T835|SM-T830|SM-T837V|SM-T720|SM-T510|SM-T387V",
+        "SamsungTablet": "SAMSUNG.*Tablet|Galaxy.*Tab|SC-01C|GT-P1000|GT-P1003|GT-P1010|GT-P3105|GT-P6210|GT-P6800|GT-P6810|GT-P7100|GT-P7300|GT-P7310|GT-P7500|GT-P7510|SCH-I800|SCH-I815|SCH-I905|SGH-I957|SGH-I987|SGH-T849|SGH-T859|SGH-T869|SPH-P100|GT-P3100|GT-P3108|GT-P3110|GT-P5100|GT-P5110|GT-P6200|GT-P7320|GT-P7511|GT-N8000|GT-P8510|SGH-I497|SPH-P500|SGH-T779|SCH-I705|SCH-I915|GT-N8013|GT-P3113|GT-P5113|GT-P8110|GT-N8010|GT-N8005|GT-N8020|GT-P1013|GT-P6201|GT-P7501|GT-N5100|GT-N5105|GT-N5110|SHV-E140K|SHV-E140L|SHV-E140S|SHV-E150S|SHV-E230K|SHV-E230L|SHV-E230S|SHW-M180K|SHW-M180L|SHW-M180S|SHW-M180W|SHW-M300W|SHW-M305W|SHW-M380K|SHW-M380S|SHW-M380W|SHW-M430W|SHW-M480K|SHW-M480S|SHW-M480W|SHW-M485W|SHW-M486W|SHW-M500W|GT-I9228|SCH-P739|SCH-I925|GT-I9200|GT-P5200|GT-P5210|GT-P5210X|SM-T311|SM-T310|SM-T310X|SM-T210|SM-T210R|SM-T211|SM-P600|SM-P601|SM-P605|SM-P900|SM-P901|SM-T217|SM-T217A|SM-T217S|SM-P6000|SM-T3100|SGH-I467|XE500|SM-T110|GT-P5220|GT-I9200X|GT-N5110X|GT-N5120|SM-P905|SM-T111|SM-T2105|SM-T315|SM-T320|SM-T320X|SM-T321|SM-T520|SM-T525|SM-T530NU|SM-T230NU|SM-T330NU|SM-T900|XE500T1C|SM-P605V|SM-P905V|SM-T337V|SM-T537V|SM-T707V|SM-T807V|SM-P600X|SM-P900X|SM-T210X|SM-T230|SM-T230X|SM-T325|GT-P7503|SM-T531|SM-T330|SM-T530|SM-T705|SM-T705C|SM-T535|SM-T331|SM-T800|SM-T700|SM-T537|SM-T807|SM-P907A|SM-T337A|SM-T537A|SM-T707A|SM-T807A|SM-T237|SM-T807P|SM-P607T|SM-T217T|SM-T337T|SM-T807T|SM-T116NQ|SM-T116BU|SM-P550|SM-T350|SM-T550|SM-T9000|SM-P9000|SM-T705Y|SM-T805|GT-P3113|SM-T710|SM-T810|SM-T815|SM-T360|SM-T533|SM-T113|SM-T335|SM-T715|SM-T560|SM-T670|SM-T677|SM-T377|SM-T567|SM-T357T|SM-T555|SM-T561|SM-T713|SM-T719|SM-T813|SM-T819|SM-T580|SM-T355Y?|SM-T280|SM-T817A|SM-T820|SM-W700|SM-P580|SM-T587|SM-P350|SM-P555M|SM-P355M|SM-T113NU|SM-T815Y|SM-T585|SM-T285|SM-T825|SM-W708|SM-T835|SM-T830|SM-T837V|SM-T720|SM-T510|SM-T387V|SM-P610|SM-T290|SM-T515|SM-T590|SM-T595|SM-T725|SM-T817P|SM-P585N0|SM-T395|SM-T295|SM-T865|SM-P610N|SM-P615|SM-T970|SM-T380|SM-T5950|SM-T905|SM-T231|SM-T500|SM-T860",
         "Kindle": "Kindle|Silk.*Accelerated|Android.*\\b(KFOT|KFTT|KFJWI|KFJWA|KFOTE|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|WFJWAE|KFSAWA|KFSAWI|KFASWI|KFARWI|KFFOWI|KFGIWI|KFMEWI)\\b|Android.*Silk\/[0-9.]+ like Chrome\/[0-9.]+ (?!Mobile)",
         "SurfaceTablet": "Windows NT [0-9.]+; ARM;.*(Tablet|ARMBJS)",
         "HPTablet": "HP Slate (7|8|10)|HP ElitePad 900|hp-tablet|EliteBook.*Touch|HP 8|Slate 21|HP SlateBook 10",
@@ -4353,12 +4492,12 @@ define(function () {
         "HTCtablet": "HTC_Flyer_P512|HTC Flyer|HTC Jetstream|HTC-P715a|HTC EVO View 4G|PG41200|PG09410",
         "MotorolaTablet": "xoom|sholest|MZ615|MZ605|MZ505|MZ601|MZ602|MZ603|MZ604|MZ606|MZ607|MZ608|MZ609|MZ615|MZ616|MZ617",
         "NookTablet": "Android.*Nook|NookColor|nook browser|BNRV200|BNRV200A|BNTV250|BNTV250A|BNTV400|BNTV600|LogicPD Zoom2",
-        "AcerTablet": "Android.*; \\b(A100|A101|A110|A200|A210|A211|A500|A501|A510|A511|A700|A701|W500|W500P|W501|W501P|W510|W511|W700|G100|G100W|B1-A71|B1-710|B1-711|A1-810|A1-811|A1-830)\\b|W3-810|\\bA3-A10\\b|\\bA3-A11\\b|\\bA3-A20\\b|\\bA3-A30",
+        "AcerTablet": "Android.*; \\b(A100|A101|A110|A200|A210|A211|A500|A501|A510|A511|A700|A701|W500|W500P|W501|W501P|W510|W511|W700|G100|G100W|B1-A71|B1-710|B1-711|A1-810|A1-811|A1-830)\\b|W3-810|\\bA3-A10\\b|\\bA3-A11\\b|\\bA3-A20\\b|\\bA3-A30|A3-A40",
         "ToshibaTablet": "Android.*(AT100|AT105|AT200|AT205|AT270|AT275|AT300|AT305|AT1S5|AT500|AT570|AT700|AT830)|TOSHIBA.*FOLIO",
         "LGTablet": "\\bL-06C|LG-V909|LG-V900|LG-V700|LG-V510|LG-V500|LG-V410|LG-V400|LG-VK810\\b",
         "FujitsuTablet": "Android.*\\b(F-01D|F-02F|F-05E|F-10D|M532|Q572)\\b",
         "PrestigioTablet": "PMP3170B|PMP3270B|PMP3470B|PMP7170B|PMP3370B|PMP3570C|PMP5870C|PMP3670B|PMP5570C|PMP5770D|PMP3970B|PMP3870C|PMP5580C|PMP5880D|PMP5780D|PMP5588C|PMP7280C|PMP7280C3G|PMP7280|PMP7880D|PMP5597D|PMP5597|PMP7100D|PER3464|PER3274|PER3574|PER3884|PER5274|PER5474|PMP5097CPRO|PMP5097|PMP7380D|PMP5297C|PMP5297C_QUAD|PMP812E|PMP812E3G|PMP812F|PMP810E|PMP880TD|PMT3017|PMT3037|PMT3047|PMT3057|PMT7008|PMT5887|PMT5001|PMT5002",
-        "LenovoTablet": "Lenovo TAB|Idea(Tab|Pad)( A1|A10| K1|)|ThinkPad([ ]+)?Tablet|YT3-850M|YT3-X90L|YT3-X90F|YT3-X90X|Lenovo.*(S2109|S2110|S5000|S6000|K3011|A3000|A3500|A1000|A2107|A2109|A1107|A5500|A7600|B6000|B8000|B8080)(-|)(FL|F|HV|H|)|TB-X103F|TB-X304X|TB-X304F|TB-X304L|TB-X505F|TB-X505L|TB-X505X|TB-X605F|TB-X605L|TB-8703F|TB-8703X|TB-8703N|TB-8704N|TB-8704F|TB-8704X|TB-8704V|TB-7304F|TB-7304I|TB-7304X|Tab2A7-10F|Tab2A7-20F|TB2-X30L|YT3-X50L|YT3-X50F|YT3-X50M|YT-X705F|YT-X703F|YT-X703L|YT-X705L|YT-X705X|TB2-X30F|TB2-X30L|TB2-X30M|A2107A-F|A2107A-H|TB3-730F|TB3-730M|TB3-730X|TB-7504F|TB-7504X",
+        "LenovoTablet": "Lenovo TAB|Idea(Tab|Pad)( A1|A10| K1|)|ThinkPad([ ]+)?Tablet|YT3-850M|YT3-X90L|YT3-X90F|YT3-X90X|Lenovo.*(S2109|S2110|S5000|S6000|K3011|A3000|A3500|A1000|A2107|A2109|A1107|A5500|A7600|B6000|B8000|B8080)(-|)(FL|F|HV|H|)|TB-X103F|TB-X304X|TB-X304F|TB-X304L|TB-X505F|TB-X505L|TB-X505X|TB-X605F|TB-X605L|TB-8703F|TB-8703X|TB-8703N|TB-8704N|TB-8704F|TB-8704X|TB-8704V|TB-7304F|TB-7304I|TB-7304X|Tab2A7-10F|Tab2A7-20F|TB2-X30L|YT3-X50L|YT3-X50F|YT3-X50M|YT-X705F|YT-X703F|YT-X703L|YT-X705L|YT-X705X|TB2-X30F|TB2-X30L|TB2-X30M|A2107A-F|A2107A-H|TB3-730F|TB3-730M|TB3-730X|TB-7504F|TB-7504X|TB-X704F|TB-X104F|TB3-X70F|TB-X705F|TB-8504F|TB3-X70L|TB3-710F|TB-X704L",
         "DellTablet": "Venue 11|Venue 8|Venue 7|Dell Streak 10|Dell Streak 7",
         "YarvikTablet": "Android.*\\b(TAB210|TAB211|TAB224|TAB250|TAB260|TAB264|TAB310|TAB360|TAB364|TAB410|TAB411|TAB420|TAB424|TAB450|TAB460|TAB461|TAB464|TAB465|TAB467|TAB468|TAB07-100|TAB07-101|TAB07-150|TAB07-151|TAB07-152|TAB07-200|TAB07-201-3G|TAB07-210|TAB07-211|TAB07-212|TAB07-214|TAB07-220|TAB07-400|TAB07-485|TAB08-150|TAB08-200|TAB08-201-3G|TAB08-201-30|TAB09-100|TAB09-211|TAB09-410|TAB10-150|TAB10-201|TAB10-211|TAB10-400|TAB10-410|TAB13-201|TAB274EUK|TAB275EUK|TAB374EUK|TAB462EUK|TAB474EUK|TAB9-200)\\b",
         "MedionTablet": "Android.*\\bOYO\\b|LIFE.*(P9212|P9514|P9516|S9512)|LIFETAB",
@@ -4379,7 +4518,7 @@ define(function () {
         "MSITablet": "MSI \\b(Primo 73K|Primo 73L|Primo 81L|Primo 77|Primo 93|Primo 75|Primo 76|Primo 73|Primo 81|Primo 91|Primo 90|Enjoy 71|Enjoy 7|Enjoy 10)\\b",
         "SMiTTablet": "Android.*(\\bMID\\b|MID-560|MTV-T1200|MTV-PND531|MTV-P1101|MTV-PND530)",
         "RockChipTablet": "Android.*(RK2818|RK2808A|RK2918|RK3066)|RK2738|RK2808A",
-        "FlyTablet": "IQ310|Browse Vision",
+        "FlyTablet": "IQ310|Fly Vision",
         "bqTablet": "Android.*(bq)?.*\\b(Elcano|Curie|Edison|Maxwell|Kepler|Pascal|Tesla|Hypatia|Platon|Newton|Livingstone|Cervantes|Avant|Aquaris ([E|M]10|M8))\\b|Maxwell.*Lite|Maxwell.*Plus",
         "HuaweiTablet": "MediaPad|MediaPad 7 Youth|IDEOS S7|S7-201c|S7-202u|S7-101|S7-103|S7-104|S7-105|S7-106|S7-201|S7-Slim|M2-A01L|BAH-L09|BAH-W09|AGS-L09|CMR-AL19",
         "NecTablet": "\\bN-06D|\\bN-08D",
@@ -4397,7 +4536,7 @@ define(function () {
         "PyleAudioTablet": "\\b(PTBL10CEU|PTBL10C|PTBL72BC|PTBL72BCEU|PTBL7CEU|PTBL7C|PTBL92BC|PTBL92BCEU|PTBL9CEU|PTBL9CUK|PTBL9C)\\b",
         "AdvanTablet": "Android.* \\b(E3A|T3X|T5C|T5B|T3E|T3C|T3B|T1J|T1F|T2A|T1H|T1i|E1C|T1-E|T5-A|T4|E1-B|T2Ci|T1-B|T1-D|O1-A|E1-A|T1-A|T3A|T4i)\\b ",
         "DanyTechTablet": "Genius Tab G3|Genius Tab S2|Genius Tab Q3|Genius Tab G4|Genius Tab Q4|Genius Tab G-II|Genius TAB GII|Genius TAB GIII|Genius Tab S1",
-        "GalapadTablet": "Android.*\\bG1\\b(?!\\))",
+        "GalapadTablet": "Android [0-9.]+; [a-z-]+; \\bG1\\b",
         "MicromaxTablet": "Funbook|Micromax.*\\b(P250|P560|P360|P362|P600|P300|P350|P500|P275)\\b",
         "KarbonnTablet": "Android.*\\b(A39|A37|A34|ST8|ST10|ST7|Smart Tab3|Smart Tab2)\\b",
         "AllFineTablet": "Fine7 Genius|Fine7 Shine|Fine7 Air|Fine8 Style|Fine9 More|Fine10 Joy|Fine11 Wide",
@@ -4469,6 +4608,7 @@ define(function () {
         "WindowsPhoneOS": "Windows Phone 10.0|Windows Phone 8.1|Windows Phone 8.0|Windows Phone OS|XBLWP7|ZuneWP7|Windows NT 6.[23]; ARM;",
         "iOS": "\\biPhone.*Mobile|\\biPod|\\biPad|AppleCoreMedia",
         "iPadOS": "CPU OS 13",
+        "SailfishOS": "Sailfish",
         "MeeGoOS": "MeeGo",
         "MaemoOS": "Maemo",
         "JavaOS": "J2ME\/|\\bMIDP\\b|\\bCLDC\\b",
@@ -4481,13 +4621,13 @@ define(function () {
         "Dolfin": "\\bDolfin\\b",
         "Opera": "Opera.*Mini|Opera.*Mobi|Android.*Opera|Mobile.*OPR\/[0-9.]+$|Coast\/[0-9.]+",
         "Skyfire": "Skyfire",
-        "Edge": "Mobile Safari\/[.0-9]* Edge",
+        "Edge": "\\bEdgiOS\\b|Mobile Safari\/[.0-9]* Edge",
         "IE": "IEMobile|MSIEMobile",
         "Firefox": "fennec|firefox.*maemo|(Mobile|Tablet).*Firefox|Firefox.*Mobile|FxiOS",
         "Bolt": "bolt",
         "TeaShark": "teashark",
         "Blazer": "Blazer",
-        "Safari": "Version.*Mobile.*Safari|Safari.*Mobile|MobileSafari",
+        "Safari": "Version((?!\\bEdgiOS\\b).)*Mobile.*Safari|Safari.*Mobile|MobileSafari",
         "WeChat": "\\bMicroMessenger\\b",
         "UCBrowser": "UC.*Browser|UCWEB",
         "baiduboxapp": "baiduboxapp",
@@ -4556,12 +4696,14 @@ define(function () {
         "Tizen": "Tizen\/[VER]",
         "Webkit": "webkit[ \/][VER]",
         "PaleMoon": "PaleMoon\/[VER]",
+        "SailfishBrowser": "SailfishBrowser\/[VER]",
         "Gecko": "Gecko\/[VER]",
         "Trident": "Trident\/[VER]",
         "Presto": "Presto\/[VER]",
         "Goanna": "Goanna\/[VER]",
         "iOS": " \\bi?OS\\b [VER][ ;]{1}",
         "Android": "Android [VER]",
+        "Sailfish": "Sailfish [VER]",
         "BlackBerry": [
             "BlackBerry[\\w]+\/[VER]",
             "BlackBerry.*Version\/[VER]",
@@ -4586,7 +4728,7 @@ define(function () {
         ]
     },
     "utils": {
-        "Bot": "Googlebot|facebookexternalhit|Google-AMPHTML|s~amp-validator|AdsBot-Google|Google Keyword Suggestion|Facebot|YandexBot|YandexMobileBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|Exabot|MJ12bot|YandexImages|TurnitinBot|Pingdom|contentkingapp",
+        "Bot": "Googlebot|facebookexternalhit|Google-AMPHTML|s~amp-validator|AdsBot-Google|Google Keyword Suggestion|Facebot|YandexBot|YandexMobileBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|Exabot|MJ12bot|YandexImages|TurnitinBot|Pingdom|contentkingapp|AspiegelBot",
         "MobileBot": "Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker\/M1A1-R2D2",
         "DesktopMode": "WPDesktop",
         "TV": "SonyDTV|HbbTV",
@@ -4599,7 +4741,7 @@ define(function () {
     // following patterns come from http://detectmobilebrowsers.com/
     impl.detectMobileBrowsers = {
         fullPattern: /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i,
-        shortPattern: /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|browse(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,
+        shortPattern: /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,
         tabletPattern: /android|ipad|playbook|silk/i
     };
 
@@ -5029,9 +5171,9 @@ define(function () {
          * Returns the detected phone type/family string or <tt>null</tt>.
          * <br>
          * The returned tablet (family or producer) is one of following keys:<br>
-         * <br><tt>iPhone, BlackBerry, HTC, Nexus, Dell, Motorola, Samsung, LG, Sony, Asus,
-         * NokiaLumia, Micromax, Palm, Vertu, Pantech, Browse, Wiko, iMobile, SimValley,
-         * Wolfgang, Alcatel, Nintendo, Amoi, INQ, OnePlus, GenericPhone</tt><br>
+         * <br><tt>iPhone, BlackBerry, Pixel, HTC, Nexus, Dell, Motorola, Samsung, LG, Sony, Asus,
+         * Xiaomi, NokiaLumia, Micromax, Palm, Vertu, Pantech, Fly, Wiko, iMobile,
+         * SimValley, Wolfgang, Alcatel, Nintendo, Amoi, INQ, OnePlus, GenericPhone</tt><br>
          * <br>
          * If the device is not detected by the regular expressions from Mobile-Detect, a test is made against
          * the patterns of <a href="http://detectmobilebrowsers.com/">detectmobilebrowsers.com</a>. If this test
@@ -5156,7 +5298,7 @@ define(function () {
          * <br>
          * The operating system is one of following keys:<br>
          * <br><tt>AndroidOS, BlackBerryOS, PalmOS, SymbianOS, WindowsMobileOS, WindowsPhoneOS,
-         * iOS, iPadOS, MeeGoOS, MaemoOS, JavaOS, webOS, badaOS, BREWOS</tt><br>
+         * iOS, iPadOS, SailfishOS, MeeGoOS, MaemoOS, JavaOS, webOS, badaOS, BREWOS</tt><br>
          *
          * @returns {String} the key for the detected operating system.
          * @function MobileDetect#os
@@ -5178,9 +5320,10 @@ define(function () {
          * <br><tt>Mobile, Build, Version, VendorID, iPad, iPhone, iPod, Kindle, Chrome, Coast,
          * Dolfin, Firefox, Fennec, Edge, IE, NetFront, NokiaBrowser, Opera, Opera Mini,
          * Opera Mobi, UCBrowser, MQQBrowser, MicroMessenger, baiduboxapp, baidubrowser,
-         * SamsungBrowser, Iron, Safari, Skyfire, Tizen, Webkit, PaleMoon, Gecko, Trident,
-         * Presto, Goanna, iOS, Android, BlackBerry, BREW, Java, Windows Phone OS, Windows
-         * Phone, Windows CE, Windows NT, Symbian, webOS</tt><br>
+         * SamsungBrowser, Iron, Safari, Skyfire, Tizen, Webkit, PaleMoon,
+         * SailfishBrowser, Gecko, Trident, Presto, Goanna, iOS, Android, Sailfish,
+         * BlackBerry, BREW, Java, Windows Phone OS, Windows Phone, Windows CE, Windows
+         * NT, Symbian, webOS</tt><br>
          *
          * @returns {Number} the version as float or <tt>NaN</tt> if User-Agent doesn't contain this version.
          *          Be careful when comparing this value with '==' operator!
@@ -5199,9 +5342,10 @@ define(function () {
          * <br><tt>Mobile, Build, Version, VendorID, iPad, iPhone, iPod, Kindle, Chrome, Coast,
          * Dolfin, Firefox, Fennec, Edge, IE, NetFront, NokiaBrowser, Opera, Opera Mini,
          * Opera Mobi, UCBrowser, MQQBrowser, MicroMessenger, baiduboxapp, baidubrowser,
-         * SamsungBrowser, Iron, Safari, Skyfire, Tizen, Webkit, PaleMoon, Gecko, Trident,
-         * Presto, Goanna, iOS, Android, BlackBerry, BREW, Java, Windows Phone OS, Windows
-         * Phone, Windows CE, Windows NT, Symbian, webOS</tt><br>
+         * SamsungBrowser, Iron, Safari, Skyfire, Tizen, Webkit, PaleMoon,
+         * SailfishBrowser, Gecko, Trident, Presto, Goanna, iOS, Android, Sailfish,
+         * BlackBerry, BREW, Java, Windows Phone OS, Windows Phone, Windows CE, Windows
+         * NT, Symbian, webOS</tt><br>
          *
          * @returns {String} the "raw" version as String or <tt>null</tt> if User-Agent doesn't contain this version.
          *
@@ -5288,7 +5432,7 @@ define(function () {
     // should not be replaced by a completely new object - just overwrite existing methods
     MobileDetect._impl = impl;
     
-    MobileDetect.version = '1.4.4 2019-09-21';
+    MobileDetect.version = '1.4.5 2021-03-13';
 
     return MobileDetect;
 }); // end of call of define()
@@ -5310,8 +5454,9 @@ define(function () {
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -5348,6 +5493,8 @@ define(function () {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!******************************!*\
   !*** ./resources/js/path.js ***!

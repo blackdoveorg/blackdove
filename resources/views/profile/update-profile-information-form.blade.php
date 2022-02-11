@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your information for your Black Dove account. By filling out your profile, we are able to use the information for data analysis and visualization. Different features will display colors which indicate the political leanings of others.') }}
+        {{ __('Update your information for your Kallipolis account. By filling out your profile, we are able to use the information for data analysis and visualization. Different features will display colors which indicate the political leanings of others.') }}
     </x-slot>
 
     <x-slot name="form">

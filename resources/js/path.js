@@ -8,7 +8,7 @@ $('.tutorial').click(function()
         steps: [{
           intro: "Hello world!"
         }, {
-          element: document.querySelector('.flyMap'),
+          element: document.querySelector('.browseMap'),
           intro: "Pinch to zoom in!"
         }]
       }).start();

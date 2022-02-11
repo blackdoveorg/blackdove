@@ -15,10 +15,8 @@
             <div id="reportMap" wire:ignore="reportMap" class="map shadow self-center"></div>
             <x-jet-input-error for="latitude" class="mt-2" />
             <div class="overlay-container">
-                <!-- <center>
-                    <span class="compass-color"></span><br/>
-                    Social: <span class="social-compass"></span>, Economic: <span class="economic-compass"></span>
-                </center> -->
+                <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer">Close</a>
+                <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer"></a>
                 <center>
                     <b>Issue</b><br/>
                     <span class="report-issue"></span><br/><br/>
@@ -36,7 +34,7 @@
         </div>
         <div class="col-span-12 grid gap-.5">
             <x-jet-label for="issue" value="{{ __('Issue Description') }}" />
-            <textarea placeholder="What are the issues in your area?" id="issue" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full" rows="3" maxlength="255" wire:model="issue"></textarea>
+            <textarea placeholder="What are the issues in your area?" id="issue" class="pmt-1 block w-full form-input rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full" rows="3" maxlength="255" wire:model="issue"></textarea>
             <x-jet-input-error for="issue" class="mt-2" />
         </div>
         <div class="col-span-12 grid gap-.5">

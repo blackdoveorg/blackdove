@@ -2,7 +2,7 @@ import 'ol/ol.css';
 import Map from 'ol/Map';
 import Overlay from 'ol/Overlay';
 import OSM from 'ol/source/OSM';
-import {transform, transformExtent} from 'ol/proj';
+import {transform, transformExtent, fromLonLat} from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import VectorImage from 'ol/layer'
 import View from 'ol/View';
@@ -11,12 +11,19 @@ import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import Point from 'ol/geom/Point'
 import {toLonLat} from 'ol/proj';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import GeoJSON from 'ol/format/GeoJSON';
-import fcose from 'cytoscape-fcose';
+import {Cluster} from 'ol/source';
+import { getValueType } from 'ol/style/expressions';
+import { debounce } from 'lodash';
+import cytoscape from 'cytoscape';
+import noOverlap from 'cytoscape-no-overlap';
+
 var MobileDetect = require('mobile-detect');
 
 $(function() {
+    cytoscape.use = () => {};
+
     window.current_issue_color = $('#compass_color').val();
     $('.choices__input').change(function() {
         updateCytoscape();
@@ -39,6 +46,7 @@ $(function() {
     } else {
         $('#instructions').html(instructionsOther).fadeIn(1000);
     }
+    
     var reportFill = new Fill({
         color: '#' + current_issue_color,
     });
@@ -118,7 +126,13 @@ $(function() {
     var overlayFeatureEconomicCompass = document.querySelector('.economic-compass');
     var overlayFeatureIssue = document.querySelector('.report-issue');
     var overlayFeatureSolution = document.querySelector('.report-solution');
+    var overlayContainerElementCloser = document.getElementById('overlay-popup-closer');
     
+    overlayContainerElementCloser.onclick = function () {
+        overlayLayer.setPosition(undefined);
+        return false;
+    };
+
     const overlayLayer = new Overlay({
         element: overlayContainerElement,
         autoPan: true
@@ -303,7 +317,7 @@ $(function() {
         
         });
         var layout = cy.layout({
-          name: 'fcose',
+          name: 'circle',
           animate: true,
         });
         layout.run();

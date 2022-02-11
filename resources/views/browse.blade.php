@@ -20,7 +20,7 @@
         </div>
     </div>
     <div id="overlay-container" class="overlay-container">
-        <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer">x</a>
+        <a href="#" id="overlay-popup-closer" class="align-right ol-popup-closer">Close</a>
         <center>
             <b>Issue</b><br/>
             <span class="browse-issue"></span><br/><br/>
@@ -32,7 +32,7 @@
         </center>
     </div>
     <div id="cluster-container" class="cluster-container">
-        <a href="#" id="cluster-popup-closer" class="align-right ol-popup-closer">x</a>
+        <a href="#" id="cluster-popup-closer" class="align-right ol-popup-closer">Close</a>
         <center>
             <b>Data</b><br/>
             <span class="cluster-data"></span>
